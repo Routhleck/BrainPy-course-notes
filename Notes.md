@@ -9,7 +9,7 @@
 ### 两大目标
 
 - 用计算建模的方法来阐明大脑功能的计算原理
-- 发展类闹智能的模型和算法
+- 发展类脑智能的模型和算法
 
 ### Prehistory
 
@@ -20,6 +20,7 @@
 - 1960s Roll's cable equation 
   描述信号在轴突和树突怎么传递
 - 1970s Amari, Wilson, Cowan et al.
+  现今建模的基础
 - 1982 Hopfield model(Amari-Hopfield model)
   引入物理学技术，吸引子模型
 - 1988 Sejnowski et al. "Computational Neuroscience"(science)

@@ -829,3 +829,317 @@ bm.while_loop(body_f, cond_f, operands=())
 
 print(counter, i)
 ```
+
+# Single Neuron Modeling: Conductance-Based Models
+
+## Neuronal structure,ing potential, and equivalent circuits
+
+### Neuronal structure
+
+- Cell body/soma
+- Axon
+- Dendrites
+- Synapses
+
+![image-20230824100656397](Notes.assets/image-20230824100656397.png)
+
+### Resting potential
+
+Transport proteins for ions in neuron cell membranes:
+
+- Ion channels: Na + channels, K + channels, … (gated/non-gated)
+- Ion pumps: the Na + -K + pump
+
+![image-20230824100812962](Notes.assets/image-20230824100812962.png)
+
+离子浓度在胞内外的差异产生的电势差
+
+- Ion concentration difference → chemical gradient → electrical gradient
+
+- Nernst Equation:
+  $$
+  E=\dfrac{RT}{zF}\ln\dfrac{[\mathrm{ion}]_{\mathrm{out}}}{[\mathrm{ion}]_{\mathrm{in}}}
+  $$
+  
+- Goldman-Hodgkin-Katz (GHK) Equation:
+  $$
+  V_m=\frac{RT}{F}\ln\left(\frac{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{out}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{out}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{in}}}{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{in}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{in}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{out}}}\right)
+  $$
+
+### Equivalent circuits
+
+Components of an equivalent circuit:
+
+- Battery
+- Capacitor
+- Resistor
+
+![image-20230824101350048](Notes.assets/image-20230824101350048.png)
+
+Considering the potassium channel **ONLY**:
+$$
+\begin{gathered}
+0=I_{\mathrm{cap}}+I_{K}=c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+{\frac{V_{\mathrm{M}}-E_{\mathrm{K}}}{R_{\mathrm{K}}}}, \\
+c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}=-{\frac{V_{\mathrm{M}}-E_{\mathrm{K}}}{R_{\mathrm{K}}}}=-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}}). 
+\end{gathered}
+$$
+![image-20230824101433908](Notes.assets/image-20230824101433908.png)
+
+**Considering the Na + , K + , and Cl - channels and the external current I(t):**
+
+![image-20230824101648270](Notes.assets/image-20230824101648270.png)
+$$
+\begin{aligned}
+\frac{I(t)}{A}& =c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+i_{\mathrm{ion}}  \\
+\Rightarrow{{c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}}& =-g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}})-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}})-g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}})+\frac{I(t)}{A} 
+\end{aligned}
+$$
+Steady-state membrane potential given a constant current input I:
+$$
+\begin{array}{rcl}\Rightarrow&c_{M}\frac{\mathrm{d}V_{M}}{\mathrm{d}t}=-(g_{C1}+g_{K}+g_{Na})V_{M}+g_{C1}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+\frac{I(t)}{A}\\\\V_{sS}=\frac{g_{CM}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+I/A}{g_{C1}+g_{K}+g_{Na}}&
+\xrightarrow{I=0}
+&V_{sN,I=0}=E_{R}=\frac{g_{CC}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}}{g_{C1}+g_{K}+g_{Na}}\end{array}
+$$
+
+## Cable Theory & passive conduction
+
+![image-20230824102017607](Notes.assets/image-20230824102017607.png)
+
+Considering the axon as a long cylindrical cable:
+$$
+I_{\mathrm{cross}}(x,t)={I_{\mathrm{cross}}(x+\Delta x,t)}+I_{\mathrm{ion}}(x,t)+I_{\mathrm{cap}}(x,t)
+$$
+
+$$
+V(x+\Delta x,t)-V(x,t)=-I_{\mathrm{cross}}(x,t)R_{\mathrm{L}}=-I_{\mathrm{cross}}(x,t)\frac{\Delta x}{\pi a^{2}}\rho_{\mathrm{L}} \\
+{I_{\mathrm{cross}}(x,t)} =-\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x,t)}{\partial x}  \\
+{I_{\mathrm{ion}}} =(2\pi a\Delta x)i_{\mathrm{ion}}  \\
+I_{\mathrm{cap}}(x,t) =(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\partial t} 
+$$
+
+-> 
+$$
+(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\partial t}+(2\pi a\Delta x)i_{\mathrm{ion}}=\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x+\Delta x,t)}{\partial x}-\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x,t)}{\partial x}
+$$
+**Cable Equation**
+$$
+c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-i_\mathrm{ion}
+$$
+电流在通过长直导体时会泄露电流，如何记录膜电位，可以使用此方程来描述
+
+**Passive conduction:** ion currents are caused by leaky channels exclusively
+$$
+i_{\mathrm{ion}}=V(x,t)/r_{\mathrm{M}}
+$$
+->
+$$
+\begin{aligned}c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}&=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-\frac{V(x,t)}{r_\mathrm{M}}\\\\\tau\frac{\partial V(x,t)}{\partial t}&=\lambda^2\frac{\partial^2V(x,t)}{\partial x^2}-V(x,t)\quad\lambda=\sqrt{0.5ar_\mathrm{M}/\rho_\mathrm{L}}\end{aligned}
+$$
+没有动作电位，单纯通过电缆传输
+
+![image-20230824102932665](Notes.assets/image-20230824102932665.png)
+
+If a constant external current is applied to 𝑥 = 0  the steady-state membrane potential $𝑉_{ss}(𝑥)$ is
+$$
+\lambda^2\frac{\mathrm{d}^2V_{\mathrm{ss}}(x)}{\mathrm{d}x^2}-V_{\mathrm{ss}}(x)=0\longrightarrow V_{\mathrm{ss}}(x)=\frac{\lambda\rho_{\mathrm{L}}}{\pi a^2}I_0e^{-x/\lambda}
+$$
+电信号无衰减传播: 动作电位
+
+## Action potential & active transport
+
+Steps of an action potential:
+
+- Depolarization
+- Repolarization
+- Hyperpolarization
+- Resting
+
+Characteristics:
+
+- All-or-none
+- Fixed shape
+- Active electrical property
+
+![image-20230824103322522](Notes.assets/image-20230824103322522.png)
+
+How to simulate an action potential?
+$$
+\begin{aligned}
+\frac{I(t)}{A}& =c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+i_{\mathrm{ion}}  \\
+\Rightarrow\quad c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}& =-g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}})-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}})-g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}})+\frac{I(t)}{A} 
+\end{aligned}
+$$
+离子通道的开闭会随着电压而变化，电导也随着电压而变化
+
+Mechanism: voltage-gated ion channels
+
+**HH建模思路：通过电导**
+
+### Nodes of Ranvier
+
+Saltatory conduction with a much higher speed and less energy consumption
+
+两个郎飞结之间会有离子通道，既有被动传导，也有主动的防止衰减
+
+![image-20230824104220106](Notes.assets/image-20230824104220106.png)
+
+## The Hodgkin-Huxley Model
+
+### Modeling of each ion channel
+
+Modeling of each ion channel:
+$$
+g_m=\bar{g}_mm^x
+$$
+Modeling of each ion gate:
+$$
+\mathcal{C}\underset{}{\operatorname*{\overset{\alpha(\mathrm{V})}{\underset{\beta(\mathrm{V})}{\operatorname*{\longrightarrow}}}}\mathcal{O}}
+
+\\
+\Rightarrow
+\begin{aligned}
+\frac{\mathrm{d}m}{\mathrm{d}t}& =\alpha(V)(1-m)-\beta(V)m  \\
+&=\frac{m_{\infty}(V)-m}{\tau_{m}(V)}
+\end{aligned}
+
+\\
+\\
+
+\begin{aligned}m_\infty(V)&=\frac{\alpha(V)}{\alpha(V)+\beta(V)}.\\\tau_m(V)&=\frac{1}{\alpha(V)+\beta(V)}\end{aligned}
+$$
+
+$$
+\text{If}\ V\text{ is constant:}m(t)=m_\infty(V)+(m_0-m_\infty(V))\mathrm{e}^{-t/\tau_m(V)}
+$$
+
+### Voltage clamp
+
+$$
+\begin{aligned}
+\frac{I(t)}{A}& =c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+i_{\mathrm{ion}}  \\
+\Rightarrow\quad c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}& =-g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}})-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}})-g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}})+\frac{I(t)}{A} 
+\end{aligned}
+$$
+
+- The membrane potential is kept constant
+- The current from capacitors is excluded
+- Currents must come from leaky/voltage-gated ion channels
+
+$$
+\begin{aligned}I_{\mathrm{cap}}&=c\frac{dV}{dt}=0\\I_{\mathrm{fb}}&=\quad i_{\mathrm{ion}}=g_{\mathrm{Na}}(V-E_{\mathrm{Na}})+g_{\mathrm{K}}(V-E_{\mathrm{K}})+g_{\mathrm{L}}(V-E_{\mathrm{L}})\end{aligned}
+$$
+
+只测量一个离子通道就可以很容易得到电导
+
+![image-20230824111620056](Notes.assets/image-20230824111620056.png)
+
+### Leaky channel
+
+Hyperpolarization → the sodium and potassium channels are closed
+$$
+I_{\mathrm{fb}}=g_{\mathrm{Na}}(V-E_{\mathrm{Na}})+g_{\mathrm{K}}(V-E_{\mathrm{K}})+g_{\mathrm{L}}(V-E_{\mathrm{L}})
+$$
+
+$$
+\Rightarrow I_{\mathrm{fb}}=g_L(V-E_L)
+$$
+
+$$
+g_\mathrm{L}=0.3\mathrm{mS/cm}^2,E_\mathrm{L}=-54.4\mathrm{mV}
+$$
+
+#### Potassium and sodium channels
+
+Potassium channels: Use choline to eliminate the inward current of Na +
+Na + current: $I_{fb} - I_{K}$
+
+![image-20230824112328953](Notes.assets/image-20230824112328953.png)
+
+![image-20230824112333144](Notes.assets/image-20230824112333144.png)
+
+转化速率和电导率两个因素
+
+Potassium channels
+
+- Resting state (gate closed)
+- Activated state (gate open)
+
+→ Activation gate: $g_{\mathrm{K}}=\bar{g}_{K}n^{x}$
+
+Sodium channels
+
+- Resting state (gate closed)
+- Activated state (gate open)
+- Inactivated state (gate blocked)
+
+→ Activation gate + inactivation gate: $g_{\mathrm{Na}}=\bar{g}_\text{Na}m^3h$
+
+![image-20230824113116329](Notes.assets/image-20230824113116329.png)
+
+The gates of sodium channels
+
+Modeling of each ion gate:
+$$
+\begin{aligned}
+&\text{gk}&& =\bar{g}_{K}n^{x}  \\
+&\text{gNa}&& =\bar{g}_{\mathrm{Na}}m^{3}h  \\
+&\frac{\mathrm{d}n}{\mathrm{d}t}&& =\alpha_{n}(V)(1-n)-\beta_{n}(V)n  \\
+&\frac{\mathrm{d}m}{\mathrm{d}t}&& =\alpha_{m}(V)(1-m)-\beta_{m}(V)m  \\
+&\frac{\mathrm{d}h}{\mathrm{d}t}&& =\alpha_{h}(V)(1-h)-\beta_{h}(V)h 
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\frac{\mathrm{d}m}{\mathrm{d}t}& =\alpha(V)(1-m)-\beta(V)m  \\
+&=\frac{m_{\infty}(V)-m}{\tau_{m}(V)}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}m_\infty(V)&=\frac{\alpha(V)}{\alpha(V)+\beta(V)}\\\tau_m(V)&=\frac{1}{\alpha(V)+\beta(V)}\end{aligned}.
+$$
+
+$$
+m(t)=m_\infty(V)+(m_0-m_\infty(V))\mathrm{e}^{-t/\tau_m(V)}
+$$
+
+### The Hodgkin-Huxley(HH) Model
+
+$$
+c_\mathrm{M}\frac{\mathrm{d}V_\mathrm{M}}{\mathrm{d}t}=-g_\mathrm{Cl}(V_\mathrm{M}-E_\mathrm{Cl})-g_\mathrm{K}(V_\mathrm{M}-E_\mathrm{K})-g_\mathrm{Na}(V_\mathrm{M}-E_\mathrm{Na})+\frac{I(t)}{A}
+$$
+
+本质是4个微分方程联立在一起
+$$
+\left\{\begin{aligned}&c\frac{\mathrm{d}V}{\mathrm{d}t}=-\bar{g}_\text{Na}m^3h(V-E_\text{Na})-\bar{g}_\text{K}n^4(V-E_\text{K})-\bar{g}_\text{L}(V-E_\text{L})+I_\text{ext},\\&\frac{\mathrm{d}n}{\mathrm{d}t}=\phi\left[\alpha_n(V)(1-n)-\beta_n(V)n\right]\\&\frac{\mathrm{d}m}{\mathrm{d}t}=\phi\left[\alpha_m(V)(1-m)-\beta_m(V)m\right],\\&\frac{\mathrm{d}h}{\mathrm{d}t}=\phi\left[\alpha_h(V)(1-h)-\beta_h(V)h\right],\end{aligned}\right.
+$$
+
+$$
+\begin{aligned}\alpha_n(V)&=\frac{0.01(V+55)}{1-\exp\left(-\frac{V+55}{10}\right)},\quad\beta_n(V)&=0.125\exp\left(-\frac{V+65}{80}\right),\\\alpha_h(V)&=0.07\exp\left(-\frac{V+65}{20}\right),\quad\beta_n(V)&=\frac{1}{\left(\exp\left(-\frac{V+55}{10}\right)+1\right)},\\\alpha_m(V)&=\frac{0.1(V+40)}{1-\exp\left(-(V+40)/10\right)},\quad\beta_m(V)&=4\exp\left(-(V+65)/18\right).\end{aligned}
+$$
+
+$$
+\phi=Q_{10}^{(T-T_{\mathrm{base}})/10}
+$$
+
+每一步符合生物学
+
+![image-20230824113714178](Notes.assets/image-20230824113714178.png)
+
+#### How to fit each gating variable?
+
+**Fitting n:** $g_{\mathbf{K}}=\bar{g}_{K}n^{x}\quad m(t)=m_{\infty}(V)+(m_{0}-\color{red}{\boxed{m_{\infty}(V)}})\mathrm{e}^{-t/\pi_{m}(V)}$
+
+→ $g_\mathrm{K}(V,t)=\bar{g}_\mathrm{K}\left[n_\infty(V)-(n_\infty(V)-n_0(V))\mathrm{e}^{-\frac{t}{\tau_n(V)}}\right]^x$
+
+by $g_{\mathrm{K}\infty}=\bar{g}_{\mathrm{K}}n_{\infty}^{x},g_{\mathrm{K}0}=\bar{g}_{\mathrm{K}}n_{0}^{x}$
+
+→ $g_{\mathrm{K}}(V,t)=\left[g_{\mathrm{K}\infty}^{1/x}-(g_{\mathrm{K}\infty}^{1/x}-g_{\mathrm{K}0}^{1/x})\mathrm{e}^{-\frac{t}{\tau_{n}(V)}}\right]^{x}$
+
+
+
+![image-20230824114623467](Notes.assets/image-20230824114623467.png)
+
+## Summary
+

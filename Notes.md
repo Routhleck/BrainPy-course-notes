@@ -1756,3 +1756,267 @@ plt.show()
 ```
 
 ![image-20230824184016011](Notes.assets/image-20230824184016011.png)
+
+# Simple Neuron Modeling: Simplified Models
+
+## The Leaky Integrate-and-Fire(LIF) Neuron Model
+
+### The LIF neuron model
+
+$$
+\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=-(V-V_{\mathrm{rest}})+RI(t)\\\\\mathrm{if}V&>V_{\mathrm{th}},\quad V\leftarrow V_{\mathrm{reset}}\text{last}\ {t_{ref}}\end{aligned}
+$$
+
+只有一个微分方程，要加一个不应期(**t refractory period**)，膜电位不发生任何改变，认为离子通道只有泄露通道
+
+![image-20230825101057570](Notes.assets/image-20230825101057570.png)
+
+Given a constant current input:
+
+![image-20230825101410745](Notes.assets/image-20230825101410745.png)
+
+没有建模准确变化，只提供什么时候膜电位的变化
+
+### The dynamic features of the LIF model
+
+**General solution (constant input):**$V(t)=V_{\text{reset}}+RI_{\text{c}}(1-\mathrm{e}^{-\frac{t-t_0}{\tau}})$
+
+**Firing frequency:**
+$$
+\begin{aligned}T&=-\tau\ln\left(1-\frac{V_{\phi h}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)\\f&=\frac{1}{T+t_{\mathrm{ref}}}=\frac{1}{t_{\mathrm{ref}}-\tau\ln\left(1-\frac{V_{0}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)}\end{aligned}
+$$
+**Rheobase current (minimal current):**
+$$
+I_{\theta}=\frac{V_{\mathrm{th}}-V_{\mathrm{reset}}}{R}
+$$
+基强电流，如果小于它将无法发放
+
+### Strengths & weaknesses of the LIF model
+
+#### Strengths
+
+- Simple, high simulation efficiency
+- Intuitive
+- Fits well the subthreshold membrane potential
+
+#### Weaknesses
+
+- The shape of action potentials is over-simplified
+- Has no memory of the spiking history
+- Cannot reproduce diverse firing patterns
+
+### Other Univariate neuron models
+
+#### The Quadratic Integrate-and-Fire (QOF) model:
+
+$$
+\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=a_{0}(V-V_{\mathrm{re}t})(V-V_{\mathrm{c}})+RI(t)\\&\text{if }V>\theta,\quad V\leftarrow V_{\mathrm{re}set}\quad\text{last}\quad t_{\mathrm{ref}}\end{aligned}
+$$
+
+![image-20230825103243039](Notes.assets/image-20230825103243039.png)
+
+膜电位仍需要手动重置
+
+#### The Theta neuron model
+
+$$
+\frac{\mathrm{d}\theta}{\mathrm{d}t}=1-\cos\theta+(1+\cos\theta)(\beta+I(t))
+$$
+
+![image-20230825103331170](Notes.assets/image-20230825103331170.png)
+
+隐式表达，不具有物理意义，但也会进行整合发放
+
+#### The Exponential Integrate-and-Fire (ExpIF) model
+
+$$
+\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=-\left(V-V_{\mathrm{res}t}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{3T}}+RI(t)\\\mathrm{if~}V&>\theta,\quad V\leftarrow V_{\mathrm{res}t}\mathrm{last}t_{\mathrm{ref}}\end{aligned}
+$$
+
+![image-20230825103501912](Notes.assets/image-20230825103501912.png)
+
+仍需要手动重置膜电位
+
+## The Adaptive Exponential Integrate-and-Fire(AdEx) Neuron Model
+
+### The AdEx neuron model
+
+Two variables:
+
+- 𝑉: membrane potential
+- 𝑤: adaptation variable
+
+$$
+\begin{aligned}
+\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}& =-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{S_{T}}}-Rw+RI(t)  \\
+\tau_{w}{\frac{\mathrm{d}w}{\mathrm{d}t}}& =a\left(V-V_{\mathrm{rest}}\right)-w+b\tau_{\mathrm{w}}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
+\mathrm{if}V& >\theta,\quad V\leftarrow V_\mathrm{reset}\text{ last }t_\mathrm{ref} 
+\end{aligned}
+$$
+
+不为零，就会衰减到$-w$
+
+![image-20230825103840880](Notes.assets/image-20230825103840880.png)
+
+- A larger 𝑤 suppresses 𝑉 from increasing
+- 𝑤 decays exponentially while having a sudden increase when the neuron fires
+
+**Firing patterns of the AdEx model**
+
+![image-20230825104254936](Notes.assets/image-20230825104254936.png)
+
+**Categorization of firing patterns**
+
+According to the steady-state firing time intervals:
+
+- Tonic/regular spiking
+- Adapting
+- Bursting
+- Irregular spiking
+
+According to the initial-state features:
+
+- Tonic/classic spiking
+- Initial burst
+- Delayed spiking
+
+### Other multivariate neuron models
+
+#### The Izhikevich model
+
+$$
+\begin{aligned}
+&\frac{dV}{dt} =0.04V^{2}+5V+140-u+I  \\
+&\frac{\mathrm{d}u}{\mathrm{d}t} =a\left(bV-u\right)  \\
+&\operatorname{if}V >\theta,\quad V\leftarrow c,u\leftarrow u+d\text{ last }t_{\mathrm{ref}} 
+\end{aligned}
+$$
+
+二次整合发放多加了一个$u$
+
+![image-20230825104832770](Notes.assets/image-20230825104832770.png)
+
+#### The FitzHugh–Nagumo (FHN) model
+
+$$
+\begin{aligned}\dot{v}&=v-\frac{v^3}3-w+RI_{\mathrm{ext}}\\\tau\dot{w}&=v+a-bw.\end{aligned}
+$$
+
+没有对膜电位进行人为的重置，可以更好的进行动力学分析，没有打破微分方程的连续性
+
+![image-20230825104922636](Notes.assets/image-20230825104922636.png)
+
+#### The Generalized Integrate-and-Fire (GIF) model
+
+n+2个变量
+$$
+\begin{aligned}
+&\tau{\frac{\mathrm{d}V}{\mathrm{d}t}} =-\left(V-V_{\mathrm{rest}}\right)+R\sum_{j}I_{j}+RI  \\
+&\frac{\mathrm{d}\Theta}{\mathrm{d}t} =a\left(V-V_{\mathrm{rest}}\right)-b\left(\Theta-\Theta_{\infty}\right)  \\
+&\frac{\mathrm{d}l_{j}}{\mathrm{d}t} =-k_{j}I_{j},\quad j=1,2,...,n  \\
+&\operatorname{if}V >\Theta,\quad I_{j}\leftarrow R_{j}I_{j}+A_{j},V\leftarrow V_{\mathrm{reset}},\Theta\leftarrow max(\Theta_{\mathrm{reset}},\Theta) 
+\end{aligned}
+$$
+每个变量都是线性的，泛化性体现在重置条件上
+
+![image-20230825105035349](Notes.assets/image-20230825105035349.png)
+
+## Dynamic analysis: phase-plane analysis
+
+### Phase plane analysis
+
+对动力学系统的行为来分析，普遍对两个变量来进行分析
+
+Analyzes the behavior of a dynamical system with (usually two) variables described by ordinary differential equations
+$$
+\begin{aligned}
+&\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}&& =-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{S_{T}}}-Rw+RI(t)  \\
+&\tau_{W}{\frac{\mathrm{d}w}{\mathrm{d}t}}&& =a\left(V-V_{\mathrm{rest}}\right)-w+b\tau_{w}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
+&\mathrm{if}V&& >\theta,\quad V\leftarrow V_\mathrm{reset}\text{ last }t_\mathrm{ref} 
+\end{aligned}
+$$
+**Elements:**
+
+- Nullclines: $\mathrm{d}V/\mathrm{d}t=0;\mathrm{d}w/\mathrm{d}t=0$
+- Fixed points: $\mathrm{d}V/\mathrm{d}t=0\mathrm{~and~}\mathrm{d}w/\mathrm{d}t=0$
+- The vector field
+- The trajectory of variables
+
+假设外部电流恒定
+
+![image-20230825110708994](Notes.assets/image-20230825110708994.png)
+
+### Phase plane analysis for the AdEx neuron model
+
+$$
+\begin{aligned}
+&\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}&& =-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{\Lambda_{T}}}-Rw+RI(t)  \\
+&\tau_{w}{\frac{\mathrm{d}w}{\mathrm{d}t}}&& =a\left(V-V_{\mathrm{rest}}\right)-w+b\tau_{w}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
+&\text{ifV}&& >\theta,\quad V\leftarrow V_\mathrm{reset}\text{ last }t_\mathrm{ref} 
+\end{aligned}
+$$
+
+![image-20230825110811399](Notes.assets/image-20230825110811399.png)
+
+#### Tonic
+
+![image-20230825112857175](Notes.assets/image-20230825112857175.png)
+
+#### Adaptation
+
+![image-20230825112918815](Notes.assets/image-20230825112918815.png)
+
+#### Bursting
+
+![image-20230825112933938](Notes.assets/image-20230825112933938.png)
+
+#### Transient spiking
+
+![image-20230825112950297](Notes.assets/image-20230825112950297.png)
+
+## Dynamic analysis: bifurcation analysis
+
+### Bifurcation analysis
+
+Quantitative analysis of the existence and the properties of fixed points in a dynamical system with a changing parameter
+
+Elements:
+
+- Lines of fixed points
+- Stability properties of fixed points
+
+![image-20230825114510710](Notes.assets/image-20230825114510710.png)
+
+### Bifurcation analysis for the AdEx Neuron model
+
+bifurcation analysis for 2 variables
+Variables: 𝑉 and 𝑤
+Parameters: $I_{ext}$
+$$
+\begin{aligned}
+&\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}=-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{{\frac{V-V_{T}}{ST}}}-Rw+RI(t) \\
+&\text{-} {\frac{\mathrm{d}w}{\mathrm{d}t}}=a(V-V_{\mathrm{rest}})-w+b\tau_{w}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
+&\mathrm{if}V>\theta,\quad V\leftarrow V_{\mathrm{reset}}\ \mathrm{last}\ t_{\mathrm{ref}}
+\end{aligned}
+$$
+![image-20230825114801456](Notes.assets/image-20230825114801456.png)
+
+![image-20230825114742740](Notes.assets/image-20230825114742740.png)
+
+**Subjects: two variables (𝑉 and 𝑤)**
+
+![image-20230825114856403](Notes.assets/image-20230825114856403.png)
+
+### Extended: The limit cycle
+
+The FitzHugh–Nagumo (FHN) model
+$$
+\begin{aligned}\dot{v}&=v-\frac{v^3}3-w+RI_\mathrm{ext}\\\tau\dot{w}&=v+a-bw.\end{aligned}
+$$
+This dynamical system, in certain conditions, exhibits a cyclic pattern of variable changes which can be visualized as a closed trajectory in the phase plane.
+
+变化锁定到环中
+
+![image-20230825115348008](Notes.assets/image-20230825115348008.png)
+
+![image-20230825115354146](Notes.assets/image-20230825115354146.png)

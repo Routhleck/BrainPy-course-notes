@@ -1980,6 +1980,8 @@ $$
 
 Quantitative analysis of the existence and the properties of fixed points in a dynamical system with a changing parameter
 
+某个外界条件变化时，固定点的变化
+
 Elements:
 
 - Lines of fixed points
@@ -2020,3 +2022,397 @@ This dynamical system, in certain conditions, exhibits a cyclic pattern of varia
 ![image-20230825115348008](Notes.assets/image-20230825115348008.png)
 
 ![image-20230825115354146](Notes.assets/image-20230825115354146.png)
+
+# Reduced Models - brain dynamics programming
+
+## LIF neuron models programming
+
+### Define LIF `class`
+
+$$
+\begin{aligned}&\tau\frac{\mathrm{d}V}{\mathrm{d}t}=-(V-V_{\mathrm{rest}})+RI(t)\\&\text{if }V>V_{\mathrm{th}},\quad V\leftarrow V_{\mathrm{reset}}\text{last}t_{\mathrm{ref}}\end{aligned}
+$$
+
+```python
+class LIF(bp.dyn.NeuDyn):
+    def __init__(self, size, V_rest=0, V_reset=-5, V_th=20, R=1, tau=10, t_ref=5., **kwargs):
+        # 初始化父类
+        super(LIF, self).__init__(size=size, **kwargs)
+```
+
+### Initialization
+
+```python
+class LIF(bp.dyn.NeuDyn):
+    def __init__(self, size, V_rest=0, V_reset=-5, V_th=20, R=1, tau=10, t_ref=5., **kwargs):
+        # 初始化父类
+        super(LIF, self).__init__(size=size, **kwargs)
+        
+        # 初始化参数
+        self.V_rest = V_rest
+        self.V_reset = V_reset
+        self.V_th = V_th
+        self.R = R
+        self.tau = tau
+        self.t_ref = t_ref  # 不应期时长
+        
+        # 初始化变量
+        self.V = bm.Variable(bm.random.randn(self.num) + V_reset)
+        self.input = bm.Variable(bm.zeros(self.num))
+        self.t_last_spike = bm.Variable(bm.ones(self.num) * -1e7)  # 上一次脉冲发放时间
+        self.refractory = bm.Variable(bm.zeros(self.num, dtype=bool))  # 是否处于不应期
+        self.spike = bm.Variable(bm.zeros(self.num, dtype=bool))  # 脉冲发放状态
+        
+        # 使用指数欧拉方法进行积分
+        self.integral = bp.odeint(f=self.derivative, method='exponential_euler')
+```
+
+### Define the derivative function
+
+```python
+# 定义膜电位关于时间变化的微分方程
+def derivative(self, V, t, Iext):
+    dVdt = (-V + self.V_rest + self.R * Iext) / self.tau
+    return dVdt
+```
+
+### Complete the `update()` function
+
+```python
+def update(self):
+    t, dt = bp.share['t'], bp.share['dt']
+    # 以数组的方式对神经元进行更新
+    refractory = (t - self.t_last_spike) <= self.t_ref  # 判断神经元是否处于不应期
+    V = self.integral(self.V, t, self.input, dt=dt)  # 根据时间步长更新膜电位
+    V = bm.where(refractory, self.V, V)  # 若处于不应期，则返回原始膜电位self.V，否则返回更新后的膜电位V
+    spike = V > self.V_th  # 将大于阈值的神经元标记为发放了脉冲
+    self.spike[:] = spike  # 更新神经元脉冲发放状态
+    self.t_last_spike[:] = bm.where(spike, t, self.t_last_spike)  # 更新最后一次脉冲发放时间
+    self.V[:] = bm.where(spike, self.V_reset, V)  # 将发放了脉冲的神经元膜电位置为V_reset，其余不变
+    self.refractory[:] = bm.logical_or(refractory, spike)  # 更新神经元是否处于不应期
+    self.input[:] = 0.  # 重置外界输入
+```
+
+### Simulation
+
+```python
+def run_LIF():
+  # 运行LIF模型
+
+  group = LIF(1)
+  runner = bp.DSRunner(group, monitors=['V'], inputs=('input', 22.))
+  runner(200)  # 运行时长为200ms
+
+  # 结果可视化
+  fig, gs = bp.visualize.get_figure(1, 1, 4.5, 6)
+  ax = fig.add_subplot(gs[0, 0])
+  plt.plot(runner.mon.ts, runner.mon.V)
+  plt.xlabel(r'$t$ (ms)')
+  plt.ylabel(r'$V$ (mV)')
+  ax.spines['top'].set_visible(False)
+  ax.spines['right'].set_visible(False)
+  plt.show()
+```
+
+![image-20230825141201825](Notes.assets/image-20230825141201825.png)
+
+### Input current & firing frequency
+
+$$
+\begin{gathered}
+V(t)=V_{\mathrm{reset}}+RI_{\mathrm{c}}(1-\mathrm{e}^{-\frac{t-t_{0}}{\tau}}). \\
+T=-\tau\ln\left[1-\frac{V_{\mathrm{th}}-V_{\mathrm{rest}}}{RI_{\mathrm{c}}}\right] \\
+f={\frac{1}{T+t_{\mathrm{ref}}}}={\frac{1}{t_{\mathrm{ref}}-\tau\ln\left[1-{\frac{V_{\mathrm{th}}-V_{\mathrm{rest}}}{RI_{c}}}\right]}} 
+\end{gathered}
+$$
+
+```python
+# 输入与频率的关系
+
+current = bm.arange(0, 600, 2)
+duration = 1000
+
+LIF_neuron = LIF(current.shape[0])
+runner_2 = bp.dyn.DSRunner(LIF_neurons, monitors=['spike'], inputs={'input', current}, dt=0.01)
+
+runner_2.run(duration)
+
+freqs = runner_2.mon.spike.sum(axis=0) / (duration/1000)
+
+plt.figure()
+plt.plot(current, freqs)
+plt.xlabel('inputs')
+plt.ylabel('frequencies')
+```
+
+![image-20230825143405952](Notes.assets/image-20230825143405952.png)
+
+### Other Univariate neuron models
+
+**The Quadratic Integrate-and-Fire (QIF) model**
+$$
+\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=a_{0}(V-V_{\mathrm{res}t})(V-V_{c})+RI(t)\\\mathrm{if~}V&>\theta,\quad V\leftarrow V_{\mathrm{reset~last~}t_{\mathrm{ref}}}\end{aligned}
+$$
+
+```python
+def derivative(self, V, t, I):
+    dVdt = (self.c * (V - self.V_reset) * (V - self.V_c) + self.R * I) / self.tau
+    return dVdt
+```
+
+**The Exponential Integrate-and-Fire (ExpIF) model**
+$$
+\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{\delta_{T}}}+RI(t)\\&\mathrm{if~}V>\theta,\quad V\leftarrow V_{\mathrm{reset}}\mathrm{last}t_{\mathrm{ref}}\end{aligned}
+$$
+
+```python
+def derivative(self, V, t, I):
+    exp_v = self.delta_T * bm.exp((V - self.V_T) / self.delta_T)
+    dvdt = (- (V - self.V_rest) + exp_v + self.R * I) / self.tau
+    return dvdt
+```
+
+
+
+## AdEx neuron models programming
+
+$$
+\begin{gathered}
+\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}=-(V-V_{\mathrm{rest}})+\Delta_{T}\mathrm{e}^{{\frac{V-V_{T}}{\Delta T}}}-Rw+RI(t), \\
+\tau_{w}\frac{\mathrm{d}w}{\mathrm{d}t}=a(V-V_{\mathrm{rest}})-w+b\tau_{w}\sum_{t^{(f)}}\delta(t-t^{(f)})), \\
+\mathrm{if~}V>V_{\mathrm{th}},\quad V\leftarrow V_{\mathrm{reset}}\mathrm{last}t_{\mathrm{ref}}. 
+\end{gathered}
+$$
+
+### Define AdEx `class`
+
+```python
+class AdEx(bp.dyn.NeuDyn):
+    def __init__(self, size,
+                V_rest=-65, V_reset=-68, V_th=-30, V_T=-59.9, delta_T=3.48
+                a=1., b=1., R=1., tau=10., tau_w=30., tau_ref=0.,
+                **kwargs):
+        # 初始化父类
+        super(AdEx, self).__init__(size=size, **kwargs)
+```
+
+### Initialization
+
+```python
+class AdEx(bp.dyn.NeuDyn):
+    def __init__(self, size,
+                V_rest=-65, V_reset=-68, V_th=-30, V_T=-59.9, delta_T=3.48
+                a=1., b=1., R=1., tau=10., tau_w=30., tau_ref=0.,
+                **kwargs):
+        # 初始化父类
+        super(AdEx, self).__init__(size=size, **kwargs)
+        
+        # 初始化参数
+        self.V_rest = V_rest
+        self.V_reset = V_reset
+        self.V_th = V_th
+        self.V_T = V_T
+        self.delta_T = delta_T
+        self.a = a
+        self.b = b
+        self.R = R
+        self.tau = tau
+        self.tau_w = tau_w
+        
+        self.tau_ref = tau_ref
+        
+        # 初始化变量
+        self.V = bm.Variable(bm.random.randn(self.num) - 65.)
+        self.w = bm.Variable(bm.zeros(self.num))
+        self.input = bm.Variable(bm.zeros(self.num))
+        self.t_last_spike = bm.Variable(bm.ones(self.num) * -1e7)  # 上一次脉冲发放时间
+        self.refractory = bm.Variable(bm.zeros(self.num, dtype=bool))  # 是否处于不应期
+        self.spike = bm.Variable(bm.zeros(self.num, dtype=bool))  # 脉冲发放状态
+        
+        # 定义积分器
+        self.integral = bp.odeint(f=self.derivative, method='exp_auto')
+```
+
+### Define the derivative function
+
+```python
+def dV(self, V, t, w, I):
+	exp = self.delta_T * bm.exp((V - self.V_T) / self.delta_T)
+    dVdt = (-V + self.V_rest + exp - self.R * w + self.R * I) / self.tau
+    return dVdt
+
+def dw(self, w, t, V):
+    dwdt = (self.a * (V - self.V_rest) - w) / self.tau_w
+    return dwdt
+
+@property
+def derivative(self):
+    return bp.JointEq([self.dV, self.dw])
+```
+
+### Complete the `update()` function
+
+```python
+def update(self):
+    t, dt = bp.share['t'], bp.share['dt']
+    V, w = self.integral(self.V.value, self.w.value, t, self.input, dt=dt)
+    # 以数组的方式对神经元进行更新
+    refractory = (t - self.t_last_spike) <= self.t_ref  # 判断神经元是否处于不应期
+    V = bm.where(refractory, self.V, V)  # 若处于不应期，则返回原始膜电位self.V，否则返回更新后的膜电位V
+    spike = V > self.V_th  # 将大于阈值的神经元标记为发放了脉冲
+    self.spike[:] = spike  # 更新神经元脉冲发放状态
+    self.t_last_spike[:] = bm.where(spike, t, self.t_last_spike)  # 更新最后一次脉冲发放时间
+    self.V[:] = bm.where(spike, self.V_reset, V)  # 将发放了脉冲的神经元膜电位置为V_reset，其余不变
+    self.w[:] = bm.where(spike, w + self.b, w)  #更新自适应电流
+    self.refractory[:] = bm.logical_or(refractory, spike)  # 更新神经元是否处于不应期
+    self.input[:] = 0.  # 重置外界输入
+```
+
+### Simulation
+
+![image-20230825145518709](Notes.assets/image-20230825145518709.png)
+
+### Other multivariate neuron models
+
+**The Izhikevich model**
+$$
+\begin{aligned}
+&\frac{dV}{dt} =0.04V^{2}+5V+140-u+I  \\
+&\frac{\mathrm{d}u}{\mathrm{d}t} =a\left(bV-u\right)  \\
+&\operatorname{if}V >\theta,\quad V\leftarrow c,u\leftarrow u+d\mathrm{last}t_{\mathrm{ref}} 
+\end{aligned}
+$$
+
+```python
+def dV(self, V, t, u, I):
+    dVdt = 0.04 * V * V + 5 * V + 140 - u + I
+    return dVdt
+
+def du(self, u, t, V):
+    dudt = self.a * (self.b * V - u)
+    return dudt
+```
+
+**The Generalized Integrate-and-Fire (GIF) model**
+$$
+\begin{aligned}
+&\tau{\frac{\mathrm{d}V}{\mathrm{d}t}} =-\left(V-V_{\mathrm{rest}}\right)+R\sum_{j}I_{j}+RI  \\
+&\frac{\mathrm{d}\Theta}{\mathrm{d}t} =a\left(V-V_{\mathrm{est}}\right)-b\left(\Theta-\Theta_{\infty}\right)  \\
+&\frac{\mathrm{d}I_j}{\mathrm{d}r} =-k_jI_j,\quad j=1,2,\ldots,n  \\
+&\text{if V} >\Theta,\quad I_{j}\leftarrow R_{j}I_{j}+A_{j},V\leftarrow V_{\mathrm{reset}},\Theta\leftarrow max\left(\Theta_{\mathrm{reset}},\Theta\right) 
+\end{aligned}
+$$
+
+```python
+def dI1(self, I1, t):
+    return - self.k1 * I1
+
+def dI2(self, I2, t):
+    return - self.k2 * I2
+
+def dVth(self, V_th, t, V):
+    return self.a * (V - self.v_rest) - self.b * (V_th - self.V_th_inf)
+
+def dV(self, V, t, I1, I2, I):
+    return (- (V - self.V_rest) + self.R * (I + I1 + I2)) / self.tau
+```
+
+**Built-in reduced neuron models**
+
+![image-20230825145947800](Notes.assets/image-20230825145947800.png)
+
+## Dynamic analysis: phase-plane analysis
+
+### Simple case
+
+$$
+\frac{dx}{dt}=\sin(x)+I,
+$$
+
+```python
+@bp.odeint
+def int_x(x, t, Iext):
+	return bp.math.sin(x) + Iext
+```
+
+```python
+pp = bp.analysis.PhasePlane1D(
+	model=int_x,
+	target_vars={'x': [-10, 10]},
+	pars_update={'Iext': 0.},
+    resolutions={'x': 0.01}
+)
+pp.plot_vector_field()
+pp.plot_fixed_point(show=True)
+```
+
+![image-20230825152003373](Notes.assets/image-20230825152003373.png)
+
+- Nullcline: The zero-growth isoclines, such as $f(x,y) = 0$ and $g(x,y) = 0$
+- Fixed points: The equilibrium points of the system, which are located at all the nullclines intersect.
+- Vector field: The vector field of the system.
+- Limit cycles: The limit cycles.
+- Trajectories: A simulation trajectory with the given initial values
+
+### Phase plane analysis for AdEx
+
+```python
+def ppa_AdEx(group):
+    bm.enable_x64()
+    
+    v_range = [-70., -40.]
+    w_range = [-10., 50.]
+    
+    phase_plane_analyzer = bp.analysis.PhasePlane2D(
+        model=group,
+        target_vars={'V': v_range, 'w': w_range, },  # 待分析变量
+        pars_update={'I': Iext},  # 需要更新的变量
+        resolutions=0.05
+    )
+
+    # 画出V, w的零增长曲线
+    phase_plane_analyzer.plot_nullcline()
+    # 画出奇点
+    phase_plane_analyzer.plot_fixed_point()
+    # 画出向量场
+    phase_plane_analyzer.plot_vector_field()
+    
+    # 分段画出V, w的变化轨迹
+    group.V[:], group.w[:] = group.V_reset, 0
+    runner = bp.DSRunner(group, monitors=['V', 'w', 'spike'], inputs=('input', Iext))
+    runner(500)
+    spike = runner.mon.spike.squeeze()
+    s_idx = np.where(spike)[0]  # 找到所有发放动作电位对应的index
+    s_idx = np.concatenate(([0], s_idx, [len(spike) - 1]))  # 加上起始点和终止点的index
+    for i in range(len(s_idx) - 1):
+        vs = runner.mon.V[s_idx[i]: s_idx[i + 1]]
+        ws = runner.mon.w[s_idx[i]: s_idx[i + 1]]
+        plt.plot(vs, ws, color='darkslateblue')
+        
+    # 画出虚线 x = V_reset
+    plt.plot([group.V_reset, group.V_reset], w_range, '--', color='grey', zorder=-1)
+    
+    plt.show()
+```
+
+![image-20230825152925463](Notes.assets/image-20230825152925463.png)
+
+## Dynamic analysis: bifurcation analysis
+
+### Simple case
+
+$$
+\frac{dx}{dt}=\sin(x)+I,
+$$
+
+```python
+bif = bp.analysis.Bifurcation1D(
+	model=int_x,
+	target_vars={'x': [-10, 10]},
+	target_pars={'Iext': [0., 1.5]},
+	resolutions={'Iext': 0.005, 'x': 0.05}
+)
+bif.plot_bifurcation(show=True)
+```
+
+![image-20230825154227567](Notes.assets/image-20230825154227567.png)

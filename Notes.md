@@ -2575,8 +2575,7 @@ The synapse is located on a thin dendrite, because the local membrane potential 
 
 #### Current-based Response
 
-In some case, we can also approximate the synapses as
-sources of current and not a conductance.
+In some case, we can also approximate the synapses as sources of current and not a conductance.
 
 ![image-20230826102150487](Notes.assets/image-20230826102150487.png)
 
@@ -2869,9 +2868,9 @@ class SimpleNet4(bp.DynSysGroup):
 
 ![image-20230826111733654](Notes.assets/image-20230826111733654.png)
 
-- The simplest kinetic model is a two-state scheme in which receptors can be either closed, 𝐶𝐶, or open, 𝑂𝑂, and the transition between states depends on transmitter concentration, [𝑇𝑇], in the synaptic cleft:
-- 𝛼𝛼 and 𝛽𝛽 are voltage-independent forward and backward rate constants.
-- 𝐶𝐶 and 𝑂𝑂 can range from 0 to 1, and describe the fraction of receptors in the closed and open states, respectively.
+- The simplest kinetic model is a two-state scheme in which receptors can be either closed, 𝐶, or open, 𝑂, and the transition between states depends on transmitter concentration, [𝑇], in the synaptic cleft:
+- 𝛼 and 𝛽 are voltage-independent forward and backward rate constants.
+- 𝐶 and 𝑂 can range from 0 to 1, and describe the fraction of receptors in the closed and open states, respectively.
 - The synaptic conductance is: $g_{syn}(t)=\bar{g}_{max}g(t)$
 
 ### AMPA/GABA$_A$ synapse model
@@ -3143,7 +3142,7 @@ class CUBA(bp.dyn.SynOut):
     return conductance
 ```
 
-#### My Blocking
+#### Mg Blocking
 
 The voltage dependence is due to the blocking of the pore of the NMDA receptor from the outside by a positively charged magnesium ion. The channel is nearly completely blocked at resting potential, but the magnesium block is relieved if the cell is depolarized. The fraction of channels $B(V)$ that are not blocked by magnesium can be fitted to  
 
@@ -3197,3 +3196,248 @@ class MaskedLinear(bp.dnn.Layer):
     return x @ (self.weight * self.mask)
 ```
 
+# Short-term Synaptic Plasticity
+
+## Synaptic transmission and plasticity
+
+### Process of Chemical synaptic transmission
+
+![image-20230826140307862](Notes.assets/image-20230826140307862.png)
+
+### EPSP and EPSC
+
+EPSP: Excitatory Post Synaptic Potential
+EPSC: Excitatory Post Synaptic Current
+
+Post synaptic current: $I(t)=g(t)\bigl[V_{\mathrm{post}}(\mathrm{t})-E_{reversal}\bigr]$
+
+Dynamics of post-synaptic conductance (exponential model): $\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{S}}+A\delta(t-t_{sp})$
+
+The synaptic strength is characterized as EPSC, which refers to the post synaptic current increment at each spike, $EPSC_{n}=A(V_{\mathrm{rest}}-E_{reversal})$
+
+![image-20230826140558289](Notes.assets/image-20230826140558289.png)
+
+### Synaptic plasticity
+
+实际上突触强度会一直变换
+
+![image-20230826140745735](Notes.assets/image-20230826140745735.png)
+
+## Phenomenological model of STP
+
+### Short-term depression observed between pyramidal cells
+
+![image-20230826140825584](Notes.assets/image-20230826140825584.png)
+
+膜片前技术，记录膜电位变化
+
+![image-20230826140947752](Notes.assets/image-20230826140947752.png)
+
+### Modeling neuro-transmitter consumption
+
+Dynamics of three-factor STD:
+$$
+\begin{gathered}
+\frac{dx(t)}{dt}=\frac{z(t)}{\tau_{rec}}-U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
+\frac{dy(t)}{dt}=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
+x(t)+y(t)+z(t)=1, \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+g_{max}y(t), 
+\end{gathered}
+$$
+$x$: Fraction of available neuro-transmitter
+$y$: Fraction of active neuro-transmitter
+$z$: Fraction of inactive neuro-transmitter
+$U_{se}$: Release probability of active neuro-transmitter
+$t_{sp}$: Pre-synaptic spike time
+$g(t)$:  Post-synaptic conductance
+$A$: total amount of neuro-transmitter
+$\tau_{in}$ & $\tau_{rec}$ & $\tau_s$: Time constants
+
+### Simulate the three-factor STD
+
+$$
+\begin{gathered}
+\frac{dx(t)}{dt}=\frac{z(t)}{\tau_{rec}}-U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
+\frac{dy(t)}{dt}=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
+x(t)+y(t)+z(t)=1, \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Ay(t), 
+\end{gathered}
+$$
+
+$$
+\tau_{rec}=500ms,\quad\tau_{in}=3ms,\quad fr=20hz
+$$
+
+![image-20230826142313326](Notes.assets/image-20230826142313326.png)
+
+### Simplify the dynamics of neuro-transmitter consumption
+
+变量太多了，模型复杂
+
+In general, the inactivation time constants is much shorter (3ms) than the spike time interval, i.e., 𝜏 2- ≪ Δ𝑡, so the formulation can be approximately simplified,
+$$
+\begin{aligned}\frac{dy(t)}{dt}&=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big)\\&\Longrightarrow\color{red}{\left\{\begin{array}{c}y(t)=U_{SE}x^-\delta_1(t-t_{sp}),\\x^-=\lim_{t-t_{sp}\to0^-}x(t)\end{array}\right.}\end{aligned}
+$$
+![image-20230826142632613](Notes.assets/image-20230826142632613.png)
+
+Simplified model:
+$$
+\begin{gathered}
+\frac{dx(t)}{dt} =\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta\big(t-t_{sp}\big), \\
+\frac{dg(t)}{dt} =-\frac{g(t)}{\tau_{s}}+AU_{SE}x^{-}\delta\big(t-t_{sp}\big), \\
+EPSC=AU_{SE}x^{-}, 
+\end{gathered}
+$$
+![image-20230826143004941](Notes.assets/image-20230826143004941.png)
+
+### Infer model parameters from experimental data
+
+推断超参，EPSC的理论解
+
+Short term depression model:
+$$
+\begin{aligned}\frac{dx(t)}{dt}&=\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta(t-t_{sp}),\\EPSC&=AU_{SE}x^{-},\end{aligned}
+$$
+Iterative expression for EPSCs:
+$$
+x_{1}^{-}=1, EPSC_{1}=AU_{SE},  \\
+x_{n+1}^{-}=1-x_{n}^{-}(1-U_{SE})\mathrm{e}^{-\frac{\Delta t}{\tau_{rec}}} \\
+EPSC_{n+1}=AU_{SE}-EPSC_{n}(1-U_{SE})e^{-\frac{\Delta t}{\tau_{rec}}}
+$$
+
+#### Short-term facilitation observed between pyramidal cells and interneurons
+
+![image-20230826143735036](Notes.assets/image-20230826143735036.png)
+
+短时程增强
+
+### Modeling neuro-transmitter release probability
+
+先前漏掉释放概率的建模
+
+The release probability can also be modelled as a dynamical variable 𝑢(𝑡),
+$$
+\begin{gathered}
+\frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{SE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
+\frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u(t)x^{-}\delta\big(t-t_{sp}+\delta t\big), \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{S}}+Au(t)x^{-}\delta\big(t-t_{sp}+\delta t\big), \\
+EPSC=Au(t)x^{-}, 
+\end{gathered}
+$$
+$U_{SE}$ might reflect the concentration of $Ca^{2+}$
+
+The release probability can also be modelled as a dynamical variable 𝑢(𝑡),
+$$
+\begin{gathered}
+\frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{SE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
+\frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+{EPSC=Au^{+}x^{-},\quad u^{+}=\lim_{t-t_{sp}\to0^{+}}u(t),} 
+\end{gathered}
+$$
+
+### STD and STF under different parameter regime
+
+![image-20230826145216601](Notes.assets/image-20230826145216601.png)
+
+### Derivation of iterative expressions for EPSCs
+
+$$
+\begin{gathered}
+\mathrm{Iterative~expression~for~}x_{n},u_{n},EPSC_{n}; \\
+u_{1}^{+}=U_{SE},\quad x_{1}^{-}=1, \\
+x_{n+1}^{-}=1-x_{n}^{-}(1-u_{n}^{+})\mathrm{e}^{-\frac{\Delta t}{\tau_{rec}}}, \\
+u_{n+1}^{+}=u_{n}^{+}e^{-\frac{\Delta t}{\tau_{f}}}+U_{SE}\left(1-u_{n}^{+}e^{-\frac{\Delta t}{\tau_{f}}}\right), \\
+EPSC_{n+1}=Au_{n}^{+}x_{n}^{-}, 
+\end{gathered}
+$$
+
+
+
+
+$$
+\begin{gathered}
+\mathrm{Steady~state~of~}x_{n},u_{n},EPSC_{n}; \\
+u_{st}^{+}=\frac{U_{SE}}{1-(1-U_{SE})e^{-\frac{\Delta t}{\tau_{f}}}}\geq U_{SE}=u_{1}^{+}, \\
+x_{st}^{-}=\frac{1}{1+(1-u_{st}^{+})\mathrm{e}^{-\frac{\Delta t}{\tau_{rec}}}}\leq1=x_{1}^{-}, \\
+EPSC_{st}=Au_{st}^{+}x_{st}^{-} 
+\end{gathered}
+$$
+
+
+### Prediction for complex post-synaptic patterns
+
+Infer model parameters by fitting experiments:
+$$
+EPSC_{n+1} = Au_nx_n
+$$
+![image-20230826145401318](Notes.assets/image-20230826145401318.png)
+
+Simulate with complex pre-synaptic spike trains and compare with vitro experimental results (patch-clamp)
+
+![image-20230826145419287](Notes.assets/image-20230826145419287.png)![image-20230826145424279](Notes.assets/image-20230826145424279.png)
+
+## Effects on information transmission
+
+### Mean-field Analysis of STP model
+
+STP based on spiking time 
+$$
+\begin{gathered}
+\frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
+\frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
+\end{gathered}
+$$
+->做时间平均
+
+STP based on firing rate
+$$
+\begin{gathered}
+\frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
+\frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
+\end{gathered}
+$$
+![image-20230826155016657](Notes.assets/image-20230826155016657.png)
+
+丢掉时间变化的具体细节，抓住了重要趋势
+
+### Theoretical analysis of the rate model
+
+Suppose the pre-synaptic firing rate keeps as constant, we can calculate the stationary response
+$$
+u_{st}=\frac{U_{SE}R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad u_{st}^{+}=U_{SE}\frac{1+R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad x_{st}=\frac{1}{1+u_{st}^{+}\tau_{d}R_{0}},
+$$
+
+$$
+EPSC_{st}=Au_{st}^{+}x_{st}=A\frac{u_{st}^{+}}{1+u_{st}^{+}\tau_{d}R_{0}},\quad PSV_{st}\propto g_{st}=\tau_{s}Au_{st}^{+}x_{st}R_{0}=A\frac{u_{st}^{+}R_{0}}{1+u_{st}^{+}\tau_{d}R_{0}},
+$$
+
+![image-20230826155234134](Notes.assets/image-20230826155234134.png)
+
+### Frequency-dependent Gain control of spike information
+
+$$
+\begin{gathered}
+u_{st}^{+}=U_{SE}\frac{1+R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}}, \\
+x_{st}=\frac{1}{1+u_{st}^{+}\tau_{d}R_{0}}, \\
+EPSC_{st}=Au_{st}^{+}x_{st}=A\frac{u_{st}^{+}}{1+u_{st}^{+}\tau_{d}R_{0}}, 
+\end{gathered}
+$$
+
+Peak frequency: $\theta\sim\frac{1}{\sqrt{U\tau_{f}\tau_{d}}}$
+
+### Simulation of Frequency-dependent Gain control
+
+![image-20230826155715445](Notes.assets/image-20230826155715445.png)
+
+## Effects on network dynamics
+
+### STP modeling Working memory
+
+![image-20230826160102332](Notes.assets/image-20230826160102332.png)
+
+![image-20230826160113456](Notes.assets/image-20230826160113456.png)

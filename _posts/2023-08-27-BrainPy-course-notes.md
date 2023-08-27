@@ -869,15 +869,9 @@ Transport proteins for ions in neuron cell membranes:
 
 - Ion concentration difference → chemical gradient → electrical gradient
 
-- Nernst Equation:
-  $$
-  E=\dfrac{RT}{zF}\ln\dfrac{[\mathrm{ion}]_{\mathrm{out}}}{[\mathrm{ion}]_{\mathrm{in}}}
-  $$
+- Nernst Equation:$E=\dfrac{RT}{zF}\ln\dfrac{[\mathrm{ion}]_{\mathrm{out}}}{[\mathrm{ion}]_{\mathrm{in}}}$
   
-- Goldman-Hodgkin-Katz (GHK) Equation:
-  $$
-  V_m=\frac{RT}{F}\ln\left(\frac{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{out}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{out}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{in}}}{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{in}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{in}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{out}}}\right)
-  $$
+- Goldman-Hodgkin-Katz (GHK) Equation:$V_m=\frac{RT}{F}\ln\left(\frac{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{out}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{out}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{in}}}{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{in}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{in}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{out}}}\right)$
 
 ### Equivalent circuits
 
@@ -890,24 +884,29 @@ Components of an equivalent circuit:
 ![image-20230824101350048](/assets/images/Notes.assets/image-20230824101350048.png)
 
 Considering the potassium channel **ONLY**:
+
 $$
 \begin{gathered}
 0=I_{\mathrm{cap}}+I_{K}=c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+{\frac{V_{\mathrm{M}}-E_{\mathrm{K}}}{R_{\mathrm{K}}}}, \\
 c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}=-{\frac{V_{\mathrm{M}}-E_{\mathrm{K}}}{R_{\mathrm{K}}}}=-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}}). 
 \end{gathered}
 $$
+
 ![image-20230824101433908](/assets/images/Notes.assets/image-20230824101433908.png)
 
 **Considering the Na + , K + , and Cl - channels and the external current I(t):**
 
 ![image-20230824101648270](/assets/images/Notes.assets/image-20230824101648270.png)
+
 $$
 \begin{aligned}
-\frac{I(t)}{A}& =c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+i_{\mathrm{ion}}  \\
-\Rightarrow{{c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}}& =-g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}})-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}})-g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}})+\frac{I(t)}{A} 
+\frac{I(t)}{A} &= c_{\mathrm{M}} \frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t} + i_{\mathrm{ion}} \\
+\Rightarrow c_{\mathrm{M}} \frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t} &= -g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}}) - g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}}) - g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}}) + \frac{I(t)}{A}
 \end{aligned}
 $$
+
 Steady-state membrane potential given a constant current input I:
+
 $$
 \begin{array}{rcl}\Rightarrow&c_{M}\frac{\mathrm{d}V_{M}}{\mathrm{d}t}=-(g_{C1}+g_{K}+g_{Na})V_{M}+g_{C1}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+\frac{I(t)}{A}\\\\V_{sS}=\frac{g_{CM}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+I/A}{g_{C1}+g_{K}+g_{Na}}&
 \xrightarrow{I=0}
@@ -918,10 +917,7 @@ $$
 
 ![image-20230824102017607](/assets/images/Notes.assets/image-20230824102017607.png)
 
-Considering the axon as a long cylindrical cable:
-$$
-I_{\mathrm{cross}}(x,t)={I_{\mathrm{cross}}(x+\Delta x,t)}+I_{\mathrm{ion}}(x,t)+I_{\mathrm{cap}}(x,t)
-$$
+Considering the axon as a long cylindrical cable:$I_{\mathrm{cross}}(x,t)={I_{\mathrm{cross}}(x+\Delta x,t)}+I_{\mathrm{ion}}(x,t)+I_{\mathrm{cap}}(x,t)$
 
 $$
 V(x+\Delta x,t)-V(x,t)=-I_{\mathrm{cross}}(x,t)R_{\mathrm{L}}=-I_{\mathrm{cross}}(x,t)\frac{\Delta x}{\pi a^{2}}\rho_{\mathrm{L}} \\
@@ -931,31 +927,36 @@ I_{\mathrm{cap}}(x,t) =(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\par
 $$
 
 -> 
+
 $$
 (2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\partial t}+(2\pi a\Delta x)i_{\mathrm{ion}}=\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x+\Delta x,t)}{\partial x}-\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x,t)}{\partial x}
 $$
-**Cable Equation**
-$$
-c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-i_\mathrm{ion}
-$$
+
+**Cable Equation** $c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-i_\mathrm{ion}$
 电流在通过长直导体时会泄露电流，如何记录膜电位，可以使用此方程来描述
 
 **Passive conduction:** ion currents are caused by leaky channels exclusively
+
 $$
 i_{\mathrm{ion}}=V(x,t)/r_{\mathrm{M}}
 $$
+
 ->
+
 $$
 \begin{aligned}c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}&=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-\frac{V(x,t)}{r_\mathrm{M}}\\\\\tau\frac{\partial V(x,t)}{\partial t}&=\lambda^2\frac{\partial^2V(x,t)}{\partial x^2}-V(x,t)\quad\lambda=\sqrt{0.5ar_\mathrm{M}/\rho_\mathrm{L}}\end{aligned}
 $$
+
 没有动作电位，单纯通过电缆传输
 
 ![image-20230824102932665](/assets/images/Notes.assets/image-20230824102932665.png)
 
 If a constant external current is applied to 𝑥 = 0  the steady-state membrane potential $𝑉_{ss}(𝑥)$ is
+
 $$
 \lambda^2\frac{\mathrm{d}^2V_{\mathrm{ss}}(x)}{\mathrm{d}x^2}-V_{\mathrm{ss}}(x)=0\longrightarrow V_{\mathrm{ss}}(x)=\frac{\lambda\rho_{\mathrm{L}}}{\pi a^2}I_0e^{-x/\lambda}
 $$
+
 电信号无衰减传播: 动作电位
 
 ## Action potential & active transport
@@ -976,12 +977,14 @@ Characteristics:
 ![image-20230824103322522](/assets/images/Notes.assets/image-20230824103322522.png)
 
 How to simulate an action potential?
+
 $$
 \begin{aligned}
 \frac{I(t)}{A}& =c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+i_{\mathrm{ion}}  \\
 \Rightarrow\quad c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}& =-g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}})-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}})-g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}})+\frac{I(t)}{A} 
 \end{aligned}
 $$
+
 离子通道的开闭会随着电压而变化，电导也随着电压而变化
 
 Mechanism: voltage-gated ion channels
@@ -1001,10 +1004,13 @@ Saltatory conduction with a much higher speed and less energy consumption
 ### Modeling of each ion channel
 
 Modeling of each ion channel:
+
 $$
 g_m=\bar{g}_mm^x
 $$
+
 Modeling of each ion gate:
+
 $$
 \mathcal{C}\underset{}{\operatorname*{\overset{\alpha(\mathrm{V})}{\underset{\beta(\mathrm{V})}{\operatorname*{\longrightarrow}}}}\mathcal{O}}
 
@@ -1049,6 +1055,7 @@ $$
 ### Leaky channel
 
 Hyperpolarization → the sodium and potassium channels are closed
+
 $$
 I_{\mathrm{fb}}=g_{\mathrm{Na}}(V-E_{\mathrm{Na}})+g_{\mathrm{K}}(V-E_{\mathrm{K}})+g_{\mathrm{L}}(V-E_{\mathrm{L}})
 $$
@@ -1092,6 +1099,7 @@ Sodium channels
 The gates of sodium channels
 
 Modeling of each ion gate:
+
 $$
 \begin{aligned}
 &\text{gk}&& =\bar{g}_{K}n^{x}  \\
@@ -1167,6 +1175,7 @@ by $g_{\mathrm{K}\infty}=\bar{g}_{\mathrm{K}}n_{\infty}^{x},g_{\mathrm{K}0}=\bar
 **example**
 
 FitzHugh-Nagumo equation
+
 $$
 \begin{aligned}\tau\dot{w}&=v+a-bw,\\\dot{v}&=v-\frac{\nu^3}{3}-w+I_{\mathrm{ext}}.\end{aligned}
 $$
@@ -1612,19 +1621,23 @@ plt.xlabel('Time (ms)')
 电路模拟，写成电导形式
 
 ![image-20230824180831033](/assets/images/Notes.assets/image-20230824180831033.png)
+
 $$
 \begin{aligned}
 \text{gK}& =\bar{g}_\text{K}n^4,  \\
 \frac{\mathrm{d}n}{\mathrm{d}t}& =\phi[\alpha_n(V)(1-n)-\beta_n(V)n], 
 \end{aligned}
 $$
+
 动力学形式描述，引入门框变量$n$
+
 $$
 \begin{aligned}
 &\alpha_{n}(V) =\frac{0.01(V+55)}{1-\exp(-\frac{V+55}{10})},  \\
 &\beta_{n}(V) =0.125\exp\left(-\frac{V+65}{80}\right). 
 \end{aligned}
 $$
+
 由此式来建模钾离子通道
 
 ### Programming an ion channel
@@ -1795,13 +1808,17 @@ Given a constant current input:
 **General solution (constant input):**$V(t)=V_{\text{reset}}+RI_{\text{c}}(1-\mathrm{e}^{-\frac{t-t_0}{\tau}})$
 
 **Firing frequency:**
+
 $$
 \begin{aligned}T&=-\tau\ln\left(1-\frac{V_{\phi h}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)\\f&=\frac{1}{T+t_{\mathrm{ref}}}=\frac{1}{t_{\mathrm{ref}}-\tau\ln\left(1-\frac{V_{0}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)}\end{aligned}
 $$
+
 **Rheobase current (minimal current):**
+
 $$
 I_{\theta}=\frac{V_{\mathrm{th}}-V_{\mathrm{reset}}}{R}
 $$
+
 基强电流，如果小于它将无法发放
 
 ### Strengths & weaknesses of the LIF model
@@ -1922,6 +1939,7 @@ $$
 #### The Generalized Integrate-and-Fire (GIF) model
 
 n+2个变量
+
 $$
 \begin{aligned}
 &\tau{\frac{\mathrm{d}V}{\mathrm{d}t}} =-\left(V-V_{\mathrm{rest}}\right)+R\sum_{j}I_{j}+RI  \\
@@ -1930,6 +1948,7 @@ $$
 &\operatorname{if}V >\Theta,\quad I_{j}\leftarrow R_{j}I_{j}+A_{j},V\leftarrow V_{\mathrm{reset}},\Theta\leftarrow max(\Theta_{\mathrm{reset}},\Theta) 
 \end{aligned}
 $$
+
 每个变量都是线性的，泛化性体现在重置条件上
 
 ![image-20230825105035349](/assets/images/Notes.assets/image-20230825105035349.png)
@@ -1941,6 +1960,7 @@ $$
 对动力学系统的行为来分析，普遍对两个变量来进行分析
 
 Analyzes the behavior of a dynamical system with (usually two) variables described by ordinary differential equations
+
 $$
 \begin{aligned}
 &\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}&& =-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{S_{T}}}-Rw+RI(t)  \\
@@ -1948,6 +1968,7 @@ $$
 &\mathrm{if}V&& >\theta,\quad V\leftarrow V_\mathrm{reset}\text{ last }t_\mathrm{ref} 
 \end{aligned}
 $$
+
 **Elements:**
 
 - Nullclines: $\mathrm{d}V/\mathrm{d}t=0;\mathrm{d}w/\mathrm{d}t=0$
@@ -2007,13 +2028,15 @@ Elements:
 bifurcation analysis for 2 variables
 Variables: 𝑉 and 𝑤
 Parameters: $I_{ext}$
+
 $$
 \begin{aligned}
-&\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}=-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{{\frac{V-V_{T}}{ST}}}-Rw+RI(t) \\
-&\text{-} {\frac{\mathrm{d}w}{\mathrm{d}t}}=a(V-V_{\mathrm{rest}})-w+b\tau_{w}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
-&\mathrm{if}V>\theta,\quad V\leftarrow V_{\mathrm{reset}}\ \mathrm{last}\ t_{\mathrm{ref}}
+\tau_{m} \frac{\mathrm{d}V}{\mathrm{d}t} &= -\left(V-V_{\mathrm{rest}}\right) + \Delta_{T} \mathrm{e}^{\frac{V-V_{T}}{ST}} - Rw + RI(t) \\
+-\frac{\mathrm{d}w}{\mathrm{d}t} &= a(V-V_{\mathrm{rest}}) - w + b\tau_{w}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
+\text{if } V > \theta, &\Rightarrow V \leftarrow V_{\mathrm{reset}}, \text{ last } t_{\mathrm{ref}}
 \end{aligned}
 $$
+
 ![image-20230825114801456](/assets/images/Notes.assets/image-20230825114801456.png)
 
 ![image-20230825114742740](/assets/images/Notes.assets/image-20230825114742740.png)
@@ -2025,9 +2048,11 @@ $$
 ### Extended: The limit cycle
 
 The FitzHugh–Nagumo (FHN) model
+
 $$
 \begin{aligned}\dot{v}&=v-\frac{v^3}3-w+RI_\mathrm{ext}\\\tau\dot{w}&=v+a-bw.\end{aligned}
 $$
+
 This dynamical system, in certain conditions, exhibits a cyclic pattern of variable changes which can be visualized as a closed trajectory in the phase plane.
 
 变化锁定到环中
@@ -2163,6 +2188,7 @@ plt.ylabel('frequencies')
 ### Other Univariate neuron models
 
 **The Quadratic Integrate-and-Fire (QIF) model**
+
 $$
 \begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=a_{0}(V-V_{\mathrm{res}t})(V-V_{c})+RI(t)\\\mathrm{if~}V&>\theta,\quad V\leftarrow V_{\mathrm{reset~last~}t_{\mathrm{ref}}}\end{aligned}
 $$
@@ -2174,6 +2200,7 @@ def derivative(self, V, t, I):
 ```
 
 **The Exponential Integrate-and-Fire (ExpIF) model**
+
 $$
 \begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{\delta_{T}}}+RI(t)\\&\mathrm{if~}V>\theta,\quad V\leftarrow V_{\mathrm{reset}}\mathrm{last}t_{\mathrm{ref}}\end{aligned}
 $$
@@ -2191,9 +2218,9 @@ def derivative(self, V, t, I):
 
 $$
 \begin{gathered}
-\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}=-(V-V_{\mathrm{rest}})+\Delta_{T}\mathrm{e}^{{\frac{V-V_{T}}{\Delta T}}}-Rw+RI(t), \\
-\tau_{w}\frac{\mathrm{d}w}{\mathrm{d}t}=a(V-V_{\mathrm{rest}})-w+b\tau_{w}\sum_{t^{(f)}}\delta(t-t^{(f)})), \\
-\mathrm{if~}V>V_{\mathrm{th}},\quad V\leftarrow V_{\mathrm{reset}}\mathrm{last}t_{\mathrm{ref}}. 
+\tau_{m} \frac{\mathrm{d}V}{\mathrm{d}t} = -(V-V_{\mathrm{rest}}) + \Delta_{T} \mathrm{e}^{\frac{V-V_{T}}{\Delta T}} - Rw + RI(t), \\
+\tau_{w} \frac{\mathrm{d}w}{\mathrm{d}t} = a(V-V_{\mathrm{rest}}) - w + b\tau_{w} \sum_{t^{(f)}}\delta(t-t^{(f)}), \\
+\mathrm{if~} V > V_{\mathrm{th}}, \quad V \leftarrow V_{\mathrm{reset}} \mathrm{~last~} t_{\mathrm{ref}}. 
 \end{gathered}
 $$
 
@@ -2288,6 +2315,7 @@ def update(self):
 ### Other multivariate neuron models
 
 **The Izhikevich model**
+
 $$
 \begin{aligned}
 &\frac{dV}{dt} =0.04V^{2}+5V+140-u+I  \\
@@ -2307,6 +2335,7 @@ def du(self, u, t, V):
 ```
 
 **The Generalized Integrate-and-Fire (GIF) model**
+
 $$
 \begin{aligned}
 &\tau{\frac{\mathrm{d}V}{\mathrm{d}t}} =-\left(V-V_{\mathrm{rest}}\right)+R\sum_{j}I_{j}+RI  \\
@@ -2513,6 +2542,7 @@ $$
 exponential model上升的太快，不太符合某些synapse
 
 Dual exponential synapse provides a general way to describe the synaptic conductance with different rising and decay time constants.
+
 $$
 g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}}\frac{\tau_{1}\tau_{2}}{\tau_{1}-\tau_{2}}\left(\exp\left(-\frac{t-t_{0}}{\tau_{1}}\right)-\exp\left(-\frac{t-t_{0}}{\tau_{2}}\right)\right)
 \\
@@ -2523,7 +2553,9 @@ g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}}\frac{\tau_{1}\tau_{2}}{\tau_{1}-\tau_
 \bullet &\bar{g}_{syn}\ \text{is the maximal conductance}
 \end{matrix}
 $$
+
 ->corresponding differential equation
+
 $$
 \begin{aligned}
 &g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}}g \\
@@ -2531,6 +2563,7 @@ $$
 &\frac{dh}{dt}& =-\frac{h}{\tau_{\mathrm{rise}}}+\delta\left(t_{0}-t\right), 
 \end{aligned}
 $$
+
 The time course of most synaptic conductance can be well described by this sum of two exponentials.
 
 ### Synaptic time constants
@@ -2629,12 +2662,15 @@ brainpy.dyn.ProjAlignPostMg2(
 ### Exponential Model
 
 The single exponential decay synapse model assumes the release of neurotransmitter, its diffusion across the cleft, the receptor binding, and channel opening all happen very quickly, so that the channels instantaneously jump from the closed to the open state. Therefore, its expression is given by 
+
 $$
 g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} e^{-\left(t-t_{0}\right) / \tau}
 $$
+
 where $\tau$ is the time constant, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.
 
 The corresponding differential equation:  
+
 $$
 \frac{d g}{d t} = -\frac{g}{\tau_{decay}}+\sum_{k} \delta(t-t_{j}^{k}).
 $$
@@ -2642,6 +2678,7 @@ $$
 #### COBA
 
 Given the synaptic conductance, the COBA model outputs the post-synaptic current with  
+
 $$
 I_{syn}(t) = g_{\mathrm{syn}}(t) (E - V(t))
 $$
@@ -2706,7 +2743,8 @@ def run_a_net(net):
 
 #### CUBA
 
-Given the conductance, this model outputs the post-synaptic current with a identity function:  
+Given the conductance, this model outputs the post-synaptic current with a identity function: 
+
 $$
 I_{\mathrm{syn}}(t) = g_{\mathrm{syn}}(t)  
 $$
@@ -2811,10 +2849,12 @@ brainpy.dyn.ProjAlignPreMg2(
 
 ### Dual Exponential Model
 
-The dual exponential synapse model, also named as **difference of two exponentials model**, is given by:  
+The dual exponential synapse model, also named as **difference of two exponentials model**, is given by: 
+
 $$
 g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} \frac{\tau_{1} \tau_{2}}{\tau_{1}-\tau_{2}}\left(\exp \left(-\frac{t-t_{0}}{\tau_{1}}\right)-\exp \left(-\frac{t-t_{0}}{\tau_{2}}\right)\right)  
 $$
+
 where $\tau_1$ is the time constant of the decay phase, $\tau_2$ is the time constant of the rise phase, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.
 
 The corresponding differential equation:  
@@ -2891,6 +2931,7 @@ class SimpleNet4(bp.DynSysGroup):
 <img src="Notes.assets/image-20230826111831637.png" alt="image-20230826111831637" style="zoom:50%;" />
 
 <img src="Notes.assets/image-20230826111841073.png" alt="image-20230826111841073" style="zoom:50%;" />
+
 $$
 \begin{aligned}\frac{ds}{dt}&=\alpha[T](1-s)-\beta s\\I&=\tilde{g}s(V-E)\end{aligned}
 $$
@@ -2910,6 +2951,7 @@ $$
 ![image-20230826112027689](/assets/images/Notes.assets/image-20230826112027689.png)
 
 ![image-20230826112034481](/assets/images/Notes.assets/image-20230826112034481.png)
+
 $$
 \begin{aligned}
 &\frac{ds}{dt} =\alpha[T](1-s)-\beta s  \\
@@ -2917,6 +2959,7 @@ $$
 &B(V )=\frac{1}{1+\exp(-0.062V)[Mg^{2+}]_{o}/3.57} 
 \end{aligned}
 $$
+
 The magnesium block of the NMDA receptor channel is an extremely fast process compared to the other kinetics of the receptor (Jahr and Stevens 1990a, 1990b). The block can therefore be accurately modeled as an instantaneous function of voltage(Jahr and Stevens 1990b).
 
 where $[Mg^{2+}]$ is the external magnesium concentration (1 to 2mM inphysiological conditions)
@@ -3249,6 +3292,7 @@ The synaptic strength is characterized as EPSC, which refers to the post synapti
 ### Modeling neuro-transmitter consumption
 
 Dynamics of three-factor STD:
+
 $$
 \begin{gathered}
 \frac{dx(t)}{dt}=\frac{z(t)}{\tau_{rec}}-U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
@@ -3257,6 +3301,7 @@ x(t)+y(t)+z(t)=1, \\
 \frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+g_{max}y(t), 
 \end{gathered}
 $$
+
 $x$: Fraction of available neuro-transmitter
 $y$: Fraction of active neuro-transmitter
 $z$: Fraction of inactive neuro-transmitter
@@ -3288,12 +3333,15 @@ $$
 变量太多了，模型复杂
 
 In general, the inactivation time constants is much shorter (3ms) than the spike time interval, i.e., 𝜏 2- ≪ Δ𝑡, so the formulation can be approximately simplified,
+
 $$
 \begin{aligned}\frac{dy(t)}{dt}&=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big)\\&\Longrightarrow\color{red}{\left\{\begin{array}{c}y(t)=U_{SE}x^-\delta_1(t-t_{sp}),\\x^-=\lim_{t-t_{sp}\to0^-}x(t)\end{array}\right.}\end{aligned}
 $$
+
 ![image-20230826142632613](/assets/images/Notes.assets/image-20230826142632613.png)
 
 Simplified model:
+
 $$
 \begin{gathered}
 \frac{dx(t)}{dt} =\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta\big(t-t_{sp}\big), \\
@@ -3301,6 +3349,7 @@ $$
 EPSC=AU_{SE}x^{-}, 
 \end{gathered}
 $$
+
 ![image-20230826143004941](/assets/images/Notes.assets/image-20230826143004941.png)
 
 ### Infer model parameters from experimental data
@@ -3308,10 +3357,13 @@ $$
 推断超参，EPSC的理论解
 
 Short term depression model:
+
 $$
 \begin{aligned}\frac{dx(t)}{dt}&=\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta(t-t_{sp}),\\EPSC&=AU_{SE}x^{-},\end{aligned}
 $$
+
 Iterative expression for EPSCs:
+
 $$
 x_{1}^{-}=1, EPSC_{1}=AU_{SE},  \\
 x_{n+1}^{-}=1-x_{n}^{-}(1-U_{SE})\mathrm{e}^{-\frac{\Delta t}{\tau_{rec}}} \\
@@ -3329,6 +3381,7 @@ $$
 先前漏掉释放概率的建模
 
 The release probability can also be modelled as a dynamical variable 𝑢(𝑡),
+
 $$
 \begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{SE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
@@ -3337,9 +3390,11 @@ $$
 EPSC=Au(t)x^{-}, 
 \end{gathered}
 $$
+
 $U_{SE}$ might reflect the concentration of $Ca^{2+}$
 
 The release probability can also be modelled as a dynamical variable 𝑢(𝑡),
+
 $$
 \begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{SE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
@@ -3381,9 +3436,11 @@ $$
 ### Prediction for complex post-synaptic patterns
 
 Infer model parameters by fitting experiments:
+
 $$
 EPSC_{n+1} = Au_nx_n
 $$
+
 ![image-20230826145401318](/assets/images/Notes.assets/image-20230826145401318.png)
 
 Simulate with complex pre-synaptic spike trains and compare with vitro experimental results (patch-clamp)
@@ -3395,6 +3452,7 @@ Simulate with complex pre-synaptic spike trains and compare with vitro experimen
 ### Mean-field Analysis of STP model
 
 STP based on spiking time 
+
 $$
 \begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
@@ -3403,9 +3461,11 @@ $$
 u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
 \end{gathered}
 $$
+
 ->做时间平均
 
 STP based on firing rate
+
 $$
 \begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
@@ -3414,6 +3474,7 @@ $$
 u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
 \end{gathered}
 $$
+
 ![image-20230826155016657](/assets/images/Notes.assets/image-20230826155016657.png)
 
 丢掉时间变化的具体细节，抓住了重要趋势
@@ -3421,6 +3482,7 @@ $$
 ### Theoretical analysis of the rate model
 
 Suppose the pre-synaptic firing rate keeps as constant, we can calculate the stationary response
+
 $$
 u_{st}=\frac{U_{SE}R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad u_{st}^{+}=U_{SE}\frac{1+R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad x_{st}=\frac{1}{1+u_{st}^{+}\tau_{d}R_{0}},
 $$
@@ -3464,9 +3526,11 @@ Peak frequency: $\theta\sim\frac{1}{\sqrt{U\tau_{f}\tau_{d}}}$
 External Stimulus ->
 
 Single neuron model
+
 $$
 \begin{aligned}\tau&\frac{\mathrm{d}V}{\mathrm{d}t}=-(V-V_\text{rest })+RI(t)\\\\&\text{if}V>V_\text{th},\quad V\leftarrow V_\text{reset }\text{last}t_\text{ref}\end{aligned}
 $$
+
 -> ... -> Perception or action
 
 真正的神经元并不是LIF model的输出
@@ -3499,6 +3563,7 @@ Neuron recorded in vivo
 #### Poisson Process
 
 In probability theory and statistics, the Poisson distribution is a discrete probability distribution that expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known **constant mean rate** and **independently** of the time since the last event。
+
 $$
 \begin{aligned}
 &P(X=k\mathrm{~events~in~interval~}t)=e^{-rt}\frac{(rt)^{k}}{k!} \\
@@ -3507,6 +3572,7 @@ $$
 &\mathrm{Fano factor:}\quad\frac{\sigma^{2}}{X}=1
 \end{aligned}
 $$
+
 Fano factor -> noise-to-signal ratio
 
 #### Irregular Spiking of Neurons
@@ -3534,6 +3600,7 @@ $$
 ![image-20230827093708220](/assets/images/Notes.assets/image-20230827093708220.png)
 
 Sparse & random connections:$1\ll K_{\mathrm{E}},K_{1}\ll N_{\mathrm{E}},N_{\mathrm{I}}$ . Neurons fire largely independently to each other.
+
 $$
 \begin{gathered}
 \text{Single neuron fires irregularly } r_j^E, r_j^{\prime} \text{with mean rate } \mu \text{and variance } \sigma^2.\\
@@ -3576,6 +3643,7 @@ LIF neuron 4000 (E/I=4/1, P=0.02)
 𝑉𝑟𝑒𝑠𝑡 = -60 mV
 Spiking threshold: -50 mV
 Refractory period: 5 ms
+
 $$
 \begin{gathered}
 \tau\frac{dV}{dt}=(V_{\mathrm{rest}}-V)+I \\
@@ -3690,9 +3758,11 @@ $S_i=\pm1$: the neuronal state
 $W_{ij}$ : the neuronal connection
 
 The network dynamics:
+
 $$
 S_{i}=\mathrm{sign}\bigg(\sum_{j}w_{ij}S_{j}-\theta\bigg),\quad\mathrm{sign}(x)=1,\mathrm{for}x>0;-1,\mathrm{otherwise}
 $$
+
 Updating rule: synchronous or asynchronous
 Consider the network stores $p$ pattern, $\xi_{i}^{\mu},\mathrm{for}\mu=1,\ldots p;i=1,\ldots N$
 Setting $w_{ij}=\frac{1}{N}\sum_{\mu=1}^{p}\xi_{i}^{\mu}\xi_{j}^{\mu}$
@@ -3741,6 +3811,7 @@ After the removal of external input, the neurons in the network encoding the sti
 ### CANN: A rate-based recurrent circuit model
 
 <img src="Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
+
 $$
 \begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}
 $$
@@ -3790,6 +3861,7 @@ Ring attractor network for head-direction cell in fruit fly
 ### Persistent activity for working memory
 
 When the global inhibition is not too strong, the network spontaneously hold bump activity:
+
 $$
 k<\frac{\rho J_{0}^{2}}{8\sqrt{2\pi}a}
 $$
@@ -3811,9 +3883,11 @@ Project the network dynamics on $v_1(t)$
 $\tau{\frac{\partial\mathbf{U}*\mathbf{v}_{1}}{\partial t}}=-\mathbf{U}*\mathbf{v}_{1}+(\mathbf{J}*\mathbf{r})*\mathbf{v}_{1}+\mathbf{I}^{ext}*\mathbf{v}_{1}$
 
 Consider
+
 $$
 \begin{aligned}&I^{ext}(t)=\alpha\overline{U}(x\mid z_0)+\sigma\xi_c(t)\\&\mathbf{U}*\mathbf{v}_1\equiv\int dxU(x\mid z)\nu_1(x\mid z)\\\\&\tau\frac{dz}{dt}=-\alpha(z-z_0)e^{-(z-z_0)^2/8a^2}+\beta\xi(t)\end{aligned}
 $$
+
 1st term: the force of the signal that pulls the bump back to the stimulus position
 2nd term: random shift
 
@@ -3901,6 +3975,7 @@ $$
 ### Customize a ring CANN in brainpy
 
 In simulations, we can not simulate a CANN encoding features ranging $(-\inf, \inf)$. Instead, we simulate a ring attractor network which encodes features ranging $(-\pi, \pi)$. Note that the distance on a ring should be:  
+
 $$
 dist_{ring}(x,x') = min(|x-x'|,2\pi-|x-x'|)  
 $$

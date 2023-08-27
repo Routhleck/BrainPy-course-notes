@@ -3441,3 +3441,927 @@ Peak frequency: $\theta\sim\frac{1}{\sqrt{U\tau_{f}\tau_{d}}}$
 ![image-20230826160102332](Notes.assets/image-20230826160102332.png)
 
 ![image-20230826160113456](Notes.assets/image-20230826160113456.png)
+
+# E-I Balanced Neural Network
+
+## Irregular Spiking of Neurons
+
+### Signal process of single neuron
+
+External Stimulus ->
+
+Single neuron model
+$$
+\begin{aligned}\tau&\frac{\mathrm{d}V}{\mathrm{d}t}=-(V-V_\text{rest })+RI(t)\\\\&\text{if}V>V_\text{th},\quad V\leftarrow V_\text{reset }\text{last}t_\text{ref}\end{aligned}
+$$
+-> ... -> Perception or action
+
+真正的神经元并不是LIF model的输出
+
+![image-20230827100647851](Notes.assets/image-20230827100647851.png)
+
+Simulation
+
+![image-20230827100706310](Notes.assets/image-20230827100706310.png)
+
+Neuron recorded in vivo
+
+### Irregular Spiking of Neurons
+
+![image-20230827092807270](Notes.assets/image-20230827092807270.png)
+
+#### Statistical Description of Spikes
+
+用以下的变量来进行统计描述
+
+- Firing Rate
+  Rate = average over time(single neuron, single run)
+  Spike count $v=\frac{n_{sp}}{T}$
+- ISI(Interspike interval distributions)
+  average ISI $\overline{\Delta t}=\frac{1}{n_{sp}-1}\sum_{i=1}^{n_{sp}-1}\Delta t_{i}$
+  standard deviation ISI: $\sigma_{\Delta t}^{2}=\frac{1}{n_{sp}-1}\sum_{i=1}^{n_{sp}-1}(\Delta t_{i}-\overline{\Delta t})^{2}$
+- $C_V$(Coefficient of variation, Fano factor) **窄还是宽的分布** 信息表征有多强的不稳定性
+  $C_{V}=\sigma_{\Delta t}^{2}/\overline{\Delta t}$
+
+#### Poisson Process
+
+In probability theory and statistics, the Poisson distribution is a discrete probability distribution that expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known **constant mean rate** and **independently** of the time since the last event。
+$$
+\begin{aligned}
+&P(X=k\mathrm{~events~in~interval~}t)=e^{-rt}\frac{(rt)^{k}}{k!} \\
+&\mathrm{mean:}\quad\overline{X}=rt \\
+&\mathrm{variance}:\quad\sigma^{2}=rt\\
+&\mathrm{Fano factor:}\quad\frac{\sigma^{2}}{X}=1
+\end{aligned}
+$$
+Fano factor -> noise-to-signal ratio
+
+#### Irregular Spiking of Neurons
+
+LIF在单个神经元的情况下是基本没有太大问题的，在整个网络中会受网络信息调控
+
+![image-20230827093614607](Notes.assets/image-20230827093614607.png)
+
+#### Why Irregular?
+
+- 不完全是input影响的
+- 不能简单来衡量
+
+On average, a cortical neuron receives inputs from 1000~10000 connected neurons. -> averaged noise ~ 0
+
+## E-I Balanced Network
+
+$$
+\begin{gathered}
+\tau\frac{du_{i}^{E}}{dt}=-u_{i}^{E}+\sum_{j=1}^{K_{E}}J_{EE}r_{j}^{E}+\sum_{j=1}^{K_{I}}J_{EI}r_{j}^{I}+I_{i}^{E} \\
+\tau\frac{du_{i}^{I}}{dt}=-u_{i}^{I}+\sum_{j=1}^{K_{I}}J_{II}r_{j}^{I}+\sum_{j=1}^{K_{E}}J_{IE}r_{j}^{E}+I_{i}^{I} 
+\end{gathered}
+$$
+
+![image-20230827093708220](Notes.assets/image-20230827093708220.png)
+
+Sparse & random connections:$1\ll K_{\mathrm{E}},K_{1}\ll N_{\mathrm{E}},N_{\mathrm{I}}$ . Neurons fire largely independently to each other.
+$$
+\begin{gathered}
+\text{Single neuron fires irregularly } r_j^E, r_j^{\prime} \text{with mean rate } \mu \text{and variance } \sigma^2.\\
+\text{The mean of recurrent input received by E neuron:} \\
+\sim K_{E}J_{EE}\mu-K_{I}J_{EI}\mu  \\
+\text{The variance of recurrent input received by E neuron:} \\
+\sim K_{E}(J_{EE})^{2}\sigma^{2}+K_{I}(J_{EI})^{2}\sigma^{2} \\
+\begin{gathered} \\
+\text{The balanced condition:} \\
+K_{E}J_{EE}-K_{l}J_{El}{\sim}0(1) \\
+J_{EE}=\frac{1}{\sqrt{K_{E}}},J_{EI}=\frac{1}{\sqrt{K_{I}}},K_{E}(J_{EE})^{2}\sigma^{2}+K_{I}(J_{EI})^{2}\sigma^{2}\sim O(1) 
+\end{gathered}
+\end{gathered}
+$$
+
+
+
+
+
+$$
+\begin{aligned}\frac{I_E}{I_I}&>\frac{J_E}{J_I}&>1\\\\J_E&>1\\\\\text{r not too big}\end{aligned}
+$$
+
+$$
+\overline{I_a}=\overline{F_a}+\overline{R_a}=\sqrt{N}(f_a\mu_0+w_{aE}r_E+w_{aI}r_I),\quad a=E,I,\\
+\begin{gathered}
+w_{ab}~=~p_{ab}j_{ab}q_{b} \\
+J_{ij}^{ab}~=~j_{ab}/\sqrt{N}; \\
+\frac{f_{E}}{f_{I}}>\frac{w_{EI}}{w_{II}}>\frac{w_{EE}}{w_{IE}}. 
+\end{gathered}
+$$
+
+
+## BrainPy Simulation
+
+### Simulation
+
+LIF neuron 4000 (E/I=4/1, P=0.02)
+𝜏 = 20 ms
+𝑉𝑟𝑒𝑠𝑡 = -60 mV
+Spiking threshold: -50 mV
+Refractory period: 5 ms
+$$
+\begin{gathered}
+\tau\frac{dV}{dt}=(V_{\mathrm{rest}}-V)+I \\
+I=g_{exc}(E_{exc}-V)+g_{inh}(E_{inh}-V)+I_{\mathrm{ext}} 
+\end{gathered} \ \ \ \ \ \
+\begin{aligned}\tau_{exc}&\frac{dg_{exc}}{dt}=-g_{exc}\\\tau_{inh}&\frac{dg_{inh}}{dt}=-g_{inh}\end{aligned}
+$$
+
+$$
+\begin{array}{l}E_\mathrm{exc}=0\text{mV}\mathrm{and}E_\mathrm{inh}=-80\text{mV},I_\mathrm{ext}=20.\\\tau_\mathrm{exc}=5\text{ ms},\tau_\mathrm{inh}=10\text{ ms},\Delta g_\mathrm{exc}=0.6\text{ and}\Delta g_\mathrm{inh}=6.7.\end{array}
+$$
+
+![image-20230827094502860](Notes.assets/image-20230827094502860.png)
+
+### Synaptic Computation
+
+```python
+# 基于 align post Exponential synaptic computation
+class Exponential(bp.Projection):
+    def __init__(self, pre, post, delay, prob, g_max, tau, E, label=None):
+        super().__init__()
+        self.pron = bp.dyn.ProjAlignPost2(
+        	pre=pre,
+            delay=delay,
+            comm=bp.dnn.EventCSRLinear(bp.conn.FixedProb(prob, pre=pre.num, post=post.num), g_max), # 随机连接
+            syn=bp.dyn.Expon(size=post.num, tau=tau), # Exponential synapse
+            out=bp.dyn.COBA(E=E), # COBA network
+            post=post,
+            out_label=label
+        )
+```
+
+### E-I Balanced Network
+
+```python
+# 构建 E-I Balanced Network
+
+class EINet(bp.DynamicalSystem):
+    def __init__(self, ne=3200, ni=800):
+        super().__init__()
+        
+        # bp.neurons.LIF()
+        self.E = bp.dyn.LifRef(ne, V_rest=-60., V_th=-50., V_reset=-60., tau=20., tau_ref=5.,
+                              V_initializer=bp.init.Normal(-55., 2.))
+        self.I = bp.dyn.LifRef(ni, V_rest=-60., V_th=-50., V_reset=-60., tau=20., tau_ref=5.,
+                              V_initializer=bp.init.Normal(-55., 2.))
+    	#### E2E, E2I, I2E, I2I Exponential synaptic computation
+        # delay=0, prob=0.02, g_max_E=0.6, g_max_I=6.7, tau_E=5, tau_I=10,
+        # reversal potentials E_E=0, E_E=-80, label=EE,EI,IE,II
+        self.E2E = Exponential(self.E, self.E, 0., 0.02, 0.6, 5., 0., 'EE')
+        self.E2I = Exponential(self.E, self.I, 0., 0.02, 0.6, 5., 0., 'EI')
+        self.I2E = Exponential(self.I, self.E, 0., 0.02, 6.7, 5., -80., 'IE')
+        self.I2I = Exponential(self.I, self.I, 0., 0.02, 6.7, 5., -80., 'II')
+```
+
+```python
+def update(self, inp=0.):
+    # 更新突触传入电流
+    self.E2E()
+    self.E2I()
+    self.I2E()
+    self.I2I()
+    
+    # 更新神经元群体
+    self.E(inp)
+    self.I(inp)
+    
+    # 记录需要 monitor的变量
+    E_E_inp = self.E.sum_inputs(self.E.V, label='EE') #E2E的输入
+    I_E_inp = self.E.sum_inputs(self.E.V, label='IE') # I2E的输入
+    return self.E.spike, self.I.spike, E_E_inp, I_E_inp
+```
+
+![image-20230827110737553](Notes.assets/image-20230827110737553.png)
+
+![image-20230827110746410](Notes.assets/image-20230827110746410.png)
+
+## Properties of E-I Balanced Network
+
+- Linear encoding
+  External input strength is “linearly” encoded by the mean firing rate of the neural population
+- Fast Response
+  The network responds rapidly to abrupt changes of the input
+
+### Noise speeds up computation
+
+快速相应的原理，均匀分布在阈值下面的空间
+
+- A neural ensemble jointly encodes stimulus information;
+- Noise randomizes the distribution of neuronal membrane potentials;
+- Those neurons (red circle) whose potentials are close to the threshold will fire rapidly;
+- If the noisy environment is proper, even for a small input, a certain number of neurons will fire instantly to report the presence of a stimulus.
+
+![image-20230827113451626](Notes.assets/image-20230827113451626.png)
+
+# Continuous Attractor Neural Network
+
+## Attractor Models
+
+### The concept of attractor dynamics
+
+Different types of attractors:
+Point attractors, Line attractors, Ring attractors, Plane attractors, Cyclic attractors, Chaotic attractors
+
+![image-20230827140250173](Notes.assets/image-20230827140250173.png)
+
+稳态，能量梯度吸引到attractor
+
+### Discrete attractor Network Model: Hopfield Model
+
+$S_i=\pm1$: the neuronal state
+$W_{ij}$ : the neuronal connection
+
+The network dynamics:
+$$
+S_{i}=\mathrm{sign}\bigg(\sum_{j}w_{ij}S_{j}-\theta\bigg),\quad\mathrm{sign}(x)=1,\mathrm{for}x>0;-1,\mathrm{otherwise}
+$$
+Updating rule: synchronous or asynchronous
+Consider the network stores $p$ pattern, $\xi_{i}^{\mu},\mathrm{for}\mu=1,\ldots p;i=1,\ldots N$
+Setting $w_{ij}=\frac{1}{N}\sum_{\mu=1}^{p}\xi_{i}^{\mu}\xi_{j}^{\mu}$
+
+![image-20230827140827784](Notes.assets/image-20230827140827784.png)
+
+#### Energy space of Hopfield network
+
+$$
+\begin{aligned}
+&\text{Energy function: }E=-\frac{1}{2}\sum_{i,j}w_{ij}S_{i}S_{j}+\theta\sum_{i}S_{i} \\
+&\mathrm{Consider}S_{i}\mathrm{~is~updated},S_{i}(t+1)=sign[\sum_{j}w_{ij}S_{j}(t)-\theta] \\
+&\Delta E=E(t+1)-E(t)\\
+&=-[S_{i}(t+1)-S_{i}(t)]\sum_{j}w_{ij}S_{j}(t)+\theta\left[S_{i}(t+1)-S_{i}(t)\right] \\
+&=-[S_{i}(t+1)-S_{i}(t)][\sum_{j}w_{ij}S_{j}(t)-\theta] \\
+&\leq0
+\end{aligned}
+$$
+
+同样激活同样pattern的神经元，~吸引子
+
+#### Auto-associative memory in Hopfield Network
+
+A partial/noisy input can retrieve the related memory pattern
+
+![image-20230827141253326](Notes.assets/image-20230827141253326.png)
+
+#### Persistent activity in working memory
+
+After the removal of external input, the neurons in the network encoding the stimulus continue to fire persistently.
+
+![image-20230827141421796](Notes.assets/image-20230827141421796.png)
+
+## Continuous Attractor Neural Network
+
+### Neural coding
+
+#### Low-dimensional continuous feature
+
+![image-20230827142520189](Notes.assets/image-20230827142520189.png)
+
+#### Continuous Attractor neural network
+
+![image-20230827142606695](Notes.assets/image-20230827142606695.png)
+
+### CANN: A rate-based recurrent circuit model
+
+<img src="Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
+$$
+\begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}
+$$
+r频率，J强度，U decay
+
+<img src="Notes.assets/image-20230827143435002.png" alt="image-20230827143435002" style="zoom:50%;" />
+
+#### A Continuous family of attractor states
+
+做平移的改变，变化会被保留，line attractor，受到编码连续刺激
+
+![image-20230827143707784](Notes.assets/image-20230827143707784.png)
+
+#### Stability analysis derive continuous attractor dynamics
+
+只需要看在原始状态加入一个小量项，再代入回
+
+Consider small fluctuations around a stationary state at z:
+
+Projecting $\delta U$ on the $i$th right eigenvector of $F(\delta U)_i(t)=(\delta U)_i(0)e^{-(1-\lambda _i)t/\tau}$
+
+Two cases:
+
+- If $\lambda _i < 1$, the projection decays exponentially
+- If $\lambda _i$ = 1, the projection is sustained
+
+#### Spectra of the kernel F
+
+$$
+\begin{aligned}\bullet&\lambda_0=1-2k\rho A\sqrt{2\pi}a<1,\quad&\mathbf{u}_0(x\mid z)=\overline{\mathbf{U}}(x\mid z);\\\bullet&\lambda_1=1,\quad&\mathbf{u}_1(x\mid z)=\frac{d\overline{\mathbf{U}}(x\mid z)}{dz},\text{the tangent of the valley}\\\bullet&\lambda_n=\frac1{2^{n-2}},\quad&\mathbf{u}_n(z)=\text{Combination of }\mathbf{v}_n(z)\end{aligned}
+$$
+
+$\mathbf{v}_{n}(z)\sim e^{-(c-z)^{2}/4a^{2}}(\frac{d}{dc})^{n}e^{-(c-z)^{2}/2a^{2}},$ the wave functions of quantumn harmonic osscilator
+
+Note the decay time constant is: $\frac{\tau}{1-\lambda _n}$
+
+#### Only bump position shift survives
+
+![image-20230827144540676](Notes.assets/image-20230827144540676.png)
+
+Ring attractor network for head-direction cell in fruit fly
+
+<img src="Notes.assets/image-20230827144557359.png" alt="image-20230827144557359" style="zoom:50%;" />
+
+## Computation with CANN
+
+### Persistent activity for working memory
+
+When the global inhibition is not too strong, the network spontaneously hold bump activity:
+$$
+k<\frac{\rho J_{0}^{2}}{8\sqrt{2\pi}a}
+$$
+
+$$
+\begin{aligned}
+&\tilde{U}(x|z) =\quad U_{0}\exp\left[-\frac{(x-z)^{2}}{4a^{2}}\right],  \\
+&\tilde{r}(x|z) =\quad r_{0}\exp\left[-\frac{(x-z)^{2}}{2a^{2}}\right],  \\
+&U_{0}=[1+(1-k/k_{c})^{1/2}]A/(4\sqrt{\pi}ak) \\
+&r_0=[1+(1-k/k_{c})^{1/2}]/(2\sqrt{2\pi}ak\rho).
+\end{aligned}
+$$
+
+### Smooth tracking by CANN
+
+![image-20230827145334859](Notes.assets/image-20230827145334859.png)
+
+Project the network dynamics on $v_1(t)$
+$\tau{\frac{\partial\mathbf{U}*\mathbf{v}_{1}}{\partial t}}=-\mathbf{U}*\mathbf{v}_{1}+(\mathbf{J}*\mathbf{r})*\mathbf{v}_{1}+\mathbf{I}^{ext}*\mathbf{v}_{1}$
+
+Consider
+$$
+\begin{aligned}&I^{ext}(t)=\alpha\overline{U}(x\mid z_0)+\sigma\xi_c(t)\\&\mathbf{U}*\mathbf{v}_1\equiv\int dxU(x\mid z)\nu_1(x\mid z)\\\\&\tau\frac{dz}{dt}=-\alpha(z-z_0)e^{-(z-z_0)^2/8a^2}+\beta\xi(t)\end{aligned}
+$$
+1st term: the force of the signal that pulls the bump back to the stimulus position
+2nd term: random shift
+
+### Population decoding via template matching
+
+$$
+\hat{x}=\max_{z}\sum_{i}r_{i}f_{i}(z)
+$$
+
+- The noisy bump is the population activity when the stimulus $x=0$
+- Among three positions, the red one($z=0$) has the maximum overlap with the observed data.
+
+
+
+## Computation and Dynamics of Adaptive CANN
+
+### Adaptive Continuous Attractor neural network
+
+$$
+\begin{aligned}
+&\tau{\frac{dU(x,t)}{dt}} =-U(x,t)+\rho\int dx'J(x-x^{\prime})r(x',t)-V(x,t)+I^{ext}(x,t)  \\
+&\tau_{_{\nu}}\frac{dV(x,t)}{dt} =-V(x,t)+mU(x,t) 
+\end{aligned}
+$$
+
+$V(x,t)$ represents the SFA effect,
+
+$V(x,t)=\frac{m}{\tau_{\nu}}\int_{-\infty}^{'}e^{-\frac{t-t'}{\tau_{\nu}}}U(x,t')dt'$
+
+![image-20230827150142710](Notes.assets/image-20230827150142710.png)
+
+SFA(Spike frequency Adaptation):
+
+- Neuronal response attenuates after experiencing prolonged firing.
+- Slow negative feedback modulation to neuronal response.
+
+### Intrinsic mobility of A-CANN
+
+Traveling Wave: a moving bump in the network without relying on external drive
+
+The mechanism: SFA suppresses localized neural activity and triggers
+
+$m>\frac{\tau}{\tau _v}$, Travelling wave
+
+![image-20230827150543244](Notes.assets/image-20230827150543244.png)
+
+#### Levy flights vs. Brownian motion
+
+![image-20230827150851309](Notes.assets/image-20230827150851309.png)
+
+#### Lévy flights in ecology and human cogniDve behaviors
+
+生物学大多运动服从levy flights
+
+### Noisy adaptation generates Levy flight in CANN
+
+![image-20230827151343126](Notes.assets/image-20230827151343126.png)
+
+### Time Delay in Neural Signal Transmission
+
+![image-20230827151622032](Notes.assets/image-20230827151622032.png)
+
+### Anticipatory Head Direction Signals in Anterior Thalamus
+
+有预测策略，实现抵消信息传递的delay
+
+CANN加入负反馈机制是可以实现预测的
+
+![image-20230827152731895](Notes.assets/image-20230827152731895.png)
+
+### CANN with STP
+
+$$
+\begin{gathered}
+\tau{\frac{\mathrm{d}U(x,t)}{\mathrm{d}t}} {\cal O}=-U(x,t)+\rho\int g^{+}(x)h(x^{\prime},t)J(x,x^{\prime})r(x^{\prime},t)dx^{\prime}+I^{ext}(x,t)(1) \\
+\frac{dg(x,t)}{dt}=-\frac{g(x,t)}{\tau_{f}}+G(1-g^{-}(x))r(x^{\prime},t)\quad(2) \\
+\frac{dh(x,t)}{dt}=\frac{1-h(x,t)}{\tau_{d}}-g^{+}(x)h(x,t)r(x^{\prime},t)\quad(3) \\
+r(x,t)={\frac{U^{2}(x,t)}{1+k\rho\int U^{2}(x,t)dx}}\quad(4) 
+\end{gathered}
+$$
+
+## Programming in BrainPy
+
+### Customize a ring CANN in brainpy
+
+In simulations, we can not simulate a CANN encoding features ranging $(-\inf, \inf)$. Instead, we simulate a ring attractor network which encodes features ranging $(-\pi, \pi)$. Note that the distance on a ring should be:  
+$$
+dist_{ring}(x,x') = min(|x-x'|,2\pi-|x-x'|)  
+$$
+
+![Image Name](https://cdn.kesci.com/upload/s01apgi89t.png?imageView2/0/w/320/h/320)  
+
+```python
+class CANN1D(bp.NeuGroupNS):
+  def __init__(self, num, tau=1., k=8.1, a=0.5, A=10., J0=4.,
+               z_min=-bm.pi, z_max=bm.pi, **kwargs):
+    super(CANN1D, self).__init__(size=num, **kwargs)
+
+    # 初始化参数
+    self.tau = tau
+    self.k = k
+    self.a = a
+    self.A = A
+    self.J0 = J0
+
+    # 初始化特征空间相关参数
+    self.z_min = z_min
+    self.z_max = z_max
+    self.z_range = z_max - z_min
+    self.x = bm.linspace(z_min, z_max, num)
+    self.rho = num / self.z_range
+    self.dx = self.z_range / num
+
+    # 初始化变量
+    self.u = bm.Variable(bm.zeros(num))
+    self.input = bm.Variable(bm.zeros(num))
+    self.conn_mat = self.make_conn(self.x)  # 连接矩阵
+
+    # 定义积分函数
+    self.integral = bp.odeint(self.derivative)
+
+  # 微分方程
+  @property
+  def derivative(self):
+    du = lambda u, t, Irec, Iext: (-u + Irec + Iext) / self.tau
+    return du
+
+  # 将距离转换到[-z_range/2, z_range/2)之间
+  def dist(self, d):
+    d = bm.remainder(d, self.z_range)
+    d = bm.where(d > 0.5 * self.z_range, d - self.z_range, d)
+    return d
+
+  # 计算连接矩阵
+  def make_conn(self, x):
+    assert bm.ndim(x) == 1
+    d = self.dist(x - x[:, None])  # 距离矩阵
+    Jxx = self.J0 * bm.exp(
+      -0.5 * bm.square(d / self.a)) / (bm.sqrt(2 * bm.pi) * self.a) 
+    return Jxx
+
+  # 获取各个神经元到pos处神经元的输入
+  def get_stimulus_by_pos(self, pos):
+    return self.A * bm.exp(-0.25 * bm.square(self.dist(self.x - pos) / self.a))
+
+  def update(self, x=None):
+    _t = bp.share['t']
+    u2 = bm.square(self.u)
+    r = u2 / (1.0 + self.k * bm.sum(u2))
+    Irec = bm.dot(self.conn_mat, r)
+    self.u[:] = self.integral(self.u, _t,Irec, self.input)
+    self.input[:] = 0.  # 重置外部电流
+```
+
+### Simulate the persistent activity of CANN after the removal of external input  
+
+```python
+def Persistent_Activity(k=0.1,J0=1.):
+    # 生成CANN
+    cann = CANN1D(num=512, k=k,J0=J0)
+
+    # 生成外部刺激，从第2到12ms，持续10ms
+    dur1, dur2, dur3 = 2., 10., 10.
+    I1 = cann.get_stimulus_by_pos(0.)
+    Iext, duration = bp.inputs.section_input(values=[0., I1, 0.],
+                                             durations=[dur1, dur2, dur3],
+                                             return_length=True)
+    noise_level = 0.1
+    noise = bm.random.normal(0., noise_level, (int(duration / bm.get_dt()), len(I1)))
+    Iext += noise
+    # 运行数值模拟
+    runner = bp.DSRunner(cann, inputs=['input', Iext, 'iter'], monitors=['u'])
+    runner.run(duration)
+
+    # 可视化
+    def plot_response(t):
+        fig, gs = bp.visualize.get_figure(1, 1, 4.5, 6)
+        ax = fig.add_subplot(gs[0, 0])
+        ts = int(t / bm.get_dt())
+        I, u = Iext[ts], runner.mon.u[ts]
+        ax.plot(cann.x, I, label='Iext')
+        ax.plot(cann.x, u, linestyle='dashed', label='U')
+        ax.set_title(r'$t$' + ' = {} ms'.format(t))
+        ax.set_xlabel(r'$x$')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.legend()
+        # plt.savefig(f'CANN_t={t}.pdf', transparent=True, dpi=500)
+
+    plot_response(t=10.)
+    plot_response(t=20.)
+
+    bp.visualize.animate_1D(
+        dynamical_vars=[{'ys': runner.mon.u, 'xs': cann.x, 'legend': 'u'},
+                        {'ys': Iext, 'xs': cann.x, 'legend': 'Iext'}],
+        frame_step=1,
+        frame_delay=40,
+        show=True,
+    )
+    plt.show()
+Persistent_Activity(k=0.1)
+```
+
+### Simulate the tracking behavior of CANN  
+
+```python
+def smooth_tracking():
+    cann = CANN1D(num=512, k=8.1)
+
+    # 定义随时间变化的外部刺激
+    v_ext = 1e-3
+    dur1, dur2, dur3 = 10., 10., 20
+    num1 = int(dur1 / bm.get_dt())
+    num2 = int(dur2 / bm.get_dt())
+    num3 = int(dur3 / bm.get_dt())
+    position = bm.zeros(num1 + num2 + num3)
+    position[num1: num1 + num2] = bm.linspace(0., 1.5 * bm.pi, num2)
+    position[num1 + num2: ] = 1.5 * bm.pi
+    position = position.reshape((-1, 1))
+    Iext = cann.get_stimulus_by_pos(position)
+
+    # 运行模拟
+    runner = bp.DSRunner(cann,
+                         inputs=['input', Iext, 'iter'],
+                         monitors=['u'])
+    runner.run(dur1 + dur2 + dur3)
+
+    # 可视化
+    def plot_response(t, extra_fun=None):
+        fig, gs = bp.visualize.get_figure(1, 1, 4.5, 6)
+        ax = fig.add_subplot(gs[0, 0])
+        ts = int(t / bm.get_dt())
+        I, u = Iext[ts], runner.mon.u[ts]
+        ax.plot(cann.x, I, label='Iext')
+        ax.plot(cann.x, u, linestyle='dashed', label='U')
+        ax.set_title(r'$t$' + ' = {} ms'.format(t))
+        ax.set_xlabel(r'$x$')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.legend()
+        if extra_fun: extra_fun()
+        # plt.savefig(f'CANN_tracking_t={t}.pdf', transparent=True, dpi=500)
+
+    plot_response(t=10.)
+
+    def f():
+        plt.annotate('', xy=(1.5, 10), xytext=(0.5, 10), arrowprops=dict(arrowstyle="->"))
+
+    plot_response(t=15., extra_fun=f)
+
+    def f():
+        plt.annotate('', xy=(-2, 10), xytext=(-3, 10), arrowprops=dict(arrowstyle="->"))
+
+    plot_response(t=20., extra_fun=f)
+    plot_response(t=30.)
+
+    bp.visualize.animate_1D(
+        dynamical_vars=[{'ys': runner.mon.u, 'xs': cann.x, 'legend': 'u'},
+                        {'ys': Iext, 'xs': cann.x, 'legend': 'Iext'}],
+        frame_step=5,
+        frame_delay=50,
+        show=True,
+    )
+    plt.show()
+smooth_tracking()
+```
+
+### Customize a CANN with SFASimulate the spontaneous traveling wave  
+
+```python
+class CANN1D_SFA(bp.NeuGroupNS):
+  def __init__(self, num, m = 0.1, tau=1., tau_v=10., k=8.1, a=0.5, A=10., J0=4.,
+               z_min=-bm.pi, z_max=bm.pi, **kwargs):
+    super(CANN1D_SFA, self).__init__(size=num, **kwargs)
+
+    # 初始化参数
+    self.tau = tau
+    self.tau_v = tau_v #time constant of SFA
+    self.k = k
+    self.a = a
+    self.A = A
+    self.J0 = J0
+    self.m = m #SFA strength
+      
+    # 初始化特征空间相关参数
+    self.z_min = z_min
+    self.z_max = z_max
+    self.z_range = z_max - z_min
+    self.x = bm.linspace(z_min, z_max, num)
+    self.rho = num / self.z_range
+    self.dx = self.z_range / num
+
+    # 初始化变量
+    self.u = bm.Variable(bm.zeros(num))
+    self.v = bm.Variable(bm.zeros(num)) #SFA current
+    self.input = bm.Variable(bm.zeros(num))
+    self.conn_mat = self.make_conn(self.x)  # 连接矩阵
+
+    # 定义积分函数
+    self.integral = bp.odeint(self.derivative)
+
+  # 微分方程
+  @property
+  def derivative(self):
+    du = lambda u, t, v, Irec, Iext: (-u + Irec + Iext-v) / self.tau
+    dv = lambda v, t, u: (-v + self.m*u) / self.tau_v
+    return bp.JointEq([du, dv])
+
+  # 将距离转换到[-z_range/2, z_range/2)之间
+  def dist(self, d):
+    d = bm.remainder(d, self.z_range)
+    d = bm.where(d > 0.5 * self.z_range, d - self.z_range, d)
+    return d
+
+  # 计算连接矩阵
+  def make_conn(self, x):
+    assert bm.ndim(x) == 1
+    d = self.dist(x - x[:, None])  # 距离矩阵
+    Jxx = self.J0 * bm.exp(
+      -0.5 * bm.square(d / self.a)) / (bm.sqrt(2 * bm.pi) * self.a) 
+    return Jxx
+
+  # 获取各个神经元到pos处神经元的输入
+  def get_stimulus_by_pos(self, pos):
+    return self.A * bm.exp(-0.25 * bm.square(self.dist(self.x - pos) / self.a))
+
+  def update(self, x=None):
+    u2 = bm.square(self.u)
+    r = u2 / (1.0 + self.k * bm.sum(u2))
+    Irec = bm.dot(self.conn_mat, r)
+    u, v = self.integral(self.u, self.v, bp.share['t'],Irec, self.input)
+    self.u[:] = bm.where(u>0,u,0)
+    self.v[:] = v
+    self.input[:] = 0.  # 重置外部电流
+```
+
+### Simulate the spontaneous traveling wave  
+
+```python
+def traveling_wave(num=512,m=0.1,k=0.1):
+    # 生成CANN
+    cann_sfa = CANN1D_SFA(num=num, m=m,k=k)
+
+    # 生成外部刺激
+    dur = 1000.
+    noise_level = 0.1
+    Iext = bm.random.normal(0., noise_level, (int(dur / bm.get_dt()), num))
+    duration = dur
+    # 运行数值模拟
+    runner = bp.DSRunner(cann_sfa, inputs=['input', Iext, 'iter'], monitors=['u'])
+    runner.run(duration)
+
+    # 可视化
+    def plot_response(t):
+        fig, gs = bp.visualize.get_figure(1, 1, 4.5, 6)
+        ax = fig.add_subplot(gs[0, 0])
+        ts = int(t / bm.get_dt())
+        I, u = Iext[ts], runner.mon.u[ts]
+        ax.plot(cann_sfa.x, I, label='Iext')
+        ax.plot(cann_sfa.x, u, linestyle='dashed', label='U')
+        ax.set_title(r'$t$' + ' = {} ms'.format(t))
+        ax.set_xlabel(r'$x$')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.legend()
+        # plt.savefig(f'CANN_t={t}.pdf', transparent=True, dpi=500)
+
+    plot_response(t=100.)
+    plot_response(t=150.)
+    plot_response(t=200.)
+
+    bp.visualize.animate_1D(
+        dynamical_vars=[{'ys': runner.mon.u, 'xs': cann_sfa.x, 'legend': 'u'},
+                        {'ys': Iext, 'xs': cann_sfa.x, 'legend': 'Iext'}],
+        frame_step=1,
+        frame_delay=40,
+        show=True,
+    )
+    plt.show()
+    
+traveling_wave(num=512,m=0.5,k=0.1)
+```
+
+### Simulate the anticipative tracking  
+
+```python
+def anticipative_tracking(m=10,v_ext=6*1e-3):
+    cann_sfa = CANN1D_SFA(num=512, m=m)
+    
+    # 定义随时间变化的外部刺激
+    v_ext = v_ext
+    dur1, dur2, = 10., 1000.
+    num1 = int(dur1 / bm.get_dt())
+    num2 = int(dur2 / bm.get_dt())
+    position = np.zeros(num1 + num2)
+    for i in range(num2):
+        pos = position[i+num1-1]+v_ext*bm.dt
+        # the periodical boundary
+        pos = np.where(pos>np.pi, pos-2*np.pi, pos)
+        pos = np.where(pos<-np.pi, pos+2*np.pi, pos)
+        # update
+        position[i+num1] = pos
+    position = position.reshape((-1, 1))
+    Iext = cann_sfa.get_stimulus_by_pos(position)
+
+    # 运行模拟
+    runner = bp.DSRunner(cann_sfa,
+                         inputs=['input', Iext, 'iter'],
+                         monitors=['u'],
+                         dyn_vars=cann_sfa.vars())
+    runner.run(dur1 + dur2)
+
+    # 可视化
+    def plot_response(t, extra_fun=None):
+        fig, gs = bp.visualize.get_figure(1, 1, 4.5, 6)
+        ax = fig.add_subplot(gs[0, 0])
+        ts = int(t / bm.get_dt())
+        I, u = Iext[ts], runner.mon.u[ts]
+        ax.plot(cann_sfa.x, I, label='Iext')
+        ax.plot(cann_sfa.x, 10*u, linestyle='dashed', label='U')
+        ax.set_title(r'$t$' + ' = {} ms'.format(t))
+        ax.set_xlabel(r'$x$')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.legend()
+
+    plot_response(t=10.)
+    plot_response(t=200.)
+    plot_response(t=400.)
+    bp.visualize.animate_1D(
+        dynamical_vars=[{'ys': runner.mon.u, 'xs': cann_sfa.x, 'legend': 'u'},
+                        {'ys': Iext, 'xs': cann_sfa.x, 'legend': 'Iext'}],
+        frame_step=5,
+        frame_delay=50,
+        show=True,
+    )
+    plt.show()
+anticipative_tracking()
+```
+
+### Customize a CANN with STP
+
+```python
+class CANN1D_STP(bp.NeuGroupNS):
+  def __init__(self, num, tau=1., tau_f=1., tau_d=30., G=0.2, k=8.1, a=0.5, A=10., J0=12.,
+               z_min=-bm.pi, z_max=bm.pi, **kwargs):
+    super(CANN1D_STP, self).__init__(size=num, **kwargs)
+
+    # 初始化参数
+    self.tau = tau
+    self.tau_f = tau_f #time constant of u
+    self.tau_d = tau_d #time constant of h
+    self.G = G
+    self.k = k
+    self.a = a
+    self.A = A
+    self.J0 = J0
+      
+    # 初始化特征空间相关参数
+    self.z_min = z_min
+    self.z_max = z_max
+    self.z_range = z_max - z_min
+    self.x = bm.linspace(z_min, z_max, num)
+    self.rho = num / self.z_range
+    self.dx = self.z_range / num
+
+    # 初始化变量
+    self.u = bm.Variable(bm.zeros(num))
+    self.g = bm.Variable(bm.zeros(num)) #neuro-transmitter release probability
+    self.h = bm.Variable(bm.ones(num)) #neuro-transmitter available fraction
+    self.input = bm.Variable(bm.zeros(num))
+    self.conn_mat = self.make_conn(self.x)  # 连接矩阵
+
+    # 定义积分函数
+    self.integral = bp.odeint(self.derivative)
+
+  # 微分方程
+  @property
+  def derivative(self):
+    du = lambda u, t, Irec, Iext: (-u + Irec + Iext) / self.tau
+    dg = lambda g, t, r: -g / self.tau_f + self.G * (1 - g) * r 
+    dh = lambda h, t, g, r:  (1 - h) / self.tau_d - (g + self.G * (1 - g)) * h *r
+    return bp.JointEq([du, dg, dh])
+
+  # 将距离转换到[-z_range/2, z_range/2)之间
+  def dist(self, d):
+    d = bm.remainder(d, self.z_range)
+    d = bm.where(d > 0.5 * self.z_range, d - self.z_range, d)
+    return d
+
+  # 计算连接矩阵
+  def make_conn(self, x):
+    assert bm.ndim(x) == 1
+    d = self.dist(x - x[:, None])  # 距离矩阵
+    Jxx = self.J0 * bm.exp(
+      -0.5 * bm.square(d / self.a)) / (bm.sqrt(2 * bm.pi) * self.a) 
+    return Jxx
+
+  # 获取各个神经元到pos处神经元的输入
+  def get_stimulus_by_pos(self, pos):
+    return self.A * bm.exp(-0.25 * bm.square(self.dist(self.x - pos) / self.a))
+
+  def update(self, x=None):
+    u2 = bm.square(self.u)
+    r = u2 / (1.0 + self.k * bm.sum(u2)) 
+    Irec = bm.dot(self.conn_mat, (self.g + self.G * (1 - self.g))*self.h*r)
+    u, g, h = self.integral(u=self.u, g=self.g, h=self.h, t=bp.share['t'], Irec=Irec, Iext=self.input, r=r, dt=bm.dt)
+    self.u[:] = bm.where(u>0,u,0)
+    self.g.value = g
+    self.h.value = h
+    self.input[:] = 0.  # 重置外部电流
+```
+
+### Simulate traveling wave in CANN with STP
+
+```python
+def traveling_wave_STP(num=512,k=0.1,J0=12.,tau_d=1000,tau_f=1.,G=0.9):
+    # 生成CANN
+    cann_stp = CANN1D_STP(num=num, k=k,tau_d=tau_d,tau_f=tau_f,G=G, J0=J0)
+
+    # 生成外部刺激
+    dur = 1000.
+    noise_level = 0.1
+    Iext = bm.random.normal(0., noise_level, (int(dur / bm.get_dt()), num))
+    duration = dur
+    # 运行数值模拟
+    runner = bp.DSRunner(cann_stp, inputs=['input', Iext, 'iter'], monitors=['u','g','h'])
+    runner.run(duration)
+    fig,ax = plt.subplots(figsize=(3,3))
+    u = bm.as_numpy(runner.mon.u)
+    max_index = np.argmax(u[1000,:])
+    print(max_index)
+    ax.plot(runner.mon.g[:,max_index],label='g')
+    ax.plot(runner.mon.h[:,max_index],label='h')
+    ax.legend()
+    # 可视化
+    def plot_response(t):
+        fig, gs = bp.visualize.get_figure(1, 1, 3, 3)
+        ax = fig.add_subplot(gs[0, 0])
+        ts = int(t / bm.get_dt())
+        I, u = Iext[ts], runner.mon.u[ts]
+        ax.plot(cann_stp.x, I, label='Iext')
+        ax.plot(cann_stp.x, u, linestyle='dashed', label='U')
+        ax.set_title(r'$t$' + ' = {} ms'.format(t))
+        ax.set_xlabel(r'$x$')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.legend()
+    plot_response(t=100.)
+    plot_response(t=200.)
+    plot_response(t=300.)
+
+    bp.visualize.animate_1D(
+        dynamical_vars=[{'ys': runner.mon.u, 'xs': cann_stp.x, 'legend': 'u'},
+                        {'ys': Iext, 'xs': cann_stp.x, 'legend': 'Iext'}],
+        frame_step=1,
+        frame_delay=40,
+        show=True,
+    )
+    plt.show()
+    
+traveling_wave_STP(G=0.5,tau_d=50)
+```
+

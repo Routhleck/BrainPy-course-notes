@@ -2465,7 +2465,7 @@ bif.plot_bifurcation(show=True)
 
 ### Neurotransmitter & Synapse
 
-When the action potential invades the axon terminals, it causes voltage-gated 𝐶𝐶𝑎𝑎 2+ channels to open (1), which triggers vesicles to bind to the presynaptic membrane (2). Neurotransmitter is released into the synaptic cleft by exocytosis and diffuses across the cleft (3). Binding of the neurotransmitter to receptor molecules in the postsynaptic membrane completes the process of transmission (4).
+When the action potential invades the axon terminals, it causes voltage-gated 𝐶𝑎 2+ channels to open (1), which triggers vesicles to bind to the presynaptic membrane (2). Neurotransmitter is released into the synaptic cleft by exocytosis and diffuses across the cleft (3). Binding of the neurotransmitter to receptor molecules in the postsynaptic membrane completes the process of transmission (4).
 
 去极化时钙离子内流，与囊泡相结合，...，与受体结合，打开离子通道，超极化、去极化现象
 
@@ -3810,14 +3810,15 @@ After the removal of external input, the neurons in the network encoding the sti
 
 ### CANN: A rate-based recurrent circuit model
 
-<img src="Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
+<img src="/assets/images/Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
 
 $$
 \begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}
 $$
+
 r频率，J强度，U decay
 
-<img src="Notes.assets/image-20230827143435002.png" alt="image-20230827143435002" style="zoom:50%;" />
+<img src="/assets/images/Notes.assets/image-20230827143435002.png" alt="image-20230827143435002" style="zoom:50%;" />
 
 #### A Continuous family of attractor states
 
@@ -3854,7 +3855,7 @@ Note the decay time constant is: $\frac{\tau}{1-\lambda _n}$
 
 Ring attractor network for head-direction cell in fruit fly
 
-<img src="Notes.assets/image-20230827144557359.png" alt="image-20230827144557359" style="zoom:50%;" />
+<img src="/assets/images/Notes.assets/image-20230827144557359.png" alt="image-20230827144557359" style="zoom:50%;" />
 
 ## Computation with CANN
 

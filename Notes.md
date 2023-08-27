@@ -3441,3 +3441,219 @@ Peak frequency: $\theta\sim\frac{1}{\sqrt{U\tau_{f}\tau_{d}}}$
 ![image-20230826160102332](Notes.assets/image-20230826160102332.png)
 
 ![image-20230826160113456](Notes.assets/image-20230826160113456.png)
+
+# E-I Balanced Neural Network
+
+## Irregular Spiking of Neurons
+
+### Signal process of single neuron
+
+External Stimulus ->
+
+Single neuron model
+$$
+\begin{aligned}\tau&\frac{\mathrm{d}V}{\mathrm{d}t}=-(V-V_\text{rest })+RI(t)\\\\&\text{if}V>V_\text{th},\quad V\leftarrow V_\text{reset }\text{last}t_\text{ref}\end{aligned}
+$$
+-> ... -> Perception or action
+
+真正的神经元并不是LIF model的输出
+
+![image-20230827100647851](Notes.assets/image-20230827100647851.png)
+
+Simulation
+
+![image-20230827100706310](Notes.assets/image-20230827100706310.png)
+
+Neuron recorded in vivo
+
+### Irregular Spiking of Neurons
+
+![image-20230827092807270](Notes.assets/image-20230827092807270.png)
+
+#### Statistical Description of Spikes
+
+用以下的变量来进行统计描述
+
+- Firing Rate
+  Rate = average over time(single neuron, single run)
+  Spike count $v=\frac{n_{sp}}{T}$
+- ISI(Interspike interval distributions)
+  average ISI $\overline{\Delta t}=\frac{1}{n_{sp}-1}\sum_{i=1}^{n_{sp}-1}\Delta t_{i}$
+  standard deviation ISI: $\sigma_{\Delta t}^{2}=\frac{1}{n_{sp}-1}\sum_{i=1}^{n_{sp}-1}(\Delta t_{i}-\overline{\Delta t})^{2}$
+- $C_V$(Coefficient of variation, Fano factor) **窄还是宽的分布** 信息表征有多强的不稳定性
+  $C_{V}=\sigma_{\Delta t}^{2}/\overline{\Delta t}$
+
+#### Poisson Process
+
+In probability theory and statistics, the Poisson distribution is a discrete probability distribution that expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known **constant mean rate** and **independently** of the time since the last event。
+$$
+\begin{aligned}
+&P(X=k\mathrm{~events~in~interval~}t)=e^{-rt}\frac{(rt)^{k}}{k!} \\
+&\mathrm{mean:}\quad\overline{X}=rt \\
+&\mathrm{variance}:\quad\sigma^{2}=rt\\
+&\mathrm{Fano factor:}\quad\frac{\sigma^{2}}{X}=1
+\end{aligned}
+$$
+Fano factor -> noise-to-signal ratio
+
+#### Irregular Spiking of Neurons
+
+LIF在单个神经元的情况下是基本没有太大问题的，在整个网络中会受网络信息调控
+
+![image-20230827093614607](Notes.assets/image-20230827093614607.png)
+
+#### Why Irregular?
+
+- 不完全是input影响的
+- 不能简单来衡量
+
+On average, a cortical neuron receives inputs from 1000~10000 connected neurons. -> averaged noise ~ 0
+
+## E-I Balanced Network
+
+$$
+\begin{gathered}
+\tau\frac{du_{i}^{E}}{dt}=-u_{i}^{E}+\sum_{j=1}^{K_{E}}J_{EE}r_{j}^{E}+\sum_{j=1}^{K_{I}}J_{EI}r_{j}^{I}+I_{i}^{E} \\
+\tau\frac{du_{i}^{I}}{dt}=-u_{i}^{I}+\sum_{j=1}^{K_{I}}J_{II}r_{j}^{I}+\sum_{j=1}^{K_{E}}J_{IE}r_{j}^{E}+I_{i}^{I} 
+\end{gathered}
+$$
+
+![image-20230827093708220](Notes.assets/image-20230827093708220.png)
+
+Sparse & random connections:$1\ll K_{\mathrm{E}},K_{1}\ll N_{\mathrm{E}},N_{\mathrm{I}}$ . Neurons fire largely independently to each other.
+$$
+\begin{gathered}
+\text{Single neuron fires irregularly } r_j^E, r_j^{\prime} \text{with mean rate } \mu \text{and variance } \sigma^2.\\
+\text{The mean of recurrent input received by E neuron:} \\
+\sim K_{E}J_{EE}\mu-K_{I}J_{EI}\mu  \\
+\text{The variance of recurrent input received by E neuron:} \\
+\sim K_{E}(J_{EE})^{2}\sigma^{2}+K_{I}(J_{EI})^{2}\sigma^{2} \\
+\begin{gathered} \\
+\text{The balanced condition:} \\
+K_{E}J_{EE}-K_{l}J_{El}{\sim}0(1) \\
+J_{EE}=\frac{1}{\sqrt{K_{E}}},J_{EI}=\frac{1}{\sqrt{K_{I}}},K_{E}(J_{EE})^{2}\sigma^{2}+K_{I}(J_{EI})^{2}\sigma^{2}\sim O(1) 
+\end{gathered}
+\end{gathered}
+$$
+
+
+
+
+
+$$
+\begin{aligned}\frac{I_E}{I_I}&>\frac{J_E}{J_I}&>1\\\\J_E&>1\\\\\text{r not too big}\end{aligned}
+$$
+
+$$
+\overline{I_a}=\overline{F_a}+\overline{R_a}=\sqrt{N}(f_a\mu_0+w_{aE}r_E+w_{aI}r_I),\quad a=E,I,\\
+\begin{gathered}
+w_{ab}~=~p_{ab}j_{ab}q_{b} \\
+J_{ij}^{ab}~=~j_{ab}/\sqrt{N}; \\
+\frac{f_{E}}{f_{I}}>\frac{w_{EI}}{w_{II}}>\frac{w_{EE}}{w_{IE}}. 
+\end{gathered}
+$$
+
+
+## BrainPy Simulation
+
+### Simulation
+
+LIF neuron 4000 (E/I=4/1, P=0.02)
+𝜏 = 20 ms
+𝑉𝑟𝑒𝑠𝑡 = -60 mV
+Spiking threshold: -50 mV
+Refractory period: 5 ms
+$$
+\begin{gathered}
+\tau\frac{dV}{dt}=(V_{\mathrm{rest}}-V)+I \\
+I=g_{exc}(E_{exc}-V)+g_{inh}(E_{inh}-V)+I_{\mathrm{ext}} 
+\end{gathered} \ \ \ \ \ \
+\begin{aligned}\tau_{exc}&\frac{dg_{exc}}{dt}=-g_{exc}\\\tau_{inh}&\frac{dg_{inh}}{dt}=-g_{inh}\end{aligned}
+$$
+
+$$
+\begin{array}{l}E_\mathrm{exc}=0\text{mV}\mathrm{and}E_\mathrm{inh}=-80\text{mV},I_\mathrm{ext}=20.\\\tau_\mathrm{exc}=5\text{ ms},\tau_\mathrm{inh}=10\text{ ms},\Delta g_\mathrm{exc}=0.6\text{ and}\Delta g_\mathrm{inh}=6.7.\end{array}
+$$
+
+![image-20230827094502860](Notes.assets/image-20230827094502860.png)
+
+### Synaptic Computation
+
+```python
+# 基于 align post Exponential synaptic computation
+class Exponential(bp.Projection):
+    def __init__(self, pre, post, delay, prob, g_max, tau, E, label=None):
+        super().__init__()
+        self.pron = bp.dyn.ProjAlignPost2(
+        	pre=pre,
+            delay=delay,
+            comm=bp.dnn.EventCSRLinear(bp.conn.FixedProb(prob, pre=pre.num, post=post.num), g_max), # 随机连接
+            syn=bp.dyn.Expon(size=post.num, tau=tau), # Exponential synapse
+            out=bp.dyn.COBA(E=E), # COBA network
+            post=post,
+            out_label=label
+        )
+```
+
+### E-I Balanced Network
+
+```python
+# 构建 E-I Balanced Network
+
+class EINet(bp.DynamicalSystem):
+    def __init__(self, ne=3200, ni=800):
+        super().__init__()
+        
+        # bp.neurons.LIF()
+        self.E = bp.dyn.LifRef(ne, V_rest=-60., V_th=-50., V_reset=-60., tau=20., tau_ref=5.,
+                              V_initializer=bp.init.Normal(-55., 2.))
+        self.I = bp.dyn.LifRef(ni, V_rest=-60., V_th=-50., V_reset=-60., tau=20., tau_ref=5.,
+                              V_initializer=bp.init.Normal(-55., 2.))
+    	#### E2E, E2I, I2E, I2I Exponential synaptic computation
+        # delay=0, prob=0.02, g_max_E=0.6, g_max_I=6.7, tau_E=5, tau_I=10,
+        # reversal potentials E_E=0, E_E=-80, label=EE,EI,IE,II
+        self.E2E = Exponential(self.E, self.E, 0., 0.02, 0.6, 5., 0., 'EE')
+        self.E2I = Exponential(self.E, self.I, 0., 0.02, 0.6, 5., 0., 'EI')
+        self.I2E = Exponential(self.I, self.E, 0., 0.02, 6.7, 5., -80., 'IE')
+        self.I2I = Exponential(self.I, self.I, 0., 0.02, 6.7, 5., -80., 'II')
+```
+
+```python
+def update(self, inp=0.):
+    # 更新突触传入电流
+    self.E2E()
+    self.E2I()
+    self.I2E()
+    self.I2I()
+    
+    # 更新神经元群体
+    self.E(inp)
+    self.I(inp)
+    
+    # 记录需要 monitor的变量
+    E_E_inp = self.E.sum_inputs(self.E.V, label='EE') #E2E的输入
+    I_E_inp = self.E.sum_inputs(self.E.V, label='IE') # I2E的输入
+    return self.E.spike, self.I.spike, E_E_inp, I_E_inp
+```
+
+![image-20230827110737553](Notes.assets/image-20230827110737553.png)
+
+![image-20230827110746410](Notes.assets/image-20230827110746410.png)
+
+## Properties of E-I Balanced Network
+
+- Linear encoding
+  External input strength is “linearly” encoded by the mean firing rate of the neural population
+- Fast Response
+  The network responds rapidly to abrupt changes of the input
+
+### Noise speeds up computation
+
+快速相应的原理，均匀分布在阈值下面的空间
+
+- A neural ensemble jointly encodes stimulus information;
+- Noise randomizes the distribution of neuronal membrane potentials;
+- Those neurons (red circle) whose potentials are close to the threshold will fire rapidly;
+- If the noisy environment is proper, even for a small input, a certain number of neurons will fire instantly to report the presence of a stimulus.
+
+![image-20230827113451626](Notes.assets/image-20230827113451626.png)

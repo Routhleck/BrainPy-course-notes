@@ -1,1 +1,1 @@
-Sitemap: /sitemap.xml
+Sitemap: /BrainPy-course-notes/routhleck.github.io/sitemap.xml

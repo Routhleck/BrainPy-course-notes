@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="routhleck.github.io/BrainPy-course-notes/atom.xml" rel="self" type="application/atom+xml" /><link href="routhleck.github.io/BrainPy-course-notes/" rel="alternate" type="text/html" /><updated>2023-08-28T12:28:39+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/atom.xml</id><title type="html">BrainPy course notes</title><subtitle>Notes from the first training course on Neural Computational Modeling</subtitle><author><name>Sichao He</name></author><entry><title type="html">BrainPy course notes</title><link href="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/" rel="alternate" type="text/html" title="BrainPy course notes" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes</id><content type="html" xml:base="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/">&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="routhleck.github.io/BrainPy-course-notes/atom.xml" rel="self" type="application/atom+xml" /><link href="routhleck.github.io/BrainPy-course-notes/" rel="alternate" type="text/html" /><updated>2023-08-28T12:42:35+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/atom.xml</id><title type="html">BrainPy course notes</title><subtitle>Notes from the first training course on Neural Computational Modeling</subtitle><author><name>Sichao He</name></author><entry><title type="html">BrainPy course notes</title><link href="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/" rel="alternate" type="text/html" title="BrainPy course notes" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes</id><content type="html" xml:base="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/">&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
 
 &lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
 
@@ -4307,12 +4307,10 @@ r(x,t)={\frac{U^{2}(x,t)}{1+k\rho\int U^{2}(x,t)dx}}\quad(4)
     &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     
 &lt;span class=&quot;n&quot;&gt;traveling_wave_STP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tau_d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Sichao He</name></author><summary type="html"></summary></entry><entry><title type="html">Brainpy Course Notes_replace</title><link href="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes_replace/" rel="alternate" type="text/html" title="Brainpy Course Notes_replace" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes_replace</id><content type="html" xml:base="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes_replace/">&lt;hr /&gt;
-&lt;p&gt;title: BrainPy course notes
-tags:
-—
-&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Sichao He</name></author><summary type="html"></summary></entry><entry><title type="html">BrainPy course notes</title><link href="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes_replace/" rel="alternate" type="text/html" title="BrainPy course notes" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes_replace</id><content type="html" xml:base="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes_replace/">&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+
 &lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
+
 &lt;script&gt; 
 MathJax = {
   tex: {
@@ -4320,7 +4318,7 @@ MathJax = {
     processEscapes: true
   }
 };
-&lt;/script&gt;&lt;/p&gt;
+&lt;/script&gt;
 
 &lt;hr /&gt;
 &lt;p&gt;title: BrainPy course notes
@@ -8635,4 +8633,4 @@ r(x,t)={\frac{U^{2}(x,t)}{1+k\rho\int U^{2}(x,t)dx}}\quad(4)
     &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
     
 &lt;span class=&quot;n&quot;&gt;traveling_wave_STP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;G&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tau_d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Sichao He</name></author><summary type="html">title: BrainPy course notes tags: —</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Sichao He</name></author><summary type="html"></summary></entry></feed>

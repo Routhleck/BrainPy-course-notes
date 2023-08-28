@@ -3,8 +3,7 @@ import re
 import os
 
 def prepend_markdown_header(content):
-    header = """
----
+    header = """---
 title: BrainPy course notes
 tags:
 ---

@@ -1623,19 +1623,23 @@ plt.xlabel('Time (ms)')
 电路模拟，写成电导形式
 
 ![image-20230824180831033](Notes.assets/image-20230824180831033.png)
+
 $$
 \begin{aligned}
 \text{gK}& =\bar{g}_\text{K}n^4,  \\
 \frac{\mathrm{d}n}{\mathrm{d}t}& =\phi[\alpha_n(V)(1-n)-\beta_n(V)n], 
 \end{aligned}
 $$
+
 动力学形式描述，引入门框变量$n$
+
 $$
 \begin{aligned}
 &\alpha_{n}(V) =\frac{0.01(V+55)}{1-\exp(-\frac{V+55}{10})},  \\
 &\beta_{n}(V) =0.125\exp\left(-\frac{V+65}{80}\right). 
 \end{aligned}
 $$
+
 由此式来建模钾离子通道
 
 ### Programming an ion channel
@@ -1806,13 +1810,17 @@ Given a constant current input:
 **General solution (constant input):**$V(t)=V_{\text{reset}}+RI_{\text{c}}(1-\mathrm{e}^{-\frac{t-t_0}{\tau}})$
 
 **Firing frequency:**
+
 $$
 \begin{aligned}T&=-\tau\ln\left(1-\frac{V_{\phi h}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)\\f&=\frac{1}{T+t_{\mathrm{ref}}}=\frac{1}{t_{\mathrm{ref}}-\tau\ln\left(1-\frac{V_{0}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)}\end{aligned}
 $$
+
 **Rheobase current (minimal current):**
+
 $$
 I_{\theta}=\frac{V_{\mathrm{th}}-V_{\mathrm{reset}}}{R}
 $$
+
 基强电流，如果小于它将无法发放
 
 ### Strengths & weaknesses of the LIF model
@@ -1956,6 +1964,7 @@ $$
 对动力学系统的行为来分析，普遍对两个变量来进行分析
 
 Analyzes the behavior of a dynamical system with (usually two) variables described by ordinary differential equations
+
 $$
 \begin{aligned}
 &\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}&& =-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{S_{T}}}-Rw+RI(t)  \\
@@ -1963,6 +1972,7 @@ $$
 &\mathrm{if}V&& >\theta,\quad V\leftarrow V_\mathrm{reset}\text{ last }t_\mathrm{ref} 
 \end{aligned}
 $$
+
 **Elements:**
 
 - Nullclines: $\mathrm{d}V/\mathrm{d}t=0;\mathrm{d}w/\mathrm{d}t=0$
@@ -2656,12 +2666,15 @@ brainpy.dyn.ProjAlignPostMg2(
 ### Exponential Model
 
 The single exponential decay synapse model assumes the release of neurotransmitter, its diffusion across the cleft, the receptor binding, and channel opening all happen very quickly, so that the channels instantaneously jump from the closed to the open state. Therefore, its expression is given by 
+
 $$
 g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} e^{-\left(t-t_{0}\right) / \tau}
 $$
+
 where $\tau$ is the time constant, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.
 
 The corresponding differential equation:  
+
 $$
 \frac{d g}{d t} = -\frac{g}{\tau_{decay}}+\sum_{k} \delta(t-t_{j}^{k}).
 $$
@@ -2669,6 +2682,7 @@ $$
 #### COBA
 
 Given the synaptic conductance, the COBA model outputs the post-synaptic current with  
+
 $$
 I_{syn}(t) = g_{\mathrm{syn}}(t) (E - V(t))
 $$
@@ -2734,6 +2748,7 @@ def run_a_net(net):
 #### CUBA
 
 Given the conductance, this model outputs the post-synaptic current with a identity function:  
+
 $$
 I_{\mathrm{syn}}(t) = g_{\mathrm{syn}}(t)  
 $$
@@ -3746,9 +3761,11 @@ $S_i=\pm1$: the neuronal state
 $W_{ij}$ : the neuronal connection
 
 The network dynamics:
+
 $$
 S_{i}=\mathrm{sign}\bigg(\sum_{j}w_{ij}S_{j}-\theta\bigg),\quad\mathrm{sign}(x)=1,\mathrm{for}x>0;-1,\mathrm{otherwise}
 $$
+
 Updating rule: synchronous or asynchronous
 Consider the network stores $p$ pattern, $\xi_{i}^{\mu},\mathrm{for}\mu=1,\ldots p;i=1,\ldots N$
 Setting $w_{ij}=\frac{1}{N}\sum_{\mu=1}^{p}\xi_{i}^{\mu}\xi_{j}^{\mu}$
@@ -3797,9 +3814,11 @@ After the removal of external input, the neurons in the network encoding the sti
 ### CANN: A rate-based recurrent circuit model
 
 <img src="Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
+
 $$
 \begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}
 $$
+
 r频率，J强度，U decay
 
 <img src="Notes.assets/image-20230827143435002.png" alt="image-20230827143435002" style="zoom:50%;" />
@@ -3846,6 +3865,7 @@ Ring attractor network for head-direction cell in fruit fly
 ### Persistent activity for working memory
 
 When the global inhibition is not too strong, the network spontaneously hold bump activity:
+
 $$
 k<\frac{\rho J_{0}^{2}}{8\sqrt{2\pi}a}
 $$
@@ -3867,9 +3887,11 @@ Project the network dynamics on $v_1(t)$
 $\tau{\frac{\partial\mathbf{U}*\mathbf{v}_{1}}{\partial t}}=-\mathbf{U}*\mathbf{v}_{1}+(\mathbf{J}*\mathbf{r})*\mathbf{v}_{1}+\mathbf{I}^{ext}*\mathbf{v}_{1}$
 
 Consider
+
 $$
 \begin{aligned}&I^{ext}(t)=\alpha\overline{U}(x\mid z_0)+\sigma\xi_c(t)\\&\mathbf{U}*\mathbf{v}_1\equiv\int dxU(x\mid z)\nu_1(x\mid z)\\\\&\tau\frac{dz}{dt}=-\alpha(z-z_0)e^{-(z-z_0)^2/8a^2}+\beta\xi(t)\end{aligned}
 $$
+
 1st term: the force of the signal that pulls the bump back to the stimulus position
 2nd term: random shift
 
@@ -3956,6 +3978,7 @@ $$
 ### Customize a ring CANN in brainpy
 
 In simulations, we can not simulate a CANN encoding features ranging $(-\inf, \inf)$. Instead, we simulate a ring attractor network which encodes features ranging $(-\pi, \pi)$. Note that the distance on a ring should be:  
+
 $$
 dist_{ring}(x,x') = min(|x-x'|,2\pi-|x-x'|)  
 $$
@@ -4495,6 +4518,7 @@ coherence与爬升的斜率也会有影响，任务越难，爬升斜率越小
 $$
 \begin{aligned}\frac{dR}{dt}=I_A-I_B+\text{noise},\quad R(t)&=(I_A-I_B)t+\int_0^tdt\text{noise}.\\\tau_\text{network}&=\infty!\end{aligned}
 $$
+
 两种选择积分求和做积累，等到阈值做决策
 
 Accumulates information (evidence) -> Ramping
@@ -4545,6 +4569,7 @@ Spontaneous symmetry breaking and stochastic decision making
 用两个coherence生成出来的序列
 
 ![image-20230828110300576](Notes.assets/image-20230828110300576.png)
+
 $$
 \begin{gathered}C_m\frac{dV(t)}{dt}=-g_L(V(t)-V_L)-I_{syn}(t)\\I_{syn}(t)=I_{\mathrm{ext},\mathrm{AMPA}}\left(t\right)+I_{\mathrm{rec},AMPA}(t)+I_{\mathrm{rec},NMDA}(t)+I_{\mathrm{rec},\mathrm{GABA}}(t)\end{gathered}
 $$
@@ -4804,20 +4829,25 @@ tool.visualize_results(runner.mon, IA_freqs, IB_freqs)
 ![image-20230828112326267](Notes.assets/image-20230828112326267.png)
 
 Synaptic variables
+
 $$
 \begin{gathered}
 \frac{dS_{1}}{dt} =F(x_1)\gamma(1-S_1)-S_1/\tau_s \\
 \frac{dS_2}{dt} =F(x_2)\gamma(1-S_2)-S_2/\tau_s 
 \end{gathered}
 $$
+
 Input current to each population
+
 $$
 \begin{gathered}
 x_{1} =J_{E}S_{1}+J_{I}S_{2}+I_{0}+I_{noise1}+J_{\text{ext }\mu_{1}} \\
 x_{2} =J_{E}S_{2}+J_{I}S_{1}+I_{0}+I_{noise2}+J_{\mathrm{ext}}\mu_{2} 
 \end{gathered}
 $$
+
 Background input
+
 $$
 I_0+I_{noise}\\
 \begin{gathered}
@@ -4825,11 +4855,15 @@ dI_{noise1} =-I_{noise1}\frac{dt}{\tau_{0}}+\sigma dW \\
 dI_{noise2} =-I_{noise2}\frac{dt}{\tau_{0}}+\sigma dW 
 \end{gathered}
 $$
+
 Firing rates
+
 $$
 r_i=F(x_i)=\frac{ax_i-b}{1-\exp(-d(ax_i-b))}
 $$
+
 Coherence-dependent inputs
+
 $$
 \begin{array}{l}\mu_1=\mu_0\big(1+c'/100\big)\\\mu_2=\mu_0\big(1-c'/100\big)\end{array}
 $$
@@ -5004,6 +5038,7 @@ def int_s2(s2, t, s1, coh=0.5, mu=20.):
 ![image-20230828140305956](Notes.assets/image-20230828140305956.png)
 
 Connecting different units
+
 $$
 \begin{aligned}
 &\textsf{Input to unit i from unit j:} \\
@@ -5030,12 +5065,14 @@ $$
 类似人工神经网络RNN，可以处理temporal信息
 
 ![image-20230828140937455](Notes.assets/image-20230828140937455.png)
+
 $$
 \begin{aligned}
 &\mathbf{x}(n+1) =f(\mathbf{W}^{\mathrm{in}}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}(n)+\mathbf{W}^{\mathrm{back}}\mathbf{y}(n))  \\
 &\mathbf{y}(n+1) =\mathbf{W}^{\mathrm{out}}(\mathbf{u}(n+1),\mathbf{x}(n+1),\mathbf{y}(n)) 
 \end{aligned}
 $$
+
 For an RNN, the state of its internal neurons reflects the historical information of the external inputs.
 
 反映的echo的历史信息，唯一依赖历史信息
@@ -5057,9 +5094,11 @@ $$
 where $h(n)$ is a vector of reservoir neuron activations, $W^{in}$ and $W^{rec}$ are the input and recurrent weight matrices respectively, and $\alpha\in(0,1]$ is the leaking rate. The model is also sometimes used without the leaky integration, which is a special case of $\alpha=1$
 
 The linear readout layer is defined as 
+
 $$
 y(n)=W^{out}h(n)+b^{out}
 $$
+
 where $y(n)$ is network output, $W^{out}$ the output weight matrix, and $b^out$ is the output bias
 
 ## Constraints of echo state machine
@@ -5090,12 +5129,14 @@ For the echo state network defined above, as long as the spectral radius $|\lamb
 
 Using these two theorems, how should we initialize W so that the network has an echo property?
 If we scale W, i.e., multiply it by a scaling factor $\alpha$, then $\sigma_{max}<1$ and $\lambda_{max}$ will also be scaled $\alpha$.
+
 $$
 \text{For any square matrix, we have}\sigma_{max}\geq|\lambda_{max}|.\\
 \text{Therefore we set}\alpha_{min}=1/\sigma_{max}(W),\alpha_{max}=1/|\lambda_{max}|(W).\mathrm{Then},
 \\
 \begin{array}{ll}\bullet&\text{if}\alpha<\alpha_{min}\text{,the network must have the echo state.}\\\bullet&\text{if}\alpha>\alpha_{max}\text{,the network will not have the echo state.}\\\bullet&\text{if}\alpha_{min}\le\alpha\le\alpha_{max}\text{,the network may have the echo state.}\end{array}
 $$
+
 **$\alpha$设的略小于1**
 
 ![image-20230828142516052](Notes.assets/image-20230828142516052.png)
@@ -5131,6 +5172,7 @@ The advantage of the echo state network is that it does not train recurrent conn
 线性层的优化方法是简单的
 
 **Ridge regression**
+
 $$
 \begin{aligned}\epsilon_{\mathrm{train}}(n)&=\mathbf{y}(n)-\mathbf{\hat{y}}(n)
 \\&=\mathbf{y}(n)-\mathbf{W}^{\mathrm{out}}\mathbf{x}(n)
@@ -5151,6 +5193,7 @@ trainer = bp.OfflineTrainer(model, fit_method=bp.algorithms.RidgeRegression(1e-7
 The training data is passed to the trainer in a certain sequence (e.g., time series), and the trainer continuously learns based on the new incoming data.
 
 **Recursive Least Squares (RLS) algorithm**
+
 $$
 E(\mathbf{y},\mathbf{y}^\mathrm{target},n)=\frac{1}{N_\mathrm{y}}\sum_{i=1}^{N_\mathrm{y}}\sum_{j=1}^{n}\lambda^{n-j}\left(y_i(j)-y_i^\mathrm{target}(j)\right)^2,
 $$

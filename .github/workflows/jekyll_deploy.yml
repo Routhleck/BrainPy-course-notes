@@ -59,6 +59,9 @@ jobs:
       with:
         name: jekyll-site
         path: ./_site
+    
+    - name: Remove master_content
+      run: rm -rf master_content
 
   # Deployment job
   deploy:

@@ -1,5 +1,26 @@
+import argparse
 import re
 import os
+
+def prepend_markdown_header(content):
+    header = """
+---
+title: BrainPy course notes
+tags:
+---
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script> 
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$']],
+    processEscapes: true
+  }
+};
+</script>
+
+"""
+    return header + content
 
 
 def replace_img_url_1(content):
@@ -43,20 +64,29 @@ def add_newlines_around_formula(content):
     return content
 
 
-if __name__ == "__main__":
+def main(input_path, out_path):
     # 打印当前工作目录
-    # print(os.getcwd())
+    print(os.getcwd())
     input_path = "_posts/2023-08-27-BrainPy-course-notes.md"
     out_path = "_posts/2023-08-27-BrainPy-course-notes_replace.md"
     
     with open(input_path, "r", encoding="utf-8") as file:
         md_content = file.read()
     
-    md_content = replace_img_url_1(content)
-    md_content = replace_img_url_2(content)
-    md_content = add_newlines_around_formula(content)
+    md_content = prepend_markdown_header(md_content)
+    md_content = replace_img_url_1(md_content)
+    md_content = replace_img_url_2(md_content)
+    md_content = add_newlines_around_formula(md_content)
 
     # 将修改后的内容写入新文件
-        with open(out_path, "w", encoding="utf-8") as file:
-            file.write(md_content)
-    
+    with open(out_path, "w", encoding="utf-8") as file:
+        file.write(md_content)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Process markdown file.')
+    parser.add_argument('-i', '--input', type=str, required=True, help='Path to the input markdown file.')
+    parser.add_argument('-o', '--output', type=str, required=True, help='Path to the output markdown file.')
+
+    args = parser.parse_args()
+    main(args.input, args.output)

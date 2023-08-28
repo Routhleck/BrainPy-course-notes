@@ -28,6 +28,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Checkout Notes.md and Notes.assets from master
+      uses: actions/checkout@v2
+      with:
+        repository: routhleck/BrainPy-course-notes
+        ref: master
+        path: master_content
+
+    - name: Process Notes.md using markdown_process.py
+      run: python3 markdown_process.py -i master_content/Notes.md -o _posts/2023-08-27-BrainPy-course-notes.md
+
+    - name: Move Notes.assets to assets/images/
+      run: mv -f master_content/Notes.assets assets/images/
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:

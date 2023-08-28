@@ -66,8 +66,8 @@ def add_newlines_around_formula(content):
 def main(input_path, out_path):
     # 打印当前工作目录
     print(os.getcwd())
-    input_path = "_posts/2023-08-27-BrainPy-course-notes.md"
-    out_path = "_posts/2023-08-27-BrainPy-course-notes_replace.md"
+    # input_path = "_posts/2023-08-27-BrainPy-course-notes.md"
+    # out_path = "_posts/2023-08-27-BrainPy-course-notes_replace.md"
     
     with open(input_path, "r", encoding="utf-8") as file:
         md_content = file.read()

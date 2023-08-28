@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="routhleck.github.io/BrainPy-course-notes/atom.xml" rel="self" type="application/atom+xml" /><link href="routhleck.github.io/BrainPy-course-notes/" rel="alternate" type="text/html" /><updated>2023-08-28T14:27:38+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/atom.xml</id><title type="html">BrainPy course notes</title><subtitle>Notes from the first training course on Neural Computational Modeling</subtitle><author><name>Sichao He</name></author><entry><title type="html">BrainPy course notes</title><link href="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/" rel="alternate" type="text/html" title="BrainPy course notes" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes</id><content type="html" xml:base="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/">&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="routhleck.github.io/BrainPy-course-notes/atom.xml" rel="self" type="application/atom+xml" /><link href="routhleck.github.io/BrainPy-course-notes/" rel="alternate" type="text/html" /><updated>2023-08-28T14:57:37+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/atom.xml</id><title type="html">BrainPy course notes</title><subtitle>Notes from the first training course on Neural Computational Modeling</subtitle><author><name>Sichao He</name></author><entry><title type="html">BrainPy course notes</title><link href="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/" rel="alternate" type="text/html" title="BrainPy course notes" /><published>2023-08-27T00:00:00+00:00</published><updated>2023-08-27T00:00:00+00:00</updated><id>routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes</id><content type="html" xml:base="routhleck.github.io/BrainPy-course-notes/2023/08/27/BrainPy-course-notes/">&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=es6&quot;&gt;&lt;/script&gt;
 
 &lt;script id=&quot;MathJax-script&quot; async=&quot;&quot; src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;
 
@@ -930,12 +930,14 @@ DeviceArray([0, 1, 2, 3], dtype=int32)&lt;/p&gt;
     &lt;p&gt;Ion concentration difference → chemical gradient → electrical gradient&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Nernst Equation:
-\(E=\dfrac{RT}{zF}\ln\dfrac{[\mathrm{ion}]_{\mathrm{out}}}{[\mathrm{ion}]_{\mathrm{in}}}\)&lt;/p&gt;
+    &lt;p&gt;Nernst Equation:&lt;/p&gt;
+
+\[E=\dfrac{RT}{zF}\ln\dfrac{[\mathrm{ion}]_{\mathrm{out}}}{[\mathrm{ion}]_{\mathrm{in}}}\]
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Goldman-Hodgkin-Katz (GHK) Equation:
-\(V_m=\frac{RT}{F}\ln\left(\frac{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{out}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{out}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{in}}}{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{in}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{in}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{out}}}\right)\)&lt;/p&gt;
+    &lt;p&gt;Goldman-Hodgkin-Katz (GHK) Equation:&lt;/p&gt;
+
+\[V_m=\frac{RT}{F}\ln\left(\frac{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{out}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{out}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{in}}}{P_{\mathrm{Na}}[\mathrm{Na}^+]_{\mathrm{in}}+P_{\mathrm{K}}[\mathrm{K}^+]_{\mathrm{in}}+P_{\mathrm{Cl}}[\mathrm{Cl}^-]_{\mathrm{out}}}\right)\]
   &lt;/li&gt;
 &lt;/ul&gt;
 
@@ -951,53 +953,66 @@ DeviceArray([0, 1, 2, 3], dtype=int32)&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101350048.png&quot; alt=&quot;image-20230824101350048&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Considering the potassium channel &lt;strong&gt;ONLY&lt;/strong&gt;:
-\(\begin{gathered}
+&lt;p&gt;Considering the potassium channel &lt;strong&gt;ONLY&lt;/strong&gt;:&lt;/p&gt;
+
+\[\begin{gathered}
 0=I_{\mathrm{cap}}+I_{K}=c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+{\frac{V_{\mathrm{M}}-E_{\mathrm{K}}}{R_{\mathrm{K}}}}, \\
 c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}=-{\frac{V_{\mathrm{M}}-E_{\mathrm{K}}}{R_{\mathrm{K}}}}=-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}}). 
-\end{gathered}\)
-&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101433908.png&quot; alt=&quot;image-20230824101433908&quot; /&gt;&lt;/p&gt;
+\end{gathered}\]
+
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101433908.png&quot; alt=&quot;image-20230824101433908&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Considering the Na + , K + , and Cl - channels and the external current I(t):&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101648270.png&quot; alt=&quot;image-20230824101648270&quot; /&gt;
-\(\begin{aligned}
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101648270.png&quot; alt=&quot;image-20230824101648270&quot; /&gt;&lt;/p&gt;
+
+\[\begin{aligned}
 \frac{I(t)}{A} &amp;amp; = c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t} + i_{\mathrm{ion}} \\
 \Rightarrow c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t} &amp;amp; = -g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}}) - g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}}) - g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}}) + \frac{I(t)}{A}
-\end{aligned}\)
-Steady-state membrane potential given a constant current input I:
-\(\begin{array}{rcl}\Rightarrow&amp;amp;c_{M}\frac{\mathrm{d}V_{M}}{\mathrm{d}t}=-(g_{C1}+g_{K}+g_{Na})V_{M}+g_{C1}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+\frac{I(t)}{A}\\\\V_{sS}=\frac{g_{CM}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+I/A}{g_{C1}+g_{K}+g_{Na}}&amp;amp;
+\end{aligned}\]
+
+&lt;p&gt;Steady-state membrane potential given a constant current input I:&lt;/p&gt;
+
+\[\begin{array}{rcl}\Rightarrow&amp;amp;c_{M}\frac{\mathrm{d}V_{M}}{\mathrm{d}t}=-(g_{C1}+g_{K}+g_{Na})V_{M}+g_{C1}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+\frac{I(t)}{A}\\\\V_{sS}=\frac{g_{CM}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}+I/A}{g_{C1}+g_{K}+g_{Na}}&amp;amp;
 \xrightarrow{I=0}
-&amp;amp;V_{sN,I=0}=E_{R}=\frac{g_{CC}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}}{g_{C1}+g_{K}+g_{Na}}\end{array}\)&lt;/p&gt;
+&amp;amp;V_{sN,I=0}=E_{R}=\frac{g_{CC}E_{C1}+g_{K}E_{K}+g_{Na}E_{Na}}{g_{C1}+g_{K}+g_{Na}}\end{array}\]
 
 &lt;h2 id=&quot;cable-theory--passive-conduction&quot;&gt;Cable Theory &amp;amp; passive conduction&lt;/h2&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824102017607.png&quot; alt=&quot;image-20230824102017607&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Considering the axon as a long cylindrical cable:
-\(I_{\mathrm{cross}}(x,t)={I_{\mathrm{cross}}(x+\Delta x,t)}+I_{\mathrm{ion}}(x,t)+I_{\mathrm{cap}}(x,t)\)&lt;/p&gt;
+&lt;p&gt;Considering the axon as a long cylindrical cable:&lt;/p&gt;
+
+\[I_{\mathrm{cross}}(x,t)={I_{\mathrm{cross}}(x+\Delta x,t)}+I_{\mathrm{ion}}(x,t)+I_{\mathrm{cap}}(x,t)\]
 
 \[V(x+\Delta x,t)-V(x,t)=-I_{\mathrm{cross}}(x,t)R_{\mathrm{L}}=-I_{\mathrm{cross}}(x,t)\frac{\Delta x}{\pi a^{2}}\rho_{\mathrm{L}} \\
 {I_{\mathrm{cross}}(x,t)} =-\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x,t)}{\partial x}  \\
 {I_{\mathrm{ion}}} =(2\pi a\Delta x)i_{\mathrm{ion}}  \\
 I_{\mathrm{cap}}(x,t) =(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\partial t}\]
 
-&lt;p&gt;-&amp;gt; 
-\((2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\partial t}+(2\pi a\Delta x)i_{\mathrm{ion}}=\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x+\Delta x,t)}{\partial x}-\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x,t)}{\partial x}\)
-&lt;strong&gt;Cable Equation&lt;/strong&gt;
-\(c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-i_\mathrm{ion}\)
+&lt;p&gt;-&amp;gt;&lt;/p&gt;
+
+\[(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\partial t}+(2\pi a\Delta x)i_{\mathrm{ion}}=\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x+\Delta x,t)}{\partial x}-\frac{\pi a^{2}}{\rho_{\mathrm{L}}}\frac{\partial V(x,t)}{\partial x}\]
+
+&lt;p&gt;&lt;strong&gt;Cable Equation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;\(c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-i_\mathrm{ion}\)
 电流在通过长直导体时会泄露电流，如何记录膜电位，可以使用此方程来描述&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Passive conduction:&lt;/strong&gt; ion currents are caused by leaky channels exclusively
-\(i_{\mathrm{ion}}=V(x,t)/r_{\mathrm{M}}\)
--&amp;gt;
-\(\begin{aligned}c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}&amp;amp;=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-\frac{V(x,t)}{r_\mathrm{M}}\\\\\tau\frac{\partial V(x,t)}{\partial t}&amp;amp;=\lambda^2\frac{\partial^2V(x,t)}{\partial x^2}-V(x,t)\quad\lambda=\sqrt{0.5ar_\mathrm{M}/\rho_\mathrm{L}}\end{aligned}\)
+&lt;p&gt;&lt;strong&gt;Passive conduction:&lt;/strong&gt; ion currents are caused by leaky channels exclusively&lt;/p&gt;
+
+\[i_{\mathrm{ion}}=V(x,t)/r_{\mathrm{M}}\]
+
+&lt;p&gt;-&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;\(\begin{aligned}c_\mathrm{M}\frac{\partial V(x,t)}{\partial t}&amp;amp;=\frac{a}{2\rho_\mathrm{L}}\frac{\partial^2V(x,t)}{\partial x^2}-\frac{V(x,t)}{r_\mathrm{M}}\\\\\tau\frac{\partial V(x,t)}{\partial t}&amp;amp;=\lambda^2\frac{\partial^2V(x,t)}{\partial x^2}-V(x,t)\quad\lambda=\sqrt{0.5ar_\mathrm{M}/\rho_\mathrm{L}}\end{aligned}\)
 没有动作电位，单纯通过电缆传输&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824102932665.png&quot; alt=&quot;image-20230824102932665&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;If a constant external current is applied to 𝑥 = 0  the steady-state membrane potential $𝑉_{ss}(𝑥)$ is
-\(\lambda^2\frac{\mathrm{d}^2V_{\mathrm{ss}}(x)}{\mathrm{d}x^2}-V_{\mathrm{ss}}(x)=0\longrightarrow V_{\mathrm{ss}}(x)=\frac{\lambda\rho_{\mathrm{L}}}{\pi a^2}I_0e^{-x/\lambda}\)
+&lt;p&gt;If a constant external current is applied to 𝑥 = 0  the steady-state membrane potential $𝑉_{ss}(𝑥)$ is&lt;/p&gt;
+
+&lt;p&gt;\(\lambda^2\frac{\mathrm{d}^2V_{\mathrm{ss}}(x)}{\mathrm{d}x^2}-V_{\mathrm{ss}}(x)=0\longrightarrow V_{\mathrm{ss}}(x)=\frac{\lambda\rho_{\mathrm{L}}}{\pi a^2}I_0e^{-x/\lambda}\)
 电信号无衰减传播: 动作电位&lt;/p&gt;
 
 &lt;h2 id=&quot;action-potential--active-transport&quot;&gt;Action potential &amp;amp; active transport&lt;/h2&gt;
@@ -1021,12 +1036,14 @@ I_{\mathrm{cap}}(x,t) =(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\par
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824103322522.png&quot; alt=&quot;image-20230824103322522&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;How to simulate an action potential?
-\(\begin{aligned}
+&lt;p&gt;How to simulate an action potential?&lt;/p&gt;
+
+\[\begin{aligned}
 \frac{I(t)}{A}&amp;amp; =c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}+i_{\mathrm{ion}}  \\
 \Rightarrow\quad c_{\mathrm{M}}\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}&amp;amp; =-g_{\mathrm{Cl}}(V_{\mathrm{M}}-E_{\mathrm{Cl}})-g_{\mathrm{K}}(V_{\mathrm{M}}-E_{\mathrm{K}})-g_{\mathrm{Na}}(V_{\mathrm{M}}-E_{\mathrm{Na}})+\frac{I(t)}{A} 
-\end{aligned}\)
-离子通道的开闭会随着电压而变化，电导也随着电压而变化&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;离子通道的开闭会随着电压而变化，电导也随着电压而变化&lt;/p&gt;
 
 &lt;p&gt;Mechanism: voltage-gated ion channels&lt;/p&gt;
 
@@ -1044,24 +1061,25 @@ I_{\mathrm{cap}}(x,t) =(2\pi a\Delta x)c_{\mathrm{M}}\frac{\partial V(x,t)}{\par
 
 &lt;h3 id=&quot;modeling-of-each-ion-channel&quot;&gt;Modeling of each ion channel&lt;/h3&gt;
 
-&lt;p&gt;Modeling of each ion channel:
-\(g_m=\bar{g}_mm^x\)
-Modeling of each ion gate:
-$$
-\mathcal{C}\underset{}{\operatorname&lt;em&gt;{\overset{\alpha(\mathrm{V})}{\underset{\beta(\mathrm{V})}{\operatorname&lt;/em&gt;{\longrightarrow}}}}\mathcal{O}}&lt;/p&gt;
+&lt;p&gt;Modeling of each ion channel:&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;
+\[g_m=\bar{g}_mm^x\]
+
+&lt;p&gt;Modeling of each ion gate:&lt;/p&gt;
+
+\[\mathcal{C}\underset{}{\operatorname*{\overset{\alpha(\mathrm{V})}{\underset{\beta(\mathrm{V})}{\operatorname*{\longrightarrow}}}}\mathcal{O}}
+
+\\
 \Rightarrow
 \begin{aligned}
-\frac{\mathrm{d}m}{\mathrm{d}t}&amp;amp; =\alpha(V)(1-m)-\beta(V)m  &lt;br /&gt;
+\frac{\mathrm{d}m}{\mathrm{d}t}&amp;amp; =\alpha(V)(1-m)-\beta(V)m  \\
 &amp;amp;=\frac{m_{\infty}(V)-m}{\tau_{m}(V)}
-\end{aligned}&lt;/p&gt;
+\end{aligned}
 
-&lt;p&gt;&lt;br /&gt;
-\&lt;/p&gt;
+\\
+\\
 
-&lt;p&gt;\begin{aligned}m_\infty(V)&amp;amp;=\frac{\alpha(V)}{\alpha(V)+\beta(V)}.\\tau_m(V)&amp;amp;=\frac{1}{\alpha(V)+\beta(V)}\end{aligned}
-$$&lt;/p&gt;
+\begin{aligned}m_\infty(V)&amp;amp;=\frac{\alpha(V)}{\alpha(V)+\beta(V)}.\\\tau_m(V)&amp;amp;=\frac{1}{\alpha(V)+\beta(V)}\end{aligned}\]
 
 \[\text{If}\ V\text{ is constant:}m(t)=m_\infty(V)+(m_0-m_\infty(V))\mathrm{e}^{-t/\tau_m(V)}\]
 
@@ -1086,8 +1104,9 @@ $$&lt;/p&gt;
 
 &lt;h3 id=&quot;leaky-channel&quot;&gt;Leaky channel&lt;/h3&gt;
 
-&lt;p&gt;Hyperpolarization → the sodium and potassium channels are closed
-\(I_{\mathrm{fb}}=g_{\mathrm{Na}}(V-E_{\mathrm{Na}})+g_{\mathrm{K}}(V-E_{\mathrm{K}})+g_{\mathrm{L}}(V-E_{\mathrm{L}})\)&lt;/p&gt;
+&lt;p&gt;Hyperpolarization → the sodium and potassium channels are closed&lt;/p&gt;
+
+\[I_{\mathrm{fb}}=g_{\mathrm{Na}}(V-E_{\mathrm{Na}})+g_{\mathrm{K}}(V-E_{\mathrm{K}})+g_{\mathrm{L}}(V-E_{\mathrm{L}})\]
 
 \[\Rightarrow I_{\mathrm{fb}}=g_L(V-E_L)\]
 
@@ -1127,14 +1146,15 @@ Na + current: $I_{fb} - I_{K}$&lt;/p&gt;
 
 &lt;p&gt;The gates of sodium channels&lt;/p&gt;
 
-&lt;p&gt;Modeling of each ion gate:
-\(\begin{aligned}
+&lt;p&gt;Modeling of each ion gate:&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\text{gk}&amp;amp;&amp;amp; =\bar{g}_{K}n^{x}  \\
 &amp;amp;\text{gNa}&amp;amp;&amp;amp; =\bar{g}_{\mathrm{Na}}m^{3}h  \\
 &amp;amp;\frac{\mathrm{d}n}{\mathrm{d}t}&amp;amp;&amp;amp; =\alpha_{n}(V)(1-n)-\beta_{n}(V)n  \\
 &amp;amp;\frac{\mathrm{d}m}{\mathrm{d}t}&amp;amp;&amp;amp; =\alpha_{m}(V)(1-m)-\beta_{m}(V)m  \\
 &amp;amp;\frac{\mathrm{d}h}{\mathrm{d}t}&amp;amp;&amp;amp; =\alpha_{h}(V)(1-h)-\beta_{h}(V)h 
-\end{aligned}\)&lt;/p&gt;
+\end{aligned}\]
 
 \[\begin{aligned}
 \frac{\mathrm{d}m}{\mathrm{d}t}&amp;amp; =\alpha(V)(1-m)-\beta(V)m  \\
@@ -1149,8 +1169,9 @@ Na + current: $I_{fb} - I_{K}$&lt;/p&gt;
 
 \[c_\mathrm{M}\frac{\mathrm{d}V_\mathrm{M}}{\mathrm{d}t}=-g_\mathrm{Cl}(V_\mathrm{M}-E_\mathrm{Cl})-g_\mathrm{K}(V_\mathrm{M}-E_\mathrm{K})-g_\mathrm{Na}(V_\mathrm{M}-E_\mathrm{Na})+\frac{I(t)}{A}\]
 
-&lt;p&gt;本质是4个微分方程联立在一起
-\(\left\{\begin{aligned}&amp;amp;c\frac{\mathrm{d}V}{\mathrm{d}t}=-\bar{g}_\text{Na}m^3h(V-E_\text{Na})-\bar{g}_\text{K}n^4(V-E_\text{K})-\bar{g}_\text{L}(V-E_\text{L})+I_\text{ext},\\&amp;amp;\frac{\mathrm{d}n}{\mathrm{d}t}=\phi\left[\alpha_n(V)(1-n)-\beta_n(V)n\right]\\&amp;amp;\frac{\mathrm{d}m}{\mathrm{d}t}=\phi\left[\alpha_m(V)(1-m)-\beta_m(V)m\right],\\&amp;amp;\frac{\mathrm{d}h}{\mathrm{d}t}=\phi\left[\alpha_h(V)(1-h)-\beta_h(V)h\right],\end{aligned}\right.\)&lt;/p&gt;
+&lt;p&gt;本质是4个微分方程联立在一起&lt;/p&gt;
+
+\[\left\{\begin{aligned}&amp;amp;c\frac{\mathrm{d}V}{\mathrm{d}t}=-\bar{g}_\text{Na}m^3h(V-E_\text{Na})-\bar{g}_\text{K}n^4(V-E_\text{K})-\bar{g}_\text{L}(V-E_\text{L})+I_\text{ext},\\&amp;amp;\frac{\mathrm{d}n}{\mathrm{d}t}=\phi\left[\alpha_n(V)(1-n)-\beta_n(V)n\right]\\&amp;amp;\frac{\mathrm{d}m}{\mathrm{d}t}=\phi\left[\alpha_m(V)(1-m)-\beta_m(V)m\right],\\&amp;amp;\frac{\mathrm{d}h}{\mathrm{d}t}=\phi\left[\alpha_h(V)(1-h)-\beta_h(V)h\right],\end{aligned}\right.\]
 
 \[\begin{aligned}\alpha_n(V)&amp;amp;=\frac{0.01(V+55)}{1-\exp\left(-\frac{V+55}{10}\right)},\quad\beta_n(V)&amp;amp;=0.125\exp\left(-\frac{V+65}{80}\right),\\\alpha_h(V)&amp;amp;=0.07\exp\left(-\frac{V+65}{20}\right),\quad\beta_n(V)&amp;amp;=\frac{1}{\left(\exp\left(-\frac{V+55}{10}\right)+1\right)},\\\alpha_m(V)&amp;amp;=\frac{0.1(V+40)}{1-\exp\left(-(V+40)/10\right)},\quad\beta_m(V)&amp;amp;=4\exp\left(-(V+65)/18\right).\end{aligned}\]
 
@@ -1184,8 +1205,9 @@ Na + current: $I_{fb} - I_{K}$&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;example&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;FitzHugh-Nagumo equation
-\(\begin{aligned}\tau\dot{w}&amp;amp;=v+a-bw,\\\dot{v}&amp;amp;=v-\frac{\nu^3}{3}-w+I_{\mathrm{ext}}.\end{aligned}\)&lt;/p&gt;
+&lt;p&gt;FitzHugh-Nagumo equation&lt;/p&gt;
+
+\[\begin{aligned}\tau\dot{w}&amp;amp;=v+a-bw,\\\dot{v}&amp;amp;=v-\frac{\nu^3}{3}-w+I_{\mathrm{ext}}.\end{aligned}\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;odeint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Euler'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;integral&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Iext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tau&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
@@ -1619,17 +1641,21 @@ The monitor shape of “E.spike” is = (1000, 2)&lt;/p&gt;
 
 &lt;p&gt;电路模拟，写成电导形式&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824180831033.png&quot; alt=&quot;image-20230824180831033&quot; /&gt;
-\(\begin{aligned}
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230824180831033.png&quot; alt=&quot;image-20230824180831033&quot; /&gt;&lt;/p&gt;
+
+\[\begin{aligned}
 \text{gK}&amp;amp; =\bar{g}_\text{K}n^4,  \\
 \frac{\mathrm{d}n}{\mathrm{d}t}&amp;amp; =\phi[\alpha_n(V)(1-n)-\beta_n(V)n], 
-\end{aligned}\)
-动力学形式描述，引入门框变量$n$
-\(\begin{aligned}
+\end{aligned}\]
+
+&lt;p&gt;动力学形式描述，引入门框变量$n$&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\alpha_{n}(V) =\frac{0.01(V+55)}{1-\exp(-\frac{V+55}{10})},  \\
 &amp;amp;\beta_{n}(V) =0.125\exp\left(-\frac{V+65}{80}\right). 
-\end{aligned}\)
-由此式来建模钾离子通道&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;由此式来建模钾离子通道&lt;/p&gt;
 
 &lt;h3 id=&quot;programming-an-ion-channel&quot;&gt;Programming an ion channel&lt;/h3&gt;
 
@@ -1790,11 +1816,15 @@ The monitor shape of “E.spike” is = (1000, 2)&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;General solution (constant input):&lt;/strong&gt;$V(t)=V_{\text{reset}}+RI_{\text{c}}(1-\mathrm{e}^{-\frac{t-t_0}{\tau}})$&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Firing frequency:&lt;/strong&gt;
-\(\begin{aligned}T&amp;amp;=-\tau\ln\left(1-\frac{V_{\phi h}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)\\f&amp;amp;=\frac{1}{T+t_{\mathrm{ref}}}=\frac{1}{t_{\mathrm{ref}}-\tau\ln\left(1-\frac{V_{0}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)}\end{aligned}\)
-&lt;strong&gt;Rheobase current (minimal current):&lt;/strong&gt;
-\(I_{\theta}=\frac{V_{\mathrm{th}}-V_{\mathrm{reset}}}{R}\)
-基强电流，如果小于它将无法发放&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Firing frequency:&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{aligned}T&amp;amp;=-\tau\ln\left(1-\frac{V_{\phi h}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)\\f&amp;amp;=\frac{1}{T+t_{\mathrm{ref}}}=\frac{1}{t_{\mathrm{ref}}-\tau\ln\left(1-\frac{V_{0}-V_{\mathrm{rest}}}{RI_{\varsigma}}\right)}\end{aligned}\]
+
+&lt;p&gt;&lt;strong&gt;Rheobase current (minimal current):&lt;/strong&gt;&lt;/p&gt;
+
+\[I_{\theta}=\frac{V_{\mathrm{th}}-V_{\mathrm{reset}}}{R}\]
+
+&lt;p&gt;基强电流，如果小于它将无法发放&lt;/p&gt;
 
 &lt;h3 id=&quot;strengths--weaknesses-of-the-lif-model&quot;&gt;Strengths &amp;amp; weaknesses of the LIF model&lt;/h3&gt;
 
@@ -1913,14 +1943,16 @@ The monitor shape of “E.spike” is = (1000, 2)&lt;/p&gt;
 
 &lt;h4 id=&quot;the-generalized-integrate-and-fire-gif-model&quot;&gt;The Generalized Integrate-and-Fire (GIF) model&lt;/h4&gt;
 
-&lt;p&gt;n+2个变量
-\(\begin{aligned}
+&lt;p&gt;n+2个变量&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\tau{\frac{\mathrm{d}V}{\mathrm{d}t}} =-\left(V-V_{\mathrm{rest}}\right)+R\sum_{j}I_{j}+RI  \\
 &amp;amp;\frac{\mathrm{d}\Theta}{\mathrm{d}t} =a\left(V-V_{\mathrm{rest}}\right)-b\left(\Theta-\Theta_{\infty}\right)  \\
 &amp;amp;\frac{\mathrm{d}l_{j}}{\mathrm{d}t} =-k_{j}I_{j},\quad j=1,2,...,n  \\
 &amp;amp;\operatorname{if}V &amp;gt;\Theta,\quad I_{j}\leftarrow R_{j}I_{j}+A_{j},V\leftarrow V_{\mathrm{reset}},\Theta\leftarrow max(\Theta_{\mathrm{reset}},\Theta) 
-\end{aligned}\)
-每个变量都是线性的，泛化性体现在重置条件上&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;每个变量都是线性的，泛化性体现在重置条件上&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230825105035349.png&quot; alt=&quot;image-20230825105035349&quot; /&gt;&lt;/p&gt;
 
@@ -1930,13 +1962,15 @@ The monitor shape of “E.spike” is = (1000, 2)&lt;/p&gt;
 
 &lt;p&gt;对动力学系统的行为来分析，普遍对两个变量来进行分析&lt;/p&gt;
 
-&lt;p&gt;Analyzes the behavior of a dynamical system with (usually two) variables described by ordinary differential equations
-\(\begin{aligned}
+&lt;p&gt;Analyzes the behavior of a dynamical system with (usually two) variables described by ordinary differential equations&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\tau_{m}{\frac{\mathrm{d}V}{\mathrm{d}t}}&amp;amp;&amp;amp; =-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{S_{T}}}-Rw+RI(t)  \\
 &amp;amp;\tau_{W}{\frac{\mathrm{d}w}{\mathrm{d}t}}&amp;amp;&amp;amp; =a\left(V-V_{\mathrm{rest}}\right)-w+b\tau_{w}\sum_{t^{(f)}}\delta\left(t-t^{(f)}\right)  \\
 &amp;amp;\mathrm{if}V&amp;amp;&amp;amp; &amp;gt;\theta,\quad V\leftarrow V_\mathrm{reset}\text{ last }t_\mathrm{ref} 
-\end{aligned}\)
-&lt;strong&gt;Elements:&lt;/strong&gt;&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;&lt;strong&gt;Elements:&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Nullclines: $\mathrm{d}V/\mathrm{d}t=0;\mathrm{d}w/\mathrm{d}t=0$&lt;/li&gt;
@@ -1996,13 +2030,15 @@ The monitor shape of “E.spike” is = (1000, 2)&lt;/p&gt;
 
 &lt;p&gt;bifurcation analysis for 2 variables
 Variables: 𝑉 and 𝑤
-Parameters: $I_{ext}$
-\(\begin{align}
+Parameters: $I_{ext}$&lt;/p&gt;
+
+\[\begin{align}
 \tau_{m} \frac{\mathrm{d}V}{\mathrm{d}t} &amp;amp;= -\left(V-V_{\mathrm{rest}}\right) + \Delta_{T} \mathrm{e}^{\frac{V-V_{T}}{ST}} - Rw + RI(t) \\
 -\frac{\mathrm{d}w}{\mathrm{d}t} &amp;amp;= a(V-V_{\mathrm{rest}}) - w + b\tau_{w} \sum_{t^{(f)}} \delta(t-t^{(f)}) \\
 \text{if } V &amp;gt; \theta, \quad V &amp;amp;\leftarrow V_{\mathrm{reset}}, \quad \text{last } t_{\mathrm{ref}}
-\end{align}\)
-&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114801456.png&quot; alt=&quot;image-20230825114801456&quot; /&gt;&lt;/p&gt;
+\end{align}\]
+
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114801456.png&quot; alt=&quot;image-20230825114801456&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114742740.png&quot; alt=&quot;image-20230825114742740&quot; /&gt;&lt;/p&gt;
 
@@ -2012,9 +2048,11 @@ Parameters: $I_{ext}$
 
 &lt;h3 id=&quot;extended-the-limit-cycle&quot;&gt;Extended: The limit cycle&lt;/h3&gt;
 
-&lt;p&gt;The FitzHugh–Nagumo (FHN) model
-\(\begin{aligned}\dot{v}&amp;amp;=v-\frac{v^3}3-w+RI_\mathrm{ext}\\\tau\dot{w}&amp;amp;=v+a-bw.\end{aligned}\)
-This dynamical system, in certain conditions, exhibits a cyclic pattern of variable changes which can be visualized as a closed trajectory in the phase plane.&lt;/p&gt;
+&lt;p&gt;The FitzHugh–Nagumo (FHN) model&lt;/p&gt;
+
+\[\begin{aligned}\dot{v}&amp;amp;=v-\frac{v^3}3-w+RI_\mathrm{ext}\\\tau\dot{w}&amp;amp;=v+a-bw.\end{aligned}\]
+
+&lt;p&gt;This dynamical system, in certain conditions, exhibits a cyclic pattern of variable changes which can be visualized as a closed trajectory in the phase plane.&lt;/p&gt;
 
 &lt;p&gt;变化锁定到环中&lt;/p&gt;
 
@@ -2138,16 +2176,18 @@ f={\frac{1}{T+t_{\mathrm{ref}}}}={\frac{1}{t_{\mathrm{ref}}-\tau\ln\left[1-{\fra
 
 &lt;h3 id=&quot;other-univariate-neuron-models-1&quot;&gt;Other Univariate neuron models&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;The Quadratic Integrate-and-Fire (QIF) model&lt;/strong&gt;
-\(\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&amp;amp;=a_{0}(V-V_{\mathrm{res}t})(V-V_{c})+RI(t)\\\mathrm{if~}V&amp;amp;&amp;gt;\theta,\quad V\leftarrow V_{\mathrm{reset~last~}t_{\mathrm{ref}}}\end{aligned}\)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The Quadratic Integrate-and-Fire (QIF) model&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&amp;amp;=a_{0}(V-V_{\mathrm{res}t})(V-V_{c})+RI(t)\\\mathrm{if~}V&amp;amp;&amp;gt;\theta,\quad V\leftarrow V_{\mathrm{reset~last~}t_{\mathrm{ref}}}\end{aligned}\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;derivative&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;dVdt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V_reset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V_c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tau&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dVdt&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;The Exponential Integrate-and-Fire (ExpIF) model&lt;/strong&gt;
-\(\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&amp;amp;=-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{\delta_{T}}}+RI(t)\\&amp;amp;\mathrm{if~}V&amp;gt;\theta,\quad V\leftarrow V_{\mathrm{reset}}\mathrm{last}t_{\mathrm{ref}}\end{aligned}\)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The Exponential Integrate-and-Fire (ExpIF) model&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&amp;amp;=-\left(V-V_{\mathrm{rest}}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{\delta_{T}}}+RI(t)\\&amp;amp;\mathrm{if~}V&amp;gt;\theta,\quad V\leftarrow V_{\mathrm{reset}}\mathrm{last}t_{\mathrm{ref}}\end{aligned}\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;derivative&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;exp_v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delta_T&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delta_T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -2249,12 +2289,13 @@ f={\frac{1}{T+t_{\mathrm{ref}}}}={\frac{1}{t_{\mathrm{ref}}-\tau\ln\left[1-{\fra
 
 &lt;h3 id=&quot;other-multivariate-neuron-models-1&quot;&gt;Other multivariate neuron models&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;The Izhikevich model&lt;/strong&gt;
-\(\begin{aligned}
+&lt;p&gt;&lt;strong&gt;The Izhikevich model&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\frac{dV}{dt} =0.04V^{2}+5V+140-u+I  \\
 &amp;amp;\frac{\mathrm{d}u}{\mathrm{d}t} =a\left(bV-u\right)  \\
 &amp;amp;\operatorname{if}V &amp;gt;\theta,\quad V\leftarrow c,u\leftarrow u+d\mathrm{last}t_{\mathrm{ref}} 
-\end{aligned}\)&lt;/p&gt;
+\end{aligned}\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;dVdt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.04&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;140&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;u&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I&lt;/span&gt;
@@ -2265,13 +2306,14 @@ f={\frac{1}{T+t_{\mathrm{ref}}}}={\frac{1}{t_{\mathrm{ref}}-\tau\ln\left[1-{\fra
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dudt&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;The Generalized Integrate-and-Fire (GIF) model&lt;/strong&gt;
-\(\begin{aligned}
+&lt;p&gt;&lt;strong&gt;The Generalized Integrate-and-Fire (GIF) model&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\tau{\frac{\mathrm{d}V}{\mathrm{d}t}} =-\left(V-V_{\mathrm{rest}}\right)+R\sum_{j}I_{j}+RI  \\
 &amp;amp;\frac{\mathrm{d}\Theta}{\mathrm{d}t} =a\left(V-V_{\mathrm{est}}\right)-b\left(\Theta-\Theta_{\infty}\right)  \\
 &amp;amp;\frac{\mathrm{d}I_j}{\mathrm{d}r} =-k_jI_j,\quad j=1,2,\ldots,n  \\
 &amp;amp;\text{if V} &amp;gt;\Theta,\quad I_{j}\leftarrow R_{j}I_{j}+A_{j},V\leftarrow V_{\mathrm{reset}},\Theta\leftarrow max\left(\Theta_{\mathrm{reset}},\Theta\right) 
-\end{aligned}\)&lt;/p&gt;
+\end{aligned}\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dI1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;I1&lt;/span&gt;
@@ -2471,22 +2513,26 @@ f={\frac{1}{T+t_{\mathrm{ref}}}}={\frac{1}{t_{\mathrm{ref}}-\tau\ln\left[1-{\fra
 
 &lt;p&gt;exponential model上升的太快，不太符合某些synapse&lt;/p&gt;
 
-&lt;p&gt;Dual exponential synapse provides a general way to describe the synaptic conductance with different rising and decay time constants.
-\(g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}}\frac{\tau_{1}\tau_{2}}{\tau_{1}-\tau_{2}}\left(\exp\left(-\frac{t-t_{0}}{\tau_{1}}\right)-\exp\left(-\frac{t-t_{0}}{\tau_{2}}\right)\right)
+&lt;p&gt;Dual exponential synapse provides a general way to describe the synaptic conductance with different rising and decay time constants.&lt;/p&gt;
+
+\[g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}}\frac{\tau_{1}\tau_{2}}{\tau_{1}-\tau_{2}}\left(\exp\left(-\frac{t-t_{0}}{\tau_{1}}\right)-\exp\left(-\frac{t-t_{0}}{\tau_{2}}\right)\right)
 \\
 \begin{matrix}
 \bullet &amp;amp;t_1\ \text{is the decay synaptic time constant} \\
 \bullet &amp;amp;\tau_2\ \text{is the rise synaptic time constant} \\
 \bullet &amp;amp;t_0\ \text{is the time of the pre-synaptic spike} \\
 \bullet &amp;amp;\bar{g}_{syn}\ \text{is the maximal conductance}
-\end{matrix}\)
--&amp;gt;corresponding differential equation
-\(\begin{aligned}
+\end{matrix}\]
+
+&lt;p&gt;-&amp;gt;corresponding differential equation&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}}g \\
 &amp;amp;\frac{dg}{dt}=-\frac{g}{\tau_{\mathrm{decay}}}+h \\
 &amp;amp;\frac{dh}{dt}&amp;amp; =-\frac{h}{\tau_{\mathrm{rise}}}+\delta\left(t_{0}-t\right), 
-\end{aligned}\)
-The time course of most synaptic conductance can be well described by this sum of two exponentials.&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;The time course of most synaptic conductance can be well described by this sum of two exponentials.&lt;/p&gt;
 
 &lt;h3 id=&quot;synaptic-time-constants&quot;&gt;Synaptic time constants&lt;/h3&gt;
 
@@ -2597,17 +2643,21 @@ The synapse is located on a thin dendrite, because the local membrane potential 
 
 &lt;h3 id=&quot;exponential-model-1&quot;&gt;Exponential Model&lt;/h3&gt;
 
-&lt;p&gt;The single exponential decay synapse model assumes the release of neurotransmitter, its diffusion across the cleft, the receptor binding, and channel opening all happen very quickly, so that the channels instantaneously jump from the closed to the open state. Therefore, its expression is given by 
-\(g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} e^{-\left(t-t_{0}\right) / \tau}\)
-where $\tau$ is the time constant, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.&lt;/p&gt;
+&lt;p&gt;The single exponential decay synapse model assumes the release of neurotransmitter, its diffusion across the cleft, the receptor binding, and channel opening all happen very quickly, so that the channels instantaneously jump from the closed to the open state. Therefore, its expression is given by&lt;/p&gt;
 
-&lt;p&gt;The corresponding differential equation:&lt;br /&gt;
-\(\frac{d g}{d t} = -\frac{g}{\tau_{decay}}+\sum_{k} \delta(t-t_{j}^{k}).\)&lt;/p&gt;
+\[g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} e^{-\left(t-t_{0}\right) / \tau}\]
+
+&lt;p&gt;where $\tau$ is the time constant, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.&lt;/p&gt;
+
+&lt;p&gt;The corresponding differential equation:&lt;/p&gt;
+
+\[\frac{d g}{d t} = -\frac{g}{\tau_{decay}}+\sum_{k} \delta(t-t_{j}^{k}).\]
 
 &lt;h4 id=&quot;coba&quot;&gt;COBA&lt;/h4&gt;
 
-&lt;p&gt;Given the synaptic conductance, the COBA model outputs the post-synaptic current with&lt;br /&gt;
-\(I_{syn}(t) = g_{\mathrm{syn}}(t) (E - V(t))\)&lt;/p&gt;
+&lt;p&gt;Given the synaptic conductance, the COBA model outputs the post-synaptic current with&lt;/p&gt;
+
+\[I_{syn}(t) = g_{\mathrm{syn}}(t) (E - V(t))\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ExponSparseCOBA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Projection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g_max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tau&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
@@ -2666,8 +2716,9 @@ where $\tau$ is the time constant, $t_0$ is the time of the pre-synaptic spike, 
 
 &lt;h4 id=&quot;cuba&quot;&gt;CUBA&lt;/h4&gt;
 
-&lt;p&gt;Given the conductance, this model outputs the post-synaptic current with a identity function:&lt;br /&gt;
-\(I_{\mathrm{syn}}(t) = g_{\mathrm{syn}}(t)\)&lt;/p&gt;
+&lt;p&gt;Given the conductance, this model outputs the post-synaptic current with a identity function:&lt;/p&gt;
+
+\[I_{\mathrm{syn}}(t) = g_{\mathrm{syn}}(t)\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ExponSparseCUBA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Projection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g_max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tau&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
@@ -2766,9 +2817,11 @@ where $\tau$ is the time constant, $t_0$ is the time of the pre-synaptic spike, 
 
 &lt;h3 id=&quot;dual-exponential-model-1&quot;&gt;Dual Exponential Model&lt;/h3&gt;
 
-&lt;p&gt;The dual exponential synapse model, also named as &lt;strong&gt;difference of two exponentials model&lt;/strong&gt;, is given by:&lt;br /&gt;
-\(g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} \frac{\tau_{1} \tau_{2}}{\tau_{1}-\tau_{2}}\left(\exp \left(-\frac{t-t_{0}}{\tau_{1}}\right)-\exp \left(-\frac{t-t_{0}}{\tau_{2}}\right)\right)\)
-where $\tau_1$ is the time constant of the decay phase, $\tau_2$ is the time constant of the rise phase, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.&lt;/p&gt;
+&lt;p&gt;The dual exponential synapse model, also named as &lt;strong&gt;difference of two exponentials model&lt;/strong&gt;, is given by:&lt;/p&gt;
+
+\[g_{\mathrm{syn}}(t)=\bar{g}_{\mathrm{syn}} \frac{\tau_{1} \tau_{2}}{\tau_{1}-\tau_{2}}\left(\exp \left(-\frac{t-t_{0}}{\tau_{1}}\right)-\exp \left(-\frac{t-t_{0}}{\tau_{2}}\right)\right)\]
+
+&lt;p&gt;where $\tau_1$ is the time constant of the decay phase, $\tau_2$ is the time constant of the rise phase, $t_0$ is the time of the pre-synaptic spike, $\bar{g}_{\mathrm{syn}}$ is the maximal conductance.&lt;/p&gt;
 
 &lt;p&gt;The corresponding differential equation:&lt;/p&gt;
 
@@ -2843,8 +2896,9 @@ where $\tau_1$ is the time constant of the decay phase, $\tau_2$ is the time con
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111831637.png&quot; alt=&quot;image-20230826111831637&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111841073.png&quot; alt=&quot;image-20230826111841073&quot; style=&quot;zoom:50%;&quot; /&gt;
-\(\begin{aligned}\frac{ds}{dt}&amp;amp;=\alpha[T](1-s)-\beta s\\I&amp;amp;=\tilde{g}s(V-E)\end{aligned}\)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111841073.png&quot; alt=&quot;image-20230826111841073&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+\[\begin{aligned}\frac{ds}{dt}&amp;amp;=\alpha[T](1-s)-\beta s\\I&amp;amp;=\tilde{g}s(V-E)\end{aligned}\]
 
 &lt;ul&gt;
   &lt;li&gt;𝛼[𝑇] denotes the transition probability from state (1−𝑠) to state (𝑠)&lt;/li&gt;
@@ -2862,13 +2916,15 @@ where $\tau_1$ is the time constant of the decay phase, $\tau_2$ is the time con
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826112027689.png&quot; alt=&quot;image-20230826112027689&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826112034481.png&quot; alt=&quot;image-20230826112034481&quot; /&gt;
-\(\begin{aligned}
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826112034481.png&quot; alt=&quot;image-20230826112034481&quot; /&gt;&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\frac{ds}{dt} =\alpha[T](1-s)-\beta s  \\
 &amp;amp;I=\tilde{g}sB(V)(V-E) \\
 &amp;amp;B(V )=\frac{1}{1+\exp(-0.062V)[Mg^{2+}]_{o}/3.57} 
-\end{aligned}\)
-The magnesium block of the NMDA receptor channel is an extremely fast process compared to the other kinetics of the receptor (Jahr and Stevens 1990a, 1990b). The block can therefore be accurately modeled as an instantaneous function of voltage(Jahr and Stevens 1990b).&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;The magnesium block of the NMDA receptor channel is an extremely fast process compared to the other kinetics of the receptor (Jahr and Stevens 1990a, 1990b). The block can therefore be accurately modeled as an instantaneous function of voltage(Jahr and Stevens 1990b).&lt;/p&gt;
 
 &lt;p&gt;where $[Mg^{2+}]$ is the external magnesium concentration (1 to 2mM inphysiological conditions)&lt;/p&gt;
 
@@ -3179,14 +3235,16 @@ EPSC: Excitatory Post Synaptic Current&lt;/p&gt;
 
 &lt;h3 id=&quot;modeling-neuro-transmitter-consumption&quot;&gt;Modeling neuro-transmitter consumption&lt;/h3&gt;
 
-&lt;p&gt;Dynamics of three-factor STD:
-\(\begin{gathered}
+&lt;p&gt;Dynamics of three-factor STD:&lt;/p&gt;
+
+\[\begin{gathered}
 \frac{dx(t)}{dt}=\frac{z(t)}{\tau_{rec}}-U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
 \frac{dy(t)}{dt}=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big), \\
 x(t)+y(t)+z(t)=1, \\
 \frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+g_{max}y(t), 
-\end{gathered}\)
-$x$: Fraction of available neuro-transmitter
+\end{gathered}\]
+
+&lt;p&gt;$x$: Fraction of available neuro-transmitter
 $y$: Fraction of active neuro-transmitter
 $z$: Fraction of inactive neuro-transmitter
 $U_{se}$: Release probability of active neuro-transmitter
@@ -3212,28 +3270,35 @@ x(t)+y(t)+z(t)=1, \\
 
 &lt;p&gt;变量太多了，模型复杂&lt;/p&gt;
 
-&lt;p&gt;In general, the inactivation time constants is much shorter (3ms) than the spike time interval, i.e., 𝜏 2- ≪ Δ𝑡, so the formulation can be approximately simplified,
-\(\begin{aligned}\frac{dy(t)}{dt}&amp;amp;=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big)\\&amp;amp;\Longrightarrow\color{red}{\left\{\begin{array}{c}y(t)=U_{SE}x^-\delta_1(t-t_{sp}),\\x^-=\lim_{t-t_{sp}\to0^-}x(t)\end{array}\right.}\end{aligned}\)
-&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826142632613.png&quot; alt=&quot;image-20230826142632613&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;In general, the inactivation time constants is much shorter (3ms) than the spike time interval, i.e., 𝜏 2- ≪ Δ𝑡, so the formulation can be approximately simplified,&lt;/p&gt;
 
-&lt;p&gt;Simplified model:
-\(\begin{gathered}
+\[\begin{aligned}\frac{dy(t)}{dt}&amp;amp;=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big)\\&amp;amp;\Longrightarrow\color{red}{\left\{\begin{array}{c}y(t)=U_{SE}x^-\delta_1(t-t_{sp}),\\x^-=\lim_{t-t_{sp}\to0^-}x(t)\end{array}\right.}\end{aligned}\]
+
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826142632613.png&quot; alt=&quot;image-20230826142632613&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Simplified model:&lt;/p&gt;
+
+\[\begin{gathered}
 \frac{dx(t)}{dt} =\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta\big(t-t_{sp}\big), \\
 \frac{dg(t)}{dt} =-\frac{g(t)}{\tau_{s}}+AU_{SE}x^{-}\delta\big(t-t_{sp}\big), \\
 EPSC=AU_{SE}x^{-}, 
-\end{gathered}\)
-&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826143004941.png&quot; alt=&quot;image-20230826143004941&quot; /&gt;&lt;/p&gt;
+\end{gathered}\]
+
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826143004941.png&quot; alt=&quot;image-20230826143004941&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;infer-model-parameters-from-experimental-data&quot;&gt;Infer model parameters from experimental data&lt;/h3&gt;
 
 &lt;p&gt;推断超参，EPSC的理论解&lt;/p&gt;
 
-&lt;p&gt;Short term depression model:
-\(\begin{aligned}\frac{dx(t)}{dt}&amp;amp;=\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta(t-t_{sp}),\\EPSC&amp;amp;=AU_{SE}x^{-},\end{aligned}\)
-Iterative expression for EPSCs:
-\(x_{1}^{-}=1, EPSC_{1}=AU_{SE},  \\
+&lt;p&gt;Short term depression model:&lt;/p&gt;
+
+\[\begin{aligned}\frac{dx(t)}{dt}&amp;amp;=\frac{1-x(t)}{\tau_{rec}}-U_{SE}x^{-}\delta(t-t_{sp}),\\EPSC&amp;amp;=AU_{SE}x^{-},\end{aligned}\]
+
+&lt;p&gt;Iterative expression for EPSCs:&lt;/p&gt;
+
+\[x_{1}^{-}=1, EPSC_{1}=AU_{SE},  \\
 x_{n+1}^{-}=1-x_{n}^{-}(1-U_{SE})\mathrm{e}^{-\frac{\Delta t}{\tau_{rec}}} \\
-EPSC_{n+1}=AU_{SE}-EPSC_{n}(1-U_{SE})e^{-\frac{\Delta t}{\tau_{rec}}}\)&lt;/p&gt;
+EPSC_{n+1}=AU_{SE}-EPSC_{n}(1-U_{SE})e^{-\frac{\Delta t}{\tau_{rec}}}\]
 
 &lt;h4 id=&quot;short-term-facilitation-observed-between-pyramidal-cells-and-interneurons&quot;&gt;Short-term facilitation observed between pyramidal cells and interneurons&lt;/h4&gt;
 
@@ -3245,22 +3310,25 @@ EPSC_{n+1}=AU_{SE}-EPSC_{n}(1-U_{SE})e^{-\frac{\Delta t}{\tau_{rec}}}\)&lt;/p&gt
 
 &lt;p&gt;先前漏掉释放概率的建模&lt;/p&gt;
 
-&lt;p&gt;The release probability can also be modelled as a dynamical variable 𝑢(𝑡),
-\(\begin{gathered}
+&lt;p&gt;The release probability can also be modelled as a dynamical variable 𝑢(𝑡),&lt;/p&gt;
+
+\[\begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{SE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
 \frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u(t)x^{-}\delta\big(t-t_{sp}+\delta t\big), \\
 \frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{S}}+Au(t)x^{-}\delta\big(t-t_{sp}+\delta t\big), \\
 EPSC=Au(t)x^{-}, 
-\end{gathered}\)
-$U_{SE}$ might reflect the concentration of $Ca^{2+}$&lt;/p&gt;
+\end{gathered}\]
 
-&lt;p&gt;The release probability can also be modelled as a dynamical variable 𝑢(𝑡),
-\(\begin{gathered}
+&lt;p&gt;$U_{SE}$ might reflect the concentration of $Ca^{2+}$&lt;/p&gt;
+
+&lt;p&gt;The release probability can also be modelled as a dynamical variable 𝑢(𝑡),&lt;/p&gt;
+
+\[\begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{SE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
 \frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
 \frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
 {EPSC=Au^{+}x^{-},\quad u^{+}=\lim_{t-t_{sp}\to0^{+}}u(t),} 
-\end{gathered}\)&lt;/p&gt;
+\end{gathered}\]
 
 &lt;h3 id=&quot;std-and-stf-under-different-parameter-regime&quot;&gt;STD and STF under different parameter regime&lt;/h3&gt;
 
@@ -3285,9 +3353,11 @@ EPSC_{st}=Au_{st}^{+}x_{st}^{-}
 
 &lt;h3 id=&quot;prediction-for-complex-post-synaptic-patterns&quot;&gt;Prediction for complex post-synaptic patterns&lt;/h3&gt;
 
-&lt;p&gt;Infer model parameters by fitting experiments:
-\(EPSC_{n+1} = Au_nx_n\)
-&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826145401318.png&quot; alt=&quot;image-20230826145401318&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Infer model parameters by fitting experiments:&lt;/p&gt;
+
+\[EPSC_{n+1} = Au_nx_n\]
+
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826145401318.png&quot; alt=&quot;image-20230826145401318&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Simulate with complex pre-synaptic spike trains and compare with vitro experimental results (patch-clamp)&lt;/p&gt;
 
@@ -3297,30 +3367,35 @@ EPSC_{st}=Au_{st}^{+}x_{st}^{-}
 
 &lt;h3 id=&quot;mean-field-analysis-of-stp-model&quot;&gt;Mean-field Analysis of STP model&lt;/h3&gt;
 
-&lt;p&gt;STP based on spiking time 
-\(\begin{gathered}
-\frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
-\frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
-\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
-u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
-\end{gathered}\)
--&amp;gt;做时间平均&lt;/p&gt;
+&lt;p&gt;STP based on spiking time&lt;/p&gt;
 
-&lt;p&gt;STP based on firing rate
-\(\begin{gathered}
+\[\begin{gathered}
 \frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
 \frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
 \frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
 u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
-\end{gathered}\)
-&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826155016657.png&quot; alt=&quot;image-20230826155016657&quot; /&gt;&lt;/p&gt;
+\end{gathered}\]
+
+&lt;p&gt;-&amp;gt;做时间平均&lt;/p&gt;
+
+&lt;p&gt;STP based on firing rate&lt;/p&gt;
+
+\[\begin{gathered}
+\frac{du(t)}{dt}=\frac{-u(t)}{\tau_{f}}+U_{sE}(1-u^{-})\delta\big(t-t_{sp}\big), \\
+\frac{dx(t)}{dt}=\frac{1-x(t)}{\tau_{d}}-u^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+\frac{dg(t)}{dt}=-\frac{g(t)}{\tau_{s}}+Au^{+}x^{-}\delta\big(t-t_{sp}\big), \\
+u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t), 
+\end{gathered}\]
+
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230826155016657.png&quot; alt=&quot;image-20230826155016657&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;丢掉时间变化的具体细节，抓住了重要趋势&lt;/p&gt;
 
 &lt;h3 id=&quot;theoretical-analysis-of-the-rate-model&quot;&gt;Theoretical analysis of the rate model&lt;/h3&gt;
 
-&lt;p&gt;Suppose the pre-synaptic firing rate keeps as constant, we can calculate the stationary response
-\(u_{st}=\frac{U_{SE}R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad u_{st}^{+}=U_{SE}\frac{1+R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad x_{st}=\frac{1}{1+u_{st}^{+}\tau_{d}R_{0}},\)&lt;/p&gt;
+&lt;p&gt;Suppose the pre-synaptic firing rate keeps as constant, we can calculate the stationary response&lt;/p&gt;
+
+\[u_{st}=\frac{U_{SE}R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad u_{st}^{+}=U_{SE}\frac{1+R_{0}\tau_{f}}{1+U_{SE}R_{0}\tau_{f}},\quad x_{st}=\frac{1}{1+u_{st}^{+}\tau_{d}R_{0}},\]
 
 \[EPSC_{st}=Au_{st}^{+}x_{st}=A\frac{u_{st}^{+}}{1+u_{st}^{+}\tau_{d}R_{0}},\quad PSV_{st}\propto g_{st}=\tau_{s}Au_{st}^{+}x_{st}R_{0}=A\frac{u_{st}^{+}R_{0}}{1+u_{st}^{+}\tau_{d}R_{0}},\]
 
@@ -3356,9 +3431,11 @@ EPSC_{st}=Au_{st}^{+}x_{st}=A\frac{u_{st}^{+}}{1+u_{st}^{+}\tau_{d}R_{0}},
 
 &lt;p&gt;External Stimulus -&amp;gt;&lt;/p&gt;
 
-&lt;p&gt;Single neuron model
-\(\begin{aligned}\tau&amp;amp;\frac{\mathrm{d}V}{\mathrm{d}t}=-(V-V_\text{rest })+RI(t)\\\\&amp;amp;\text{if}V&amp;gt;V_\text{th},\quad V\leftarrow V_\text{reset }\text{last}t_\text{ref}\end{aligned}\)
--&amp;gt; … -&amp;gt; Perception or action&lt;/p&gt;
+&lt;p&gt;Single neuron model&lt;/p&gt;
+
+\[\begin{aligned}\tau&amp;amp;\frac{\mathrm{d}V}{\mathrm{d}t}=-(V-V_\text{rest })+RI(t)\\\\&amp;amp;\text{if}V&amp;gt;V_\text{th},\quad V\leftarrow V_\text{reset }\text{last}t_\text{ref}\end{aligned}\]
+
+&lt;p&gt;-&amp;gt; … -&amp;gt; Perception or action&lt;/p&gt;
 
 &lt;p&gt;真正的神经元并不是LIF model的输出&lt;/p&gt;
 
@@ -3391,14 +3468,16 @@ $C_{V}=\sigma_{\Delta t}^{2}/\overline{\Delta t}$&lt;/li&gt;
 
 &lt;h4 id=&quot;poisson-process&quot;&gt;Poisson Process&lt;/h4&gt;
 
-&lt;p&gt;In probability theory and statistics, the Poisson distribution is a discrete probability distribution that expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known &lt;strong&gt;constant mean rate&lt;/strong&gt; and &lt;strong&gt;independently&lt;/strong&gt; of the time since the last event。
-\(\begin{aligned}
+&lt;p&gt;In probability theory and statistics, the Poisson distribution is a discrete probability distribution that expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known &lt;strong&gt;constant mean rate&lt;/strong&gt; and &lt;strong&gt;independently&lt;/strong&gt; of the time since the last event。&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;P(X=k\mathrm{~events~in~interval~}t)=e^{-rt}\frac{(rt)^{k}}{k!} \\
 &amp;amp;\mathrm{mean:}\quad\overline{X}=rt \\
 &amp;amp;\mathrm{variance}:\quad\sigma^{2}=rt\\
 &amp;amp;\mathrm{Fano factor:}\quad\frac{\sigma^{2}}{X}=1
-\end{aligned}\)
-Fano factor -&amp;gt; noise-to-signal ratio&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;Fano factor -&amp;gt; noise-to-signal ratio&lt;/p&gt;
 
 &lt;h4 id=&quot;irregular-spiking-of-neurons-2&quot;&gt;Irregular Spiking of Neurons&lt;/h4&gt;
 
@@ -3455,12 +3534,13 @@ J_{ij}^{ab}~=~j_{ab}/\sqrt{N}; \\
 𝜏 = 20 ms
 𝑉𝑟𝑒𝑠𝑡 = -60 mV
 Spiking threshold: -50 mV
-Refractory period: 5 ms
-\(\begin{gathered}
+Refractory period: 5 ms&lt;/p&gt;
+
+\[\begin{gathered}
 \tau\frac{dV}{dt}=(V_{\mathrm{rest}}-V)+I \\
 I=g_{exc}(E_{exc}-V)+g_{inh}(E_{inh}-V)+I_{\mathrm{ext}} 
 \end{gathered} \ \ \ \ \ \
-\begin{aligned}\tau_{exc}&amp;amp;\frac{dg_{exc}}{dt}=-g_{exc}\\\tau_{inh}&amp;amp;\frac{dg_{inh}}{dt}=-g_{inh}\end{aligned}\)&lt;/p&gt;
+\begin{aligned}\tau_{exc}&amp;amp;\frac{dg_{exc}}{dt}=-g_{exc}\\\tau_{inh}&amp;amp;\frac{dg_{inh}}{dt}=-g_{inh}\end{aligned}\]
 
 \[\begin{array}{l}E_\mathrm{exc}=0\text{mV}\mathrm{and}E_\mathrm{inh}=-80\text{mV},I_\mathrm{ext}=20.\\\tau_\mathrm{exc}=5\text{ ms},\tau_\mathrm{inh}=10\text{ ms},\Delta g_\mathrm{exc}=0.6\text{ and}\Delta g_\mathrm{inh}=6.7.\end{array}\]
 
@@ -3566,9 +3646,11 @@ Point attractors, Line attractors, Ring attractors, Plane attractors, Cyclic att
 &lt;p&gt;$S_i=\pm1$: the neuronal state
 $W_{ij}$ : the neuronal connection&lt;/p&gt;
 
-&lt;p&gt;The network dynamics:
-\(S_{i}=\mathrm{sign}\bigg(\sum_{j}w_{ij}S_{j}-\theta\bigg),\quad\mathrm{sign}(x)=1,\mathrm{for}x&amp;gt;0;-1,\mathrm{otherwise}\)
-Updating rule: synchronous or asynchronous
+&lt;p&gt;The network dynamics:&lt;/p&gt;
+
+\[S_{i}=\mathrm{sign}\bigg(\sum_{j}w_{ij}S_{j}-\theta\bigg),\quad\mathrm{sign}(x)=1,\mathrm{for}x&amp;gt;0;-1,\mathrm{otherwise}\]
+
+&lt;p&gt;Updating rule: synchronous or asynchronous
 Consider the network stores $p$ pattern, $\xi_{i}^{\mu},\mathrm{for}\mu=1,\ldots p;i=1,\ldots N$
 Setting $w_{ij}=\frac{1}{N}\sum_{\mu=1}^{p}\xi_{i}^{\mu}\xi_{j}^{\mu}$&lt;/p&gt;
 
@@ -3613,9 +3695,11 @@ Setting $w_{ij}=\frac{1}{N}\sum_{\mu=1}^{p}\xi_{i}^{\mu}\xi_{j}^{\mu}$&lt;/p&gt;
 
 &lt;h3 id=&quot;cann-a-rate-based-recurrent-circuit-model&quot;&gt;CANN: A rate-based recurrent circuit model&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230827142918529.png&quot; alt=&quot;image-20230827142918529&quot; style=&quot;zoom:50%;&quot; /&gt;
-\(\begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&amp;amp;=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&amp;amp;=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&amp;amp;=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}\)
-r频率，J强度，U decay&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230827142918529.png&quot; alt=&quot;image-20230827142918529&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
+
+\[\begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&amp;amp;=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&amp;amp;=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&amp;amp;=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}\]
+
+&lt;p&gt;r频率，J强度，U decay&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230827143435002.png&quot; alt=&quot;image-20230827143435002&quot; style=&quot;zoom:50%;&quot; /&gt;&lt;/p&gt;
 
@@ -3660,8 +3744,9 @@ r频率，J强度，U decay&lt;/p&gt;
 
 &lt;h3 id=&quot;persistent-activity-for-working-memory&quot;&gt;Persistent activity for working memory&lt;/h3&gt;
 
-&lt;p&gt;When the global inhibition is not too strong, the network spontaneously hold bump activity:
-\(k&amp;lt;\frac{\rho J_{0}^{2}}{8\sqrt{2\pi}a}\)&lt;/p&gt;
+&lt;p&gt;When the global inhibition is not too strong, the network spontaneously hold bump activity:&lt;/p&gt;
+
+\[k&amp;lt;\frac{\rho J_{0}^{2}}{8\sqrt{2\pi}a}\]
 
 \[\begin{aligned}
 &amp;amp;\tilde{U}(x|z) =\quad U_{0}\exp\left[-\frac{(x-z)^{2}}{4a^{2}}\right],  \\
@@ -3677,9 +3762,11 @@ r频率，J强度，U decay&lt;/p&gt;
 &lt;p&gt;Project the network dynamics on $v_1(t)$
 $\tau{\frac{\partial\mathbf{U}&lt;em&gt;\mathbf{v}_{1}}{\partial t}}=-\mathbf{U}&lt;/em&gt;\mathbf{v}&lt;em&gt;{1}+(\mathbf{J}*\mathbf{r})*\mathbf{v}&lt;/em&gt;{1}+\mathbf{I}^{ext}*\mathbf{v}_{1}$&lt;/p&gt;
 
-&lt;p&gt;Consider
-\(\begin{aligned}&amp;amp;I^{ext}(t)=\alpha\overline{U}(x\mid z_0)+\sigma\xi_c(t)\\&amp;amp;\mathbf{U}*\mathbf{v}_1\equiv\int dxU(x\mid z)\nu_1(x\mid z)\\\\&amp;amp;\tau\frac{dz}{dt}=-\alpha(z-z_0)e^{-(z-z_0)^2/8a^2}+\beta\xi(t)\end{aligned}\)
-1st term: the force of the signal that pulls the bump back to the stimulus position
+&lt;p&gt;Consider&lt;/p&gt;
+
+\[\begin{aligned}&amp;amp;I^{ext}(t)=\alpha\overline{U}(x\mid z_0)+\sigma\xi_c(t)\\&amp;amp;\mathbf{U}*\mathbf{v}_1\equiv\int dxU(x\mid z)\nu_1(x\mid z)\\\\&amp;amp;\tau\frac{dz}{dt}=-\alpha(z-z_0)e^{-(z-z_0)^2/8a^2}+\beta\xi(t)\end{aligned}\]
+
+&lt;p&gt;1st term: the force of the signal that pulls the bump back to the stimulus position
 2nd term: random shift&lt;/p&gt;
 
 &lt;h3 id=&quot;population-decoding-via-template-matching&quot;&gt;Population decoding via template matching&lt;/h3&gt;
@@ -3760,8 +3847,9 @@ r(x,t)={\frac{U^{2}(x,t)}{1+k\rho\int U^{2}(x,t)dx}}\quad(4)
 
 &lt;h3 id=&quot;customize-a-ring-cann-in-brainpy&quot;&gt;Customize a ring CANN in brainpy&lt;/h3&gt;
 
-&lt;p&gt;In simulations, we can not simulate a CANN encoding features ranging $(-\inf, \inf)$. Instead, we simulate a ring attractor network which encodes features ranging $(-\pi, \pi)$. Note that the distance on a ring should be:&lt;br /&gt;
-\(dist_{ring}(x,x') = min(|x-x'|,2\pi-|x-x'|)\)&lt;/p&gt;
+&lt;p&gt;In simulations, we can not simulate a CANN encoding features ranging $(-\inf, \inf)$. Instead, we simulate a ring attractor network which encodes features ranging $(-\pi, \pi)$. Note that the distance on a ring should be:&lt;/p&gt;
+
+\[dist_{ring}(x,x') = min(|x-x'|,2\pi-|x-x'|)\]
 
 &lt;p&gt;&lt;img src=&quot;https://cdn.kesci.com/upload/s01apgi89t.png?imageView2/0/w/320/h/320&quot; alt=&quot;Image Name&quot; /&gt;&lt;/p&gt;
 
@@ -4286,8 +4374,9 @@ r(x,t)={\frac{U^{2}(x,t)}{1+k\rho\int U^{2}(x,t)dx}}\quad(4)
 
 &lt;h3 id=&quot;ramping-to-thresholdperfect-integrator-model&quot;&gt;Ramping-to-threshold(perfect integrator) Model&lt;/h3&gt;
 
-&lt;p&gt;\(\begin{aligned}\frac{dR}{dt}=I_A-I_B+\text{noise},\quad R(t)&amp;amp;=(I_A-I_B)t+\int_0^tdt\text{noise}.\\\tau_\text{network}&amp;amp;=\infty!\end{aligned}\)
-两种选择积分求和做积累，等到阈值做决策&lt;/p&gt;
+\[\begin{aligned}\frac{dR}{dt}=I_A-I_B+\text{noise},\quad R(t)&amp;amp;=(I_A-I_B)t+\int_0^tdt\text{noise}.\\\tau_\text{network}&amp;amp;=\infty!\end{aligned}\]
+
+&lt;p&gt;两种选择积分求和做积累，等到阈值做决策&lt;/p&gt;
 
 &lt;p&gt;Accumulates information (evidence) -&amp;gt; Ramping&lt;/p&gt;
 
@@ -4336,8 +4425,9 @@ interneurons的backward有抑制作用&lt;/p&gt;
 
 &lt;p&gt;用两个coherence生成出来的序列&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828110300576.png&quot; alt=&quot;image-20230828110300576&quot; /&gt;
-\(\begin{gathered}C_m\frac{dV(t)}{dt}=-g_L(V(t)-V_L)-I_{syn}(t)\\I_{syn}(t)=I_{\mathrm{ext},\mathrm{AMPA}}\left(t\right)+I_{\mathrm{rec},AMPA}(t)+I_{\mathrm{rec},NMDA}(t)+I_{\mathrm{rec},\mathrm{GABA}}(t)\end{gathered}\)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828110300576.png&quot; alt=&quot;image-20230828110300576&quot; /&gt;&lt;/p&gt;
+
+\[\begin{gathered}C_m\frac{dV(t)}{dt}=-g_L(V(t)-V_L)-I_{syn}(t)\\I_{syn}(t)=I_{\mathrm{ext},\mathrm{AMPA}}\left(t\right)+I_{\mathrm{rec},AMPA}(t)+I_{\mathrm{rec},NMDA}(t)+I_{\mathrm{rec},\mathrm{GABA}}(t)\end{gathered}\]
 
 \[\begin{gathered}
 I_{\mathrm{ext},\mathrm{AMPA}}\left(t\right)=g_{\mathrm{ext},\mathrm{AMPA}}\left(V(t)-V_{E}\right)s^{\mathrm{ext},\mathrm{AMPA}}\left(t\right) \\
@@ -4585,26 +4675,35 @@ I_\mathrm{rec,GABA}(t)=g_\mathrm{GABA}(V(t)-V_l)\sum_{j=1}^{C_1}s_j^\mathrm{GABA
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828112326267.png&quot; alt=&quot;image-20230828112326267&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Synaptic variables
-\(\begin{gathered}
+&lt;p&gt;Synaptic variables&lt;/p&gt;
+
+\[\begin{gathered}
 \frac{dS_{1}}{dt} =F(x_1)\gamma(1-S_1)-S_1/\tau_s \\
 \frac{dS_2}{dt} =F(x_2)\gamma(1-S_2)-S_2/\tau_s 
-\end{gathered}\)
-Input current to each population
-\(\begin{gathered}
+\end{gathered}\]
+
+&lt;p&gt;Input current to each population&lt;/p&gt;
+
+\[\begin{gathered}
 x_{1} =J_{E}S_{1}+J_{I}S_{2}+I_{0}+I_{noise1}+J_{\text{ext }\mu_{1}} \\
 x_{2} =J_{E}S_{2}+J_{I}S_{1}+I_{0}+I_{noise2}+J_{\mathrm{ext}}\mu_{2} 
-\end{gathered}\)
-Background input
-\(I_0+I_{noise}\\
+\end{gathered}\]
+
+&lt;p&gt;Background input&lt;/p&gt;
+
+\[I_0+I_{noise}\\
 \begin{gathered}
 dI_{noise1} =-I_{noise1}\frac{dt}{\tau_{0}}+\sigma dW \\
 dI_{noise2} =-I_{noise2}\frac{dt}{\tau_{0}}+\sigma dW 
-\end{gathered}\)
-Firing rates
-\(r_i=F(x_i)=\frac{ax_i-b}{1-\exp(-d(ax_i-b))}\)
-Coherence-dependent inputs
-\(\begin{array}{l}\mu_1=\mu_0\big(1+c'/100\big)\\\mu_2=\mu_0\big(1-c'/100\big)\end{array}\)&lt;/p&gt;
+\end{gathered}\]
+
+&lt;p&gt;Firing rates&lt;/p&gt;
+
+\[r_i=F(x_i)=\frac{ax_i-b}{1-\exp(-d(ax_i-b))}\]
+
+&lt;p&gt;Coherence-dependent inputs&lt;/p&gt;
+
+\[\begin{array}{l}\mu_1=\mu_0\big(1+c'/100\big)\\\mu_2=\mu_0\big(1-c'/100\big)\end{array}\]
 
 \[\begin{aligned}&amp;amp;\gamma,a,b,d,J_E,J_I,J_{\mathrm{ext}},I_0,\mu_0,\tau_{\mathrm{AMPA}},\sigma_{\mathrm{noise}}\\&amp;amp;\text{are fixed parameters.}\end{aligned}\]
 
@@ -4770,13 +4869,14 @@ Coherence-dependent inputs
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828140305956.png&quot; alt=&quot;image-20230828140305956&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Connecting different units
-\(\begin{aligned}
+&lt;p&gt;Connecting different units&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\textsf{Input to unit i from unit j:} \\
 &amp;amp;&amp;amp;&amp;amp;I_{j\rightarrow i}=J_{ij}r_{j}(t) \\
 &amp;amp;\textsf{Total input to unit i:} \\
 &amp;amp;&amp;amp;&amp;amp;I_{i}^{(tot)}=\sum_{j=1}^{N}J_{ij}r_{j}(t)+I_{i}^{(ext)} 
-\end{aligned}\)&lt;/p&gt;
+\end{aligned}\]
 
 \[\textsf{Activation of unit i:}
 \\
@@ -4792,12 +4892,14 @@ Coherence-dependent inputs
 
 &lt;p&gt;类似人工神经网络RNN，可以处理temporal信息&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828140937455.png&quot; alt=&quot;image-20230828140937455&quot; /&gt;
-\(\begin{aligned}
+&lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828140937455.png&quot; alt=&quot;image-20230828140937455&quot; /&gt;&lt;/p&gt;
+
+\[\begin{aligned}
 &amp;amp;\mathbf{x}(n+1) =f(\mathbf{W}^{\mathrm{in}}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}(n)+\mathbf{W}^{\mathrm{back}}\mathbf{y}(n))  \\
 &amp;amp;\mathbf{y}(n+1) =\mathbf{W}^{\mathrm{out}}(\mathbf{u}(n+1),\mathbf{x}(n+1),\mathbf{y}(n)) 
-\end{aligned}\)
-For an RNN, the state of its internal neurons reflects the historical information of the external inputs.&lt;/p&gt;
+\end{aligned}\]
+
+&lt;p&gt;For an RNN, the state of its internal neurons reflects the historical information of the external inputs.&lt;/p&gt;
 
 &lt;p&gt;反映的echo的历史信息，唯一依赖历史信息&lt;/p&gt;
 
@@ -4815,9 +4917,11 @@ For an RNN, the state of its internal neurons reflects the historical informatio
 
 &lt;p&gt;where $h(n)$ is a vector of reservoir neuron activations, $W^{in}$ and $W^{rec}$ are the input and recurrent weight matrices respectively, and $\alpha\in(0,1]$ is the leaking rate. The model is also sometimes used without the leaky integration, which is a special case of $\alpha=1$&lt;/p&gt;
 
-&lt;p&gt;The linear readout layer is defined as 
-\(y(n)=W^{out}h(n)+b^{out}\)
-where $y(n)$ is network output, $W^{out}$ the output weight matrix, and $b^out$ is the output bias&lt;/p&gt;
+&lt;p&gt;The linear readout layer is defined as&lt;/p&gt;
+
+\[y(n)=W^{out}h(n)+b^{out}\]
+
+&lt;p&gt;where $y(n)$ is network output, $W^{out}$ the output weight matrix, and $b^out$ is the output bias&lt;/p&gt;
 
 &lt;h2 id=&quot;constraints-of-echo-state-machine&quot;&gt;Constraints of echo state machine&lt;/h2&gt;
 
@@ -4854,12 +4958,14 @@ d(\mathbf{x}(n+1),\mathbf{x}^{\prime}(n+1))&amp;amp; =d(T(\mathbf{x}(n),\mathbf{
 &lt;h4 id=&quot;how-to-initialize&quot;&gt;How to initialize&lt;/h4&gt;
 
 &lt;p&gt;Using these two theorems, how should we initialize W so that the network has an echo property?
-If we scale W, i.e., multiply it by a scaling factor $\alpha$, then $\sigma_{max}&amp;lt;1$ and $\lambda_{max}$ will also be scaled $\alpha$.
-\(\text{For any square matrix, we have}\sigma_{max}\geq|\lambda_{max}|.\\
+If we scale W, i.e., multiply it by a scaling factor $\alpha$, then $\sigma_{max}&amp;lt;1$ and $\lambda_{max}$ will also be scaled $\alpha$.&lt;/p&gt;
+
+\[\text{For any square matrix, we have}\sigma_{max}\geq|\lambda_{max}|.\\
 \text{Therefore we set}\alpha_{min}=1/\sigma_{max}(W),\alpha_{max}=1/|\lambda_{max}|(W).\mathrm{Then},
 \\
-\begin{array}{ll}\bullet&amp;amp;\text{if}\alpha&amp;lt;\alpha_{min}\text{,the network must have the echo state.}\\\bullet&amp;amp;\text{if}\alpha&amp;gt;\alpha_{max}\text{,the network will not have the echo state.}\\\bullet&amp;amp;\text{if}\alpha_{min}\le\alpha\le\alpha_{max}\text{,the network may have the echo state.}\end{array}\)
-&lt;strong&gt;$\alpha$设的略小于1&lt;/strong&gt;&lt;/p&gt;
+\begin{array}{ll}\bullet&amp;amp;\text{if}\alpha&amp;lt;\alpha_{min}\text{,the network must have the echo state.}\\\bullet&amp;amp;\text{if}\alpha&amp;gt;\alpha_{max}\text{,the network will not have the echo state.}\\\bullet&amp;amp;\text{if}\alpha_{min}\le\alpha\le\alpha_{max}\text{,the network may have the echo state.}\end{array}\]
+
+&lt;p&gt;&lt;strong&gt;$\alpha$设的略小于1&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/BrainPy-course-notes/assets/images/Notes.assets/image-20230828142516052.png&quot; alt=&quot;image-20230828142516052&quot; /&gt;&lt;/p&gt;
 
@@ -4907,11 +5013,12 @@ If we scale W, i.e., multiply it by a scaling factor $\alpha$, then $\sigma_{max
 
 &lt;p&gt;线性层的优化方法是简单的&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Ridge regression&lt;/strong&gt;
-\(\begin{aligned}\epsilon_{\mathrm{train}}(n)&amp;amp;=\mathbf{y}(n)-\mathbf{\hat{y}}(n)
+&lt;p&gt;&lt;strong&gt;Ridge regression&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{aligned}\epsilon_{\mathrm{train}}(n)&amp;amp;=\mathbf{y}(n)-\mathbf{\hat{y}}(n)
 \\&amp;amp;=\mathbf{y}(n)-\mathbf{W}^{\mathrm{out}}\mathbf{x}(n)
 \\&amp;amp;L_{\mathrm{ridge}}=\frac{1}{N}\sum_{i=1}^{N}\epsilon_{\mathrm{train}}^{2}(i)+\alpha||\mathbf{W^{out}}||^{2}
-\\\\W^{out}&amp;amp;=Y^{target}X^T(XX^T+\beta I)^{-1}\end{aligned}\)&lt;/p&gt;
+\\\\W^{out}&amp;amp;=Y^{target}X^T(XX^T+\beta I)^{-1}\end{aligned}\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;trainer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OfflineTrainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fit_method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;algorithms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RidgeRegression&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1e-7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -4922,8 +5029,9 @@ If we scale W, i.e., multiply it by a scaling factor $\alpha$, then $\sigma_{max
 
 &lt;p&gt;The training data is passed to the trainer in a certain sequence (e.g., time series), and the trainer continuously learns based on the new incoming data.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Recursive Least Squares (RLS) algorithm&lt;/strong&gt;
-\(E(\mathbf{y},\mathbf{y}^\mathrm{target},n)=\frac{1}{N_\mathrm{y}}\sum_{i=1}^{N_\mathrm{y}}\sum_{j=1}^{n}\lambda^{n-j}\left(y_i(j)-y_i^\mathrm{target}(j)\right)^2,\)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Recursive Least Squares (RLS) algorithm&lt;/strong&gt;&lt;/p&gt;
+
+\[E(\mathbf{y},\mathbf{y}^\mathrm{target},n)=\frac{1}{N_\mathrm{y}}\sum_{i=1}^{N_\mathrm{y}}\sum_{j=1}^{n}\lambda^{n-j}\left(y_i(j)-y_i^\mathrm{target}(j)\right)^2,\]
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;trainer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OnlineTrainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fit_method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;algorithms&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RLS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;

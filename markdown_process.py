@@ -24,8 +24,8 @@ MathJax = {
 
 def replace_img_url_1(content):
     # 对于 ![image name](Notes.assets/image-000.png) 格式的替换
-    pattern1 = r'!\[.*?\]\((Notes\.assets/.*?\.(png|jpg|jpeg|gif|bmp))\)'
-    replacement1 = r'!\[.*?\](/assets/images/\1)'
+    pattern1 = r'(!\[.*?\])\((Notes\.assets/.*?\.(png|jpg|jpeg|gif|bmp))\)'
+    replacement1 = r'\1(/assets/images/\2)'
     content = re.sub(pattern1, replacement1, content)
 
     # 对于 <img src="Notes.assets/image-20230826111831637.png" ... /> 格式的替换

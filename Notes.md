@@ -4925,3 +4925,426 @@ def int_s2(s2, t, s1, coh=0.5, mu=20.):
 ![image-20230828113031946](Notes.assets/image-20230828113031946.png)
 
 ![image-20230828113009219](Notes.assets/image-20230828113009219.png)
+
+# Reservoir Computing
+
+引入训练
+
+倾向于使用RNN 
+
+![image-20230828140305956](Notes.assets/image-20230828140305956.png)
+
+Connecting different units
+$$
+\begin{aligned}
+&\textsf{Input to unit i from unit j:} \\
+&&&I_{j\rightarrow i}=J_{ij}r_{j}(t) \\
+&\textsf{Total input to unit i:} \\
+&&&I_{i}^{(tot)}=\sum_{j=1}^{N}J_{ij}r_{j}(t)+I_{i}^{(ext)} 
+\end{aligned}
+$$
+
+$$
+\textsf{Activation of unit i:}
+\\
+\tau\frac{dx_{i}}{dt}=-x_{i}+\sum_{j=1}^{N}J_{ij}\frac{\phi(x_{j})}{1}+I_{i}^{(ext)}(t)
+$$
+
+训练范式
+
+![image-20230828140707998](Notes.assets/image-20230828140707998.png)
+
+## Echo state machine
+
+### Echo state machine
+
+类似人工神经网络RNN，可以处理temporal信息
+
+![image-20230828140937455](Notes.assets/image-20230828140937455.png)
+$$
+\begin{aligned}
+&\mathbf{x}(n+1) =f(\mathbf{W}^{\mathrm{in}}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}(n)+\mathbf{W}^{\mathrm{back}}\mathbf{y}(n))  \\
+&\mathbf{y}(n+1) =\mathbf{W}^{\mathrm{out}}(\mathbf{u}(n+1),\mathbf{x}(n+1),\mathbf{y}(n)) 
+\end{aligned}
+$$
+For an RNN, the state of its internal neurons reflects the historical information of the external inputs.
+
+反映的echo的历史信息，唯一依赖历史信息
+
+Assuming that the updates of the network are discrete, the external input at the 𝑛th moment is u(𝑛) and the neuron state is x(𝑛), then x(𝑛) should be determined by u(𝑛), u(𝑛 - 1), ... uniquely determined. At this point, x(𝑛) can be regarded as an "echo" of the historical input signals.
+
+不需要训练connection
+
+### Echo state machine with leaky integrator
+
+有一个leaky项，引入decay
+
+### 
+
+$$
+\begin{aligned}\hat{h}(n)=\tanh(W^{in}x(n)+W^{rec}h(n-1)+W^{fb}y(n-1)+b^{rec})\\h(n)=(1-\alpha)x(n-1)+\alpha\hat{h}(n)\end{aligned}
+$$
+
+where $h(n)$ is a vector of reservoir neuron activations, $W^{in}$ and $W^{rec}$ are the input and recurrent weight matrices respectively, and $\alpha\in(0,1]$ is the leaking rate. The model is also sometimes used without the leaky integration, which is a special case of $\alpha=1$
+
+The linear readout layer is defined as 
+$$
+y(n)=W^{out}h(n)+b^{out}
+$$
+where $y(n)$ is network output, $W^{out}$ the output weight matrix, and $b^out$ is the output bias
+
+## Constraints of echo state machine
+
+### Echo state property
+
+#### Theorem 1
+
+For the echo state network defined above, the network will be echoey as long as the maximum singular value  $\sigma_{max}<1$ of the recurrent connectivity matrix W .
+
+> Provement:
+> $$
+> \begin{aligned}
+> d(\mathbf{x}(n+1),\mathbf{x}^{\prime}(n+1))& =d(T(\mathbf{x}(n),\mathbf{u}(n+1)),T(\mathbf{x}'(n),\mathbf{u}(n+1)))  \\
+> &=d(f(\mathbf{W}^\mathrm{in}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}(n)),f(\mathbf{W}^\mathrm{in}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}'(n))) \\
+> &\leq d(\mathbf{W}^\mathrm{in}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}(n),\mathbf{W}^\mathrm{in}\mathbf{u}(n+1)+\mathbf{W}\mathbf{x}^{\prime}(n)) \\
+> &=d(\mathbf{W}\mathbf{x}(n),\mathbf{W}\mathbf{x}'(n)) \\
+> &=||\mathbf{W}(\mathbf{x}(n)-\mathbf{x}^{\prime}(n))|| \\
+> &\leq\sigma_{\max}(\mathbf{W})d(\mathbf{x}(n),\mathbf{x}'(n))
+> \end{aligned}
+> $$
+
+#### Theorem 2
+
+For the echo state network defined above, as long as the spectral radius $|\lambda_{max}|$ of the recurrent connection matrix W > 1, then the network must not be echogenic. The spectral radius of the matrix is the absolute value of the largest eigenvalue $\lambda_{max}$.
+
+#### How to initialize
+
+Using these two theorems, how should we initialize W so that the network has an echo property?
+If we scale W, i.e., multiply it by a scaling factor $\alpha$, then $\sigma_{max}<1$ and $\lambda_{max}$ will also be scaled $\alpha$.
+$$
+\text{For any square matrix, we have}\sigma_{max}\geq|\lambda_{max}|.\\
+\text{Therefore we set}\alpha_{min}=1/\sigma_{max}(W),\alpha_{max}=1/|\lambda_{max}|(W).\mathrm{Then},
+\\
+\begin{array}{ll}\bullet&\text{if}\alpha<\alpha_{min}\text{,the network must have the echo state.}\\\bullet&\text{if}\alpha>\alpha_{max}\text{,the network will not have the echo state.}\\\bullet&\text{if}\alpha_{min}\le\alpha\le\alpha_{max}\text{,the network may have the echo state.}\end{array}
+$$
+**$\alpha$设的略小于1**
+
+![image-20230828142516052](Notes.assets/image-20230828142516052.png)
+
+### Global parameters of reservoir
+
+这些超参会影响reservoir network的性能，需要手动调参，很难自动去调整
+
+- The size $N_x$
+  - General wisdom: the bigger the reservoir, the better the obtainable performance 
+  - Select global parameters with smaller reservoirs, then scale to bigger ones.
+- Sparsity 
+- Distribution of nonzero elements:
+  - Normal distribution
+  - Uniform distribution
+  - The width of the distributions does not matter
+- spectral radius of $W$
+  - scales the width of the distribution of its nonzero elements
+  - determines how fast the influence of an input dies out in a reservoir with time, and how stable the reservoir activations are
+  - The spectral radius should be larger in tasks requiring longer memory of the input
+- Scaling(-s) to $W^{in}$:
+  - For uniform distributed $W^{in}$, $\alpha$ in the range of the interval $[-a;a]$.
+  - For normal distributed $W^{in}$, one may take the standard deviation as a scaling measure.
+
+The leaking rate $\alpha$
+
+## Training of echo state machine
+
+### Offline learning
+
+The advantage of the echo state network is that it does not train recurrent connections within the reservoir, but only the readout layer from the reservoir to the output.
+
+线性层的优化方法是简单的
+
+**Ridge regression**
+$$
+\begin{aligned}\epsilon_{\mathrm{train}}(n)&=\mathbf{y}(n)-\mathbf{\hat{y}}(n)
+\\&=\mathbf{y}(n)-\mathbf{W}^{\mathrm{out}}\mathbf{x}(n)
+\\&L_{\mathrm{ridge}}=\frac{1}{N}\sum_{i=1}^{N}\epsilon_{\mathrm{train}}^{2}(i)+\alpha||\mathbf{W^{out}}||^{2}
+\\\\W^{out}&=Y^{target}X^T(XX^T+\beta I)^{-1}\end{aligned}
+$$
+
+```python
+trainer = bp.OfflineTrainer(model, fit_method=bp.algorithms.RidgeRegression(1e-7), dt=dt)
+```
+
+
+
+### Online learning
+
+来一个sample，进行一次training，对训练资源可以避免瓶颈
+
+The training data is passed to the trainer in a certain sequence (e.g., time series), and the trainer continuously learns based on the new incoming data.
+
+**Recursive Least Squares (RLS) algorithm**
+$$
+E(\mathbf{y},\mathbf{y}^\mathrm{target},n)=\frac{1}{N_\mathrm{y}}\sum_{i=1}^{N_\mathrm{y}}\sum_{j=1}^{n}\lambda^{n-j}\left(y_i(j)-y_i^\mathrm{target}(j)\right)^2,
+$$
+
+```python
+trainer = bp.OnlineTrainer(model, fit_method=bp.algorithms.RLS(), dt=dt)
+```
+
+### Dataset
+
+给定time sequence，可以让网络去预测regression
+
+![image-20230828144309742](Notes.assets/image-20230828144309742.png)
+
+用到BrainPy集成的`Neuromorphic and Cognitive Datasets`
+
+### Other tasks
+
+`MNIST dataset` or `Fashion MNIST`
+
+Two aspect:
+
+- Running time
+- Memory Usage
+
+## Echo state machine programming
+
+```python
+import brainpy as bp
+import brainpy.math as bm
+import brainpy_datasets as bd
+import matplotlib.pyplot as plt
+
+# enable x64 computation
+bm.set_environment(x64=True, mode=bm.batching_mode)
+bm.set_platform('cpu')
+```
+
+### Dataset
+
+```python
+def plot_mackey_glass_series(ts, x_series, x_tau_series, num_sample):
+  plt.figure(figsize=(13, 5))
+
+  plt.subplot(121)
+  plt.title(f"Timeserie - {num_sample} timesteps")
+  plt.plot(ts[:num_sample], x_series[:num_sample], lw=2, color="lightgrey", zorder=0)
+  plt.scatter(ts[:num_sample], x_series[:num_sample], c=ts[:num_sample], cmap="viridis", s=6)
+  plt.xlabel("$t$")
+  plt.ylabel("$P(t)$")
+
+  ax = plt.subplot(122)
+  ax.margins(0.05)
+  plt.title(f"Phase diagram: $P(t) = f(P(t-\\tau))$")
+  plt.plot(x_tau_series[: num_sample], x_series[: num_sample], lw=1, color="lightgrey", zorder=0)
+  plt.scatter(x_tau_series[:num_sample], x_series[: num_sample], lw=0.5, c=ts[:num_sample], cmap="viridis", s=6)
+  plt.xlabel("$P(t-\\tau)$")
+  plt.ylabel("$P(t)$")
+  cbar = plt.colorbar()
+  cbar.ax.set_ylabel('$t$')
+
+  plt.tight_layout()
+  plt.show()
+```
+
+```python
+dt = 0.1
+mg_data = bd.chaos.MackeyGlassEq(25000, dt=dt, tau=17, beta=0.2, gamma=0.1, n=10)
+ts = mg_data.ts
+xs = mg_data.xs
+ys = mg_data.ys
+
+plot_mackey_glass_series(ts, xs, ys, num_sample=int(1000 / dt))
+```
+
+![image-20230828151451523](Notes.assets/image-20230828151451523.png)
+
+### Prediction of Mackey-Glass timeseries
+
+#### Prepare the data
+
+```python
+def get_data(t_warm, t_forcast, t_train, sample_rate=1):
+    warmup = int(t_warm / dt)  # warmup the reservoir
+    forecast = int(t_forcast / dt)  # predict 10 ms ahead
+    train_length = int(t_train / dt)
+
+    X_warm = xs[:warmup:sample_rate]
+    X_warm = bm.expand_dims(X_warm, 0)
+
+    X_train = xs[warmup: warmup+train_length: sample_rate]
+    X_train = bm.expand_dims(X_train, 0)
+
+    Y_train = xs[warmup+forecast: warmup+train_length+forecast: sample_rate]
+    Y_train = bm.expand_dims(Y_train, 0)
+
+    X_test = xs[warmup + train_length: -forecast: sample_rate]
+    X_test = bm.expand_dims(X_test, 0)
+
+    Y_test = xs[warmup + train_length + forecast::sample_rate]
+    Y_test = bm.expand_dims(Y_test, 0)
+
+    return X_warm, X_train, Y_train, X_test, Y_test
+```
+
+```python
+# First warmup the reservoir using the first 100 ms
+# Then, train the network in 20000 ms to predict 1 ms chaotic series ahead
+x_warm, x_train, y_train, x_test, y_test = get_data(100, 1, 20000)
+```
+
+```python
+sample = 3000
+fig = plt.figure(figsize=(15, 5))
+plt.plot(x_train[0, :sample], label="Training data")
+plt.plot(y_train[0, :sample], label="True prediction")
+plt.legend()
+plt.show()
+```
+
+![image-20230828151606545](Notes.assets/image-20230828151606545.png)
+
+#### Prepare the ESN
+
+```python
+class ESN(bp.DynamicalSystemNS):
+  def __init__(self, num_in, num_hidden, num_out, sr=1., leaky_rate=0.3,
+               Win_initializer=bp.init.Uniform(0, 0.2)):
+    super(ESN, self).__init__()
+    self.r = bp.layers.Reservoir(
+        num_in, num_hidden,
+        Win_initializer=Win_initializer,
+        spectral_radius=sr,
+        leaky_rate=leaky_rate,
+    )
+    self.o = bp.layers.Dense(num_hidden, num_out, mode=bm.training_mode)
+
+  def update(self, x):
+    return x >> self.r >> self.o
+```
+
+#### Train and test
+
+```python
+model = ESN(1, 100, 1)
+model.reset_state(1)
+trainer = bp.RidgeTrainer(model, alpha=1e-6)
+```
+
+```python
+# warmup
+_ = trainer.predict(x_warm)
+```
+
+```python
+# train
+_ = trainer.fit([x_train, y_train])
+```
+
+#### Test the training data
+
+```python
+ys_predict = trainer.predict(x_train)
+```
+
+```python
+start, end = 1000, 6000
+plt.figure(figsize=(15, 7))
+plt.subplot(211)
+plt.plot(bm.as_numpy(ys_predict)[0, start:end, 0],
+         lw=3, label="ESN prediction")
+plt.plot(bm.as_numpy(y_train)[0, start:end, 0], linestyle="--",
+         lw=2, label="True value")
+plt.title(f'Mean Square Error: {bp.losses.mean_squared_error(ys_predict, y_train)}')
+plt.legend()
+plt.show()
+```
+
+![image-20230828151747954](Notes.assets/image-20230828151747954.png)
+
+#### Test the testing data
+
+```python
+ys_predict = trainer.predict(x_test)
+
+start, end = 1000, 6000
+plt.figure(figsize=(15, 7))
+plt.subplot(211)
+plt.plot(bm.as_numpy(ys_predict)[0, start:end, 0], lw=3, label="ESN prediction")
+plt.plot(bm.as_numpy(y_test)[0,start:end, 0], linestyle="--", lw=2, label="True value")
+plt.title(f'Mean Square Error: {bp.losses.mean_squared_error(ys_predict, y_test)}')
+plt.legend()
+plt.show()
+```
+
+![image-20230828151824907](Notes.assets/image-20230828151824907.png)
+
+### JIT connection operators
+
+- Just-in-time randomly generated matrix.
+- Support for Mat@Vec and Mat@Mat.
+- Support different random generation methods.(homogenous, uniform, normal)
+
+```python
+import math, random
+
+def jitconn_prob_homo(events, prob, weight, seed, outs):
+    random.seed(seed)
+    max_cdist= math.ceil(2/prob -1)
+    for event in  events:
+        if event:
+            post_i = random.randint(1, max_cdist)
+            outs[post_i] += weight
+```
+
+![image-20230828153353131](Notes.assets/image-20230828153353131.png)
+
+## Applications
+
+### From the perspective of kernel methods
+
+维度扩张思想
+
+Non-linear SVMs: Kernel Mapping
+
+![image-20230828153621843](Notes.assets/image-20230828153621843.png)
+
+Kernel methods in neural system? **与维度扩张的思想相似**
+
+![image-20230828153801285](Notes.assets/image-20230828153801285.png)
+
+### Subcortical pathway for rapid motion processing
+
+The first two stages of subcortical visual pathway:
+Retina -> superior colliculus
+
+The first two stages of primary auditory pathway:
+Inner Ear -> Cochlear Nuclei
+
+维度扩张在subcortical pathway中体现，reservoir 能够高维处理的更简单
+
+### Spatial-temporal tasks
+
+![image-20230828154155803](Notes.assets/image-20230828154155803.png)
+
+既有时间信息，又有空间信息的dataset，使用reservoir来处理高维信息，坐位 Dimension expansion
+
+### Gait recognition
+
+input来了再做计算
+
+![image-20230828154352087](Notes.assets/image-20230828154352087.png)
+
+### Spatial-temporal tasks
+
+large-scale，随size增大，accuracy增大
+
+![image-20230828154428762](Notes.assets/image-20230828154428762.png)
+
+### Liquid state machine
+
+A liquid state machine (LSM) is a type of reservoir computer that uses a spiking neural network.
+
+与ESN一样的范式，都是去做dimension expansion
+
+很难去分析怎么work的

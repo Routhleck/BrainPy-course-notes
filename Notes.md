@@ -3823,7 +3823,7 @@ $$
 \begin{aligned}
 &\tau{\frac{dU(x,t)}{dt}} =-U(x,t)+\rho\int dx'J(x-x^{\prime})r(x',t)-V(x,t)+I^{ext}(x,t)  \\
 &\tau_{_{\nu}}\frac{dV(x,t)}{dt} =-V(x,t)+mU(x,t) 
-\end{aligned}
+\end{aligned}
 $$
 
 $V(x,t)$ represents the SFA effect,
@@ -4365,3 +4365,563 @@ def traveling_wave_STP(num=512,k=0.1,J0=12.,tau_d=1000,tau_f=1.,G=0.9):
 traveling_wave_STP(G=0.5,tau_d=50)
 ```
 
+# Decision-Making Network
+
+## LIP -> Decision-Making
+
+### Coherent motion task
+
+判断随机点(大部分点)的运动朝向
+
+![image-20230828100425871](Notes.assets/image-20230828100425871.png)
+
+coherence影响任务的难度
+0%难，100%简单
+
+![image-20230828100516123](Notes.assets/image-20230828100516123.png)
+
+编码决策的响应，不是运动
+
+### Reaction Time vs. Fixed Duration
+
+coherence越高，反应时间越短
+
+Fixed Duration多了Delay time
+
+![image-20230828100658772](Notes.assets/image-20230828100658772.png)
+
+实验设计纯粹把decision-making给提取出来
+
+#### Effect of Difficulty
+
+coherence越大，反应时间是越短，single neuron很难做到这么短的decision-making，考虑要建模的因素
+
+![image-20230828101103008](Notes.assets/image-20230828101103008.png)
+
+![image-20230828101058059](Notes.assets/image-20230828101058059.png)
+
+#### Response of MT Neurons
+
+记录MT的神经元，对这种运动的朝向刺激进行编码
+
+线性编码coherence运动强度的方向
+
+做决策在它的下游
+
+![image-20230828101303674](Notes.assets/image-20230828101303674.png)
+
+#### Response of LIP Neurons
+
+MT的下游找到LIP的神经元
+
+爬升到一定高度再做选择
+
+coherence与爬升的斜率也会有影响，任务越难，爬升斜率越小
+
+![image-20230828101609881](Notes.assets/image-20230828101609881.png)
+
+### Ramping-to-threshold(perfect integrator) Model
+
+
+$$
+\begin{aligned}\frac{dR}{dt}=I_A-I_B+\text{noise},\quad R(t)&=(I_A-I_B)t+\int_0^tdt\text{noise}.\\\tau_\text{network}&=\infty!\end{aligned}
+$$
+两种选择积分求和做积累，等到阈值做决策
+
+Accumulates information (evidence) -> Ramping
+
+直接保存信息，没有特别好的生物对应
+
+## A Spiking Network of DM
+
+### A cortical microcircuit model
+
+![image-20230828103055151](Notes.assets/image-20230828103055151.png)
+
+A=Upward motion B=Downward motion
+
+2-population excitatory neurons (integrate-and-fire neurons driven by Poisson input)
+Slow reverberatory excitation mediated by the NMDA receptors at recurrent synapses
+AMPA receptors ($\tau _{syn}=$1 - 3 ms)
+NMDA receptors ($\tau _{syn}=$ 50 - 100 ms).
+
+两群神经元分别做不同的选择，与自己对方都有连接
+NMDA 缓慢的信号使得有慢慢增长的ramping的过程
+interneurons的backward有抑制作用
+
+#### Coherence-Dependent Input
+
+线性编码运动朝向的信息，coherence强度影响firing rate，一系列泊松过程，同时还有noise。
+
+本身两种信息还是有差异
+
+![image-20230828104054275](Notes.assets/image-20230828104054275.png)
+
+#### Duality of this model
+
+不同coherence的神经元响应
+
+![image-20230828104432061](Notes.assets/image-20230828104432061.png)
+
+两个group会竞争，当有一个group达到20%，进入这个窗口，就会直接发放上去
+
+Spontaneous symmetry breaking and stochastic decision making
+
+![image-20230828104600840](Notes.assets/image-20230828104600840.png)
+
+## Simulation of Spiking DM
+
+### A Cortical Microcircuit Model
+
+用两个coherence生成出来的序列
+
+![image-20230828110300576](Notes.assets/image-20230828110300576.png)
+$$
+\begin{gathered}C_m\frac{dV(t)}{dt}=-g_L(V(t)-V_L)-I_{syn}(t)\\I_{syn}(t)=I_{\mathrm{ext},\mathrm{AMPA}}\left(t\right)+I_{\mathrm{rec},AMPA}(t)+I_{\mathrm{rec},NMDA}(t)+I_{\mathrm{rec},\mathrm{GABA}}(t)\end{gathered}
+$$
+
+$$
+\begin{gathered}
+I_{\mathrm{ext},\mathrm{AMPA}}\left(t\right)=g_{\mathrm{ext},\mathrm{AMPA}}\left(V(t)-V_{E}\right)s^{\mathrm{ext},\mathrm{AMPA}}\left(t\right) \\
+I_{\mathrm{rec},\mathrm{AMP}\Lambda}\left(t\right)=g_{\mathrm{rec},\mathrm{AMP}\Lambda}\left(V(t)-V_{E}\right)\sum_{j=1}^{Ce}w_{j}s_{j}^{AMPA}(t) \\
+I_{\mathrm{rec},\mathrm{NMDA}}\left(t\right)=\frac{g_{\mathrm{NMDA}}(V(t)-V_{E})}{\left(1+\left[\mathrm{Mg}^{2+}\right]\exp(-0.062V(t))/3.57\right)}\sum_{j=1}^{\mathrm{C_E}}w_{j}s_{j}^{\mathrm{NMDA}}\left(t\right) \\
+I_\mathrm{rec,GABA}(t)=g_\mathrm{GABA}(V(t)-V_l)\sum_{j=1}^{C_1}s_j^\mathrm{GABA}(t) 
+\end{gathered}
+$$
+
+$$
+w_j=\left\{\begin{matrix}w_+>1,\\w_-<1,\\others=1.\end{matrix}\right.
+$$
+
+四类神经元，三类信号
+
+外界输入的信号，recurrent信号，其它神经元的信号，抑制神经元的信号
+都有AMPA和NMDA这两个synapse，还有抑制的GABA
+
+```python
+class AMPA(bp.Projection):
+  def __init__(self, pre, post, conn, delay, g_max, tau, E):
+    super().__init__()
+    if conn == 'all2all':
+      comm = bp.dnn.AllToAll(pre.num, post.num, g_max)
+    elif conn == 'one2one':
+      comm = bp.dnn.OneToOne(pre.num, g_max)
+    else:
+      raise ValueError
+    syn = bp.dyn.Expon.desc(post.num, tau=tau)
+    out = bp.dyn.COBA.desc(E=E)
+    self.proj = bp.dyn.ProjAlignPostMg2(
+      pre=pre, delay=delay, comm=comm,
+      syn=syn, out=out, post=post
+    )
+
+
+class NMDA(bp.Projection):
+  def __init__(self, pre, post, conn, delay, g_max):
+    super().__init__()
+    if conn == 'all2all':
+      comm = bp.dnn.AllToAll(pre.num, post.num, g_max)
+    elif conn == 'one2one':
+      comm = bp.dnn.OneToOne(pre.num, g_max)
+    else:
+      raise ValueError
+    syn = bp.dyn.NMDA.desc(pre.num, a=0.5, tau_decay=100., tau_rise=2.)
+    out = bp.dyn.MgBlock(E=0., cc_Mg=1.0)
+    self.proj = bp.dyn.ProjAlignPreMg2(
+      pre=pre, delay=delay, syn=syn,
+      comm=comm, out=out, post=post
+    )
+```
+
+```python
+class DecisionMakingNet(bp.DynSysGroup):
+  def __init__(self, scale=1., f=0.15):
+    super().__init__()
+    # 网络中各组神经元的数目
+    num_exc = int(1600 * scale)
+    num_I, num_A, num_B = int(400 * scale), int(f * num_exc), int(f * num_exc)
+    num_N = num_exc - num_A - num_B
+    self.num_A, self.num_B, self.num_N, self.num_I = num_A, num_B, num_N, num_I
+
+    poisson_freq = 2400.  # Hz
+    w_pos = 1.7
+    w_neg = 1. - f * (w_pos - 1.) / (1. - f)
+    g_ext2E_AMPA = 2.1  # nS
+    g_ext2I_AMPA = 1.62  # nS
+    g_E2E_AMPA = 0.05 / scale  # nS
+    g_E2I_AMPA = 0.04 / scale  # nS
+    g_E2E_NMDA = 0.165 / scale  # nS
+    g_E2I_NMDA = 0.13 / scale  # nS
+    g_I2E_GABAa = 1.3 / scale  # nS
+    g_I2I_GABAa = 1.0 / scale  # nS
+
+    neu_par = dict(V_rest=-70., V_reset=-55., V_th=-50., V_initializer=bp.init.OneInit(-70.))
+
+    # E neurons/pyramid neurons
+    self.A = bp.dyn.LifRef(num_A, tau=20., R=0.04, tau_ref=2., **neu_par)
+    self.B = bp.dyn.LifRef(num_B, tau=20., R=0.04, tau_ref=2., **neu_par)
+    self.N = bp.dyn.LifRef(num_N, tau=20., R=0.04, tau_ref=2., **neu_par)
+
+    # I neurons/interneurons
+    self.I = bp.dyn.LifRef(num_I, tau=10., R=0.05, tau_ref=1., **neu_par)
+
+    # poisson stimulus  # 'freqs' as bm.Variable
+    self.IA = bp.dyn.PoissonGroup(num_A, freqs=bm.Variable(bm.zeros(1)))
+    self.IB = bp.dyn.PoissonGroup(num_B, freqs=bm.Variable(bm.zeros(1)))
+
+    # noise neurons
+    self.noise_B = bp.dyn.PoissonGroup(num_B, freqs=poisson_freq)
+    self.noise_A = bp.dyn.PoissonGroup(num_A, freqs=poisson_freq)
+    self.noise_N = bp.dyn.PoissonGroup(num_N, freqs=poisson_freq)
+    self.noise_I = bp.dyn.PoissonGroup(num_I, freqs=poisson_freq)
+
+    # define external inputs
+    self.IA2A = AMPA(self.IA, self.A, 'one2one', None, g_ext2E_AMPA, tau=2., E=0.)
+    self.IB2B = AMPA(self.IB, self.B, 'one2one', None, g_ext2E_AMPA, tau=2., E=0.)
+
+    # define AMPA projections from N
+    self.N2B_AMPA = AMPA(self.N, self.B, 'all2all', 0.5, g_E2E_AMPA * w_neg, tau=2., E=0.)
+    self.N2A_AMPA = AMPA(self.N, self.A, 'all2all', 0.5, g_E2E_AMPA * w_neg, tau=2., E=0.)
+    self.N2N_AMPA = AMPA(self.N, self.N, 'all2all', 0.5, g_E2E_AMPA, tau=2., E=0.)
+    self.N2I_AMPA = AMPA(self.N, self.I, 'all2all', 0.5, g_E2I_AMPA, tau=2., E=0.)
+
+    # define NMDA projections from N
+    self.N2B_NMDA = NMDA(self.N, self.B, 'all2all', 0.5, g_E2E_NMDA * w_neg)
+    self.N2A_NMDA = NMDA(self.N, self.A, 'all2all', 0.5, g_E2E_NMDA * w_neg)
+    self.N2N_NMDA = NMDA(self.N, self.N, 'all2all', 0.5, g_E2E_NMDA)
+    self.N2I_NMDA = NMDA(self.N, self.I, 'all2all', 0.5, g_E2I_NMDA)
+
+    # define AMPA projections from B
+    self.B2B_AMPA = AMPA(self.B, self.B, 'all2all', 0.5, g_E2E_AMPA * w_pos, tau=2., E=0.)
+    self.B2A_AMPA = AMPA(self.B, self.A, 'all2all', 0.5, g_E2E_AMPA * w_neg, tau=2., E=0.)
+    self.B2N_AMPA = AMPA(self.B, self.N, 'all2all', 0.5, g_E2E_AMPA, tau=2., E=0.)
+    self.B2I_AMPA = AMPA(self.B, self.I, 'all2all', 0.5, g_E2I_AMPA, tau=2., E=0.)
+
+    # define NMDA projections from B
+    self.B2B_NMDA = NMDA(self.B, self.B, 'all2all', 0.5, g_E2E_NMDA * w_pos)
+    self.B2A_NMDA = NMDA(self.B, self.A, 'all2all', 0.5, g_E2E_NMDA * w_neg)
+    self.B2N_NMDA = NMDA(self.B, self.N, 'all2all', 0.5, g_E2E_NMDA)
+    self.B2I_NMDA = NMDA(self.B, self.I, 'all2all', 0.5, g_E2I_NMDA)
+
+    # define AMPA projections from A
+    self.A2B_AMPA = AMPA(self.A, self.B, 'all2all', 0.5, g_E2E_AMPA * w_neg, tau=2., E=0.)
+    self.A2A_AMPA = AMPA(self.A, self.A, 'all2all', 0.5, g_E2E_AMPA * w_pos, tau=2., E=0.)
+    self.A2N_AMPA = AMPA(self.A, self.N, 'all2all', 0.5, g_E2E_AMPA, tau=2., E=0.)
+    self.A2I_AMPA = AMPA(self.A, self.I, 'all2all', 0.5, g_E2I_AMPA, tau=2., E=0.)
+
+    # define NMDA projections from A
+    self.A2B_NMDA = NMDA(self.A, self.B, 'all2all', 0.5, g_E2E_NMDA * w_neg)
+    self.A2A_NMDA = NMDA(self.A, self.A, 'all2all', 0.5, g_E2E_NMDA * w_pos)
+    self.A2N_NMDA = NMDA(self.A, self.N, 'all2all', 0.5, g_E2E_NMDA)
+    self.A2I_NMDA = NMDA(self.A, self.I, 'all2all', 0.5, g_E2I_NMDA)
+
+    # define I->E/I conn
+    self.I2B = AMPA(self.I, self.B, 'all2all', 0.5, g_I2E_GABAa, tau=5., E=-70.)
+    self.I2A = AMPA(self.I, self.A, 'all2all', 0.5, g_I2E_GABAa, tau=5., E=-70.)
+    self.I2N = AMPA(self.I, self.N, 'all2all', 0.5, g_I2E_GABAa, tau=5., E=-70.)
+    self.I2I = AMPA(self.I, self.I, 'all2all', 0.5, g_I2I_GABAa, tau=5., E=-70.)
+
+    # define external projections
+    #### TO DO!!!!
+    self.noise2B = AMPA(self.noise_B, self.B, 'one2one', None, g_ext2E_AMPA, tau=2., E=0.)
+    self.noise2A = AMPA(self.noise_A, self.A, 'one2one', None, g_ext2E_AMPA, tau=2., E=0.)
+    self.noise2N = AMPA(self.noise_N, self.N, 'one2one', None, g_ext2E_AMPA, tau=2., E=0.)
+    self.noise2I = AMPA(self.noise_I, self.I, 'one2one', None, g_ext2I_AMPA, tau=2., E=0.)
+```
+
+```python
+class Tool:
+  def __init__(self, pre_stimulus_period=100., stimulus_period=1000., delay_period=500.):
+    self.pre_stimulus_period = pre_stimulus_period
+    self.stimulus_period = stimulus_period
+    self.delay_period = delay_period
+    self.freq_variance = 10.
+    self.freq_interval = 50.
+    self.total_period = pre_stimulus_period + stimulus_period + delay_period
+
+  def generate_freqs(self, mean):
+    # stimulus period
+    n_stim = int(self.stimulus_period / self.freq_interval)
+    n_interval = int(self.freq_interval / bm.get_dt())
+    freqs_stim = np.random.normal(mean, self.freq_variance, (n_stim, 1))
+    freqs_stim = np.tile(freqs_stim, (1, n_interval)).flatten()
+    # pre stimulus period
+    freqs_pre = np.zeros(int(self.pre_stimulus_period / bm.get_dt()))
+    # post stimulus period
+    freqs_delay = np.zeros(int(self.delay_period / bm.get_dt()))
+    all_freqs = np.concatenate([freqs_pre, freqs_stim, freqs_delay], axis=0)
+    return bm.asarray(all_freqs)
+
+  def visualize_results(self, mon, IA_freqs, IB_freqs, t_start=0., title=None):
+    fig, gs = bp.visualize.get_figure(4, 1, 3, 10)
+    axes = [fig.add_subplot(gs[i, 0]) for i in range(4)]
+
+    ax = axes[0]
+    bp.visualize.raster_plot(mon['ts'], mon['A.spike'], markersize=1, ax=ax)
+    if title: ax.set_title(title)
+    ax.set_ylabel("Group A")
+    ax.set_xlim(t_start, self.total_period + 1)
+    ax.axvline(self.pre_stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period + self.delay_period, linestyle='dashed')
+
+    ax = axes[1]
+    bp.visualize.raster_plot(mon['ts'], mon['B.spike'], markersize=1, ax=ax)
+    ax.set_ylabel("Group B")
+    ax.set_xlim(t_start, self.total_period + 1)
+    ax.axvline(self.pre_stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period + self.delay_period, linestyle='dashed')
+
+    ax = axes[2]
+    rateA = bp.measure.firing_rate(mon['A.spike'], width=10.)
+    rateB = bp.measure.firing_rate(mon['B.spike'], width=10.)
+    ax.plot(mon['ts'], rateA, label="Group A")
+    ax.plot(mon['ts'], rateB, label="Group B")
+    ax.set_ylabel('Population activity [Hz]')
+    ax.set_xlim(t_start, self.total_period + 1)
+    ax.axvline(self.pre_stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period + self.delay_period, linestyle='dashed')
+    ax.legend()
+
+    ax = axes[3]
+    ax.plot(mon['ts'], IA_freqs, label="group A")
+    ax.plot(mon['ts'], IB_freqs, label="group B")
+    ax.set_ylabel("Input activity [Hz]")
+    ax.set_xlim(t_start, self.total_period + 1)
+    ax.axvline(self.pre_stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period, linestyle='dashed')
+    ax.axvline(self.pre_stimulus_period + self.stimulus_period + self.delay_period, linestyle='dashed')
+    ax.legend()
+    ax.set_xlabel("Time [ms]")
+
+    plt.show()
+```
+
+```python
+tool = Tool()
+net = DecisionMakingNet()
+
+mu0 = 40.
+coherence = 25.6
+IA_freqs = tool.generate_freqs(mu0 + mu0 / 100. * coherence)
+IB_freqs = tool.generate_freqs(mu0 - mu0 / 100. * coherence)
+
+def give_input():
+    i = bp.share['i']
+    net.IA.freqs[0] = IA_freqs[i]
+    net.IB.freqs[0] = IB_freqs[i]
+
+runner = bp.DSRunner(net, inputs=give_input, monitors=['A.spike', 'B.spike'])
+runner.run(tool.total_period)
+tool.visualize_results(runner.mon, IA_freqs, IB_freqs)
+```
+
+### Results
+
+![image-20230828112245950](Notes.assets/image-20230828112245950.png)
+
+#### Stochastic Decision Making
+
+![image-20230828112253619](Notes.assets/image-20230828112253619.png)
+
+## A Rate Network of DM
+
+### Reduced Model
+
+化简到只有两群神经元，只接受外界输入信号，互相影响对方
+
+![image-20230828112326267](Notes.assets/image-20230828112326267.png)
+
+Synaptic variables
+$$
+\begin{gathered}
+\frac{dS_{1}}{dt} =F(x_1)\gamma(1-S_1)-S_1/\tau_s \\
+\frac{dS_2}{dt} =F(x_2)\gamma(1-S_2)-S_2/\tau_s 
+\end{gathered}
+$$
+Input current to each population
+$$
+\begin{gathered}
+x_{1} =J_{E}S_{1}+J_{I}S_{2}+I_{0}+I_{noise1}+J_{\text{ext }\mu_{1}} \\
+x_{2} =J_{E}S_{2}+J_{I}S_{1}+I_{0}+I_{noise2}+J_{\mathrm{ext}}\mu_{2} 
+\end{gathered}
+$$
+Background input
+$$
+I_0+I_{noise}\\
+\begin{gathered}
+dI_{noise1} =-I_{noise1}\frac{dt}{\tau_{0}}+\sigma dW \\
+dI_{noise2} =-I_{noise2}\frac{dt}{\tau_{0}}+\sigma dW 
+\end{gathered}
+$$
+Firing rates
+$$
+r_i=F(x_i)=\frac{ax_i-b}{1-\exp(-d(ax_i-b))}
+$$
+Coherence-dependent inputs
+$$
+\begin{array}{l}\mu_1=\mu_0\big(1+c'/100\big)\\\mu_2=\mu_0\big(1-c'/100\big)\end{array}
+$$
+
+$$
+\begin{aligned}&\gamma,a,b,d,J_E,J_I,J_{\mathrm{ext}},I_0,\mu_0,\tau_{\mathrm{AMPA}},\sigma_{\mathrm{noise}}\\&\text{are fixed parameters.}\end{aligned}
+$$
+
+```python
+class DecisionMakingRateModel(bp.dyn.NeuGroup):
+    def __init__(self, size, coherence, JE=0.2609, JI=0.0497, Jext=5.2e-4, I0=0.3255,
+                 gamma=6.41e-4, tau=100., tau_n=2., sigma_n=0.02, a=270., b=108., d=0.154,
+                 noise_freq=2400., method='exp_auto', **kwargs):
+        super(DecisionMakingRateModel, self).__init__(size, **kwargs)
+        
+        # 初始化参数
+        self.coherence = coherence
+        self.JE = JE
+        self.JI = JI
+        self.Jext = Jext
+        self.I0 = I0
+        self.gamma = gamma
+        self.tau = tau
+        self.tau_n = tau_n
+        self.sigma_n = sigma_n
+        self.a = a
+        self.b = b
+        self.d = d
+        
+        # 初始化变量
+        self.s1 = bm.Variable(bm.zeros(self.num) + 0.15)
+        self.s2 = bm.Variable(bm.zeros(self.num) + 0.15)
+        self.r1 = bm.Variable(bm.zeros(self.num))
+        self.r2 = bm.Variable(bm.zeros(self.num))
+        self.mu0 = bm.Variable(bm.zeros(self.num))
+        self.I1_noise = bm.Variable(bm.zeros(self.num))
+        self.I2_noise = bm.Variable(bm.zeros(self.num))
+        
+        # 噪声输入的神经元
+        self.noise1 = bp.dyn.PoissonGroup(self.num, freqs=noise_freq)
+        self.noise2 = bp.dyn.PoissonGroup(self.num, freqs=noise_freq)
+        
+        # 定义积分函数
+        self.integral = bp.odeint(self.derivative, method=method)
+        
+    @property
+    def derivative(self):
+        return bp.JointEq([self.ds1, self.ds2, self.dI1noise, self.dI2noise])
+        
+    def ds1(self, s1, t, s2, mu0):
+        I1 = self.Jext * mu0 * (1. + self.coherence / 100.)
+        x1 = self.JE * s1 - self.JI * s2 + self.I0 + I1 + self.I1_noise
+        r1 = (self.a * x1 - self.b) / (1. - bm.exp(-self.d * (self.a * x1 - self.b)))
+        return - s1 / self.tau + (1. - s1) * self.gamma * r1
+    
+    def ds2(self, s2, t, s1, mu0):
+        I2=self.Jext*mu0*(1.- self.coherence / 100.)
+        x2 = self.JE * s2 - self.JI * s1 + self.I0 + I2 + self.I2_noise
+        r2 = (self.a * x2 - self.b) / (1. - bm.exp(-self.d * (self.a * x2 - self.b))) 
+        return - s2 / self.tau + (1. - s2) * self.gamma * r2
+
+    def dI1noise(self, I1_noise, t, noise1):
+        return (- I1_noise + noise1.spike * bm.sqrt(self.tau_n * self.sigma_n * self.sigma_n)) / self.tau_n
+    
+    def dI2noise(self, I2_noise, t, noise2):
+        return (- I2_noise + noise2.spike * bm.sqrt(self.tau_n * self.sigma_n * self.sigma_n)) / self.tau_n
+    
+    
+    def update(self, tdi):
+        # 更新噪声神经元以产生新的随机发放 self.noise1.update(tdi) self.noise2.update(tdi)
+        # 更新s1、s2、I1_noise、I2_noise
+        integral = self.integral(self.s1, self.s2, self.I1_noise, self.I2_noise, tdi.t, mu0=self.mu0,
+                             noise1=self.noise1, noise2=self.noise2, dt=tdi.dt)
+        self.s1.value, self.s2.value, self.I1_noise.value, self.I2_noise.value = integral
+        
+        # 用更新后的s1、s2计算r1、r2
+        I1 = self.Jext * self.mu0 * (1. + self.coherence / 100.)
+        x1 = self.JE * self.s1 + self.JI * self.s2 + self.I0 + I1 + self.I1_noise
+        self.r1.value = (self.a * x1 - self.b) / (1. - bm.exp(-self.d * (self.a * x1 - self.b)))
+        I2 = self.Jext * self.mu0 * (1. - self.coherence / 100.)
+        x2 = self.JE * self.s2 + self.JI * self.s1 + self.I0 + I2 + self.I2_noise
+        self.r2.value = (self.a * x2 - self.b) / (1. - bm.exp(-self.d * (self.a * x2 - self.b)))
+        
+        # 重置外部输入 
+        self.mu0[:] = 0.
+```
+
+```python
+# 定义各个阶段的时长
+pre_stimulus_period, stimulus_period, delay_period = 100., 2000., 500.
+
+# 生成模型
+dmnet = DecisionMakingRateModel(1, coherence=25.6, noise_freq=2400.)
+
+# 定义电流随时间的变化
+inputs, total_period = bp.inputs.constant_input([(0., pre_stimulus_period),
+                                                 (20., stimulus_period),
+                                                 (0., delay_period)])
+# 运行数值模拟
+runner = bp.DSRunner(dmnet,
+                     monitors=['s1', 's2', 'r1', 'r2'],
+                     inputs=('mu0', inputs, 'iter'))
+runner.run(total_period)
+
+# 可视化
+fig, gs = plt.subplots(2, 1, figsize=(6, 6), sharex='all')
+gs[0].plot(runner.mon.ts, runner.mon.s1, label='s1')
+gs[0].plot(runner.mon.ts, runner.mon.s2, label='s2')
+gs[0].axvline(pre_stimulus_period, 0., 1., linestyle='dashed', color=u'#444444')
+gs[0].axvline(pre_stimulus_period + stimulus_period, 0., 1., linestyle='dashed', color=u'#444444')
+gs[0].set_ylabel('gating variable $s$')
+gs[0].legend()
+
+gs[1].plot(runner.mon.ts, runner.mon.r1, label='r1')
+gs[1].plot(runner.mon.ts, runner.mon.r2, label='r2')
+gs[1].axvline(pre_stimulus_period, 0., 1., linestyle='dashed', color=u'#444444')
+gs[1].axvline(pre_stimulus_period + stimulus_period, 0., 1., linestyle='dashed', color=u'#444444')
+gs[1].set_xlabel('t (ms)')
+gs[1].set_ylabel('firing rate $r$')
+gs[1].legend()
+
+plt.subplots_adjust(hspace=0.1)
+plt.show()
+```
+
+### Results
+
+![image-20230828112555018](Notes.assets/image-20230828112555018.png)
+
+## Phase Plane Analysis
+
+因为只有两个variable
+
+### Model implementation
+
+```python
+@bp.odeint
+def int_s1(s1, t, s2, coh=0.5, mu=20.):
+    x1 = JE * s1 + JI * s2 + Ib + JAext * mu * (1. + coh/100)
+    r1 = (a * x1 - b) / (1. - bm.exp(-d * (a * x1 - b)))
+    return - s1 / tau + (1. - s1) * gamma * r1
+
+@bp.odeint
+def int_s2(s2, t, s1, coh=0.5, mu=20.):
+    x2 = JE * s2 + JI * s1 + Ib + JAext * mu * (1. - coh/100)
+    r2 = (a * x2 - b) / (1. - bm.exp(-d * (a * x2 - b)))
+    return - s2 / tau + (1. - s2) * gamma * r2
+```
+
+### Without / with input
+
+![image-20230828112709355](Notes.assets/image-20230828112709355.png)
+
+只受扰动影响，有input后中间变得不稳定，但如果已经选择，网络仍维持之前选择的结果
+
+![image-20230828112811394](Notes.assets/image-20230828112811394.png)
+
+### Coherence
+
+稳定点对网络的拉伸更强
+
+![image-20230828113031946](Notes.assets/image-20230828113031946.png)
+
+![image-20230828113009219](Notes.assets/image-20230828113009219.png)

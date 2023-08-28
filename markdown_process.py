@@ -51,15 +51,17 @@ def replace_img_url_2(content):
 
 
 def add_newlines_around_formula(content):
-    # 在 $$ 前后添加空行，确保不重复添加空行，并且公式块内部的内容不发生改变
-    pattern_start = r'(?<!\n)\n\$\$'
-    replacement_start = r'\n\n$$'
-    content = re.sub(pattern_start, replacement_start, content)
-    
-    pattern_end = r'\$\$(?!\n)'
-    replacement_end = r'$$\n'
-    content = re.sub(pattern_end, replacement_end, content)
+    # 在整个 $$ ... $$ 公式块前后添加空行，确保不重复添加空行
 
+    # 处理公式块前的换行
+    content = re.sub(r'(?<=\S)\n\$\$$', '\n\n$$', content)
+    # 处理公式块后的换行
+    content = re.sub(r'\$\$\$(?=\S)', '$$\n\n', content)
+    # 处理公式块前没有换行的情况
+    content = re.sub(r'(?<=[^\n])\$\$$', '\n\n$$', content)
+    # 处理公式块后没有换行的情况
+    content = re.sub(r'\$\$(?=[^\n])', '$$\n\n', content)
+    
     return content
 
 
@@ -75,7 +77,7 @@ def main(input_path, out_path):
     md_content = prepend_markdown_header(md_content)
     md_content = replace_img_url_1(md_content)
     md_content = replace_img_url_2(md_content)
-    md_content = add_newlines_around_formula(md_content)
+    # md_content = add_newlines_around_formula(md_content)
 
     # 将修改后的内容写入新文件
     with open(out_path, "w", encoding="utf-8") as file:

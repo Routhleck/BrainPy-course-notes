@@ -43,7 +43,7 @@ MathJax = {
 
 ### Three levels of Brain Science
 
-![image-20230823105226568](/assets/images/Notes.assets/image-20230823105226568.png)
+![image-20230823105226568](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823105226568.png)
 
 - 大脑做什么
   Computational theory 
@@ -69,19 +69,19 @@ MathJax = {
 - 不擅长对抗样本
 - 对图像的理解有限
 
-![image-20230823105836259](/assets/images/Notes.assets/image-20230823105836259.png)
+![image-20230823105836259](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823105836259.png)
 
 ### Brain is for Processing Dynamical Information
 
 **We never "see" a static image**
 
-![image-20230823105918336](/assets/images/Notes.assets/image-20230823105918336.png)
+![image-20230823105918336](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823105918336.png)
 
 ### The missing link
 
 a computational model of higher cognitive functior
 
-![image-20230823110617639](/assets/images/Notes.assets/image-20230823110617639.png)
+![image-20230823110617639](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823110617639.png)
 
 现在只是做的**局部**的网络，没有一个成功的模型，能**从神经元出发构建网络，到系统层面上**
 
@@ -100,7 +100,7 @@ a computational model of higher cognitive functior
 - Large-scale
 - Multiple purposes
 
-![image-20230823111212460](/assets/images/Notes.assets/image-20230823111212460.png)
+![image-20230823111212460](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823111212460.png)
 
 > The modeling targets and methods are extremely complex, and we need a general framework.
 
@@ -108,7 +108,7 @@ a computational model of higher cognitive functior
 
 现今的框架不能满足以上
 
-![image-20230823111509523](/assets/images/Notes.assets/image-20230823111509523.png)
+![image-20230823111509523](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823111509523.png)
 
 ### What are needed for a brain simulator
 
@@ -127,7 +127,7 @@ a computational model of higher cognitive functior
 
 4 levels
 
-![image-20230823111903456](/assets/images/Notes.assets/image-20230823111903456.png)
+![image-20230823111903456](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823111903456.png)
 
 ## 神经计算建模举例
 
@@ -148,7 +148,7 @@ Image Understanding = image segmentation + image object recognition
 
 ### Two pathways for visual information processing
 
-![image-20230823114517888](/assets/images/Notes.assets/image-20230823114517888.png)
+![image-20230823114517888](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823114517888.png)
 
 ### Key Computational Issues for Global-to-local Neural Information Processing
 
@@ -179,11 +179,11 @@ Decision-making Module
 
 Attractor neural network
 
-![image-20230823115853980](/assets/images/Notes.assets/image-20230823115853980.png)
+![image-20230823115853980](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823115853980.png)
 
 Levy Flight in Animal Behaviors
 
-![image-20230823120000911](/assets/images/Notes.assets/image-20230823120000911.png)
+![image-20230823120000911](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823120000911.png)
 
 ### How to process information from global to local
 
@@ -195,7 +195,7 @@ A hierarchical Hopfield Model
 
 A two-pathway model for object recognition
 
-![image-20230823120750349](/assets/images/Notes.assets/image-20230823120750349.png)
+![image-20230823120750349](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823120750349.png)
 
 Modeling visual masking 可以用two-pathway很好解释
 
@@ -492,7 +492,7 @@ When operating on two arrays, numpy compares shapes. Two dimensions are compatib
 1. They are of equal size
 2. One of them is 1
 
-![image-20230823143622229](/assets/images/Notes.assets/image-20230823143622229.png)
+![image-20230823143622229](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823143622229.png)
 
 ### Vector operations
 
@@ -635,7 +635,7 @@ lognormal
 - Just-in-time compilation
 - Devices
 
-![image-20230823145349681](/assets/images/Notes.assets/image-20230823145349681.png)
+![image-20230823145349681](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823145349681.png)
 
 ### Main features
 
@@ -662,7 +662,7 @@ lognormal
 
 **brainpy.DynamicalSystem**
 
-![image-20230823151159786](/assets/images/Notes.assets/image-20230823151159786.png)
+![image-20230823151159786](/BrainPy-course-notes/assets/images/Notes.assets/image-20230823151159786.png)
 
 #### JIT of object-oriented
 
@@ -854,7 +854,7 @@ print(counter, i)
 - Dendrites
 - Synapses
 
-![image-20230824100656397](/assets/images/Notes.assets/image-20230824100656397.png)
+![image-20230824100656397](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824100656397.png)
 
 ### Resting potential
 
@@ -863,7 +863,7 @@ Transport proteins for ions in neuron cell membranes:
 - Ion channels: Na + channels, K + channels, … (gated/non-gated)
 - Ion pumps: the Na + -K + pump
 
-![image-20230824100812962](/assets/images/Notes.assets/image-20230824100812962.png)
+![image-20230824100812962](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824100812962.png)
 
 离子浓度在胞内外的差异产生的电势差
 
@@ -881,7 +881,7 @@ Components of an equivalent circuit:
 - Capacitor
 - Resistor
 
-![image-20230824101350048](/assets/images/Notes.assets/image-20230824101350048.png)
+![image-20230824101350048](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101350048.png)
 
 Considering the potassium channel **ONLY**:
 
@@ -892,11 +892,11 @@ c_{\mathrm{M}}{\frac{\mathrm{d}V_{\mathrm{M}}}{\mathrm{d}t}}=-{\frac{V_{\mathrm{
 \end{gathered}
 $$
 
-![image-20230824101433908](/assets/images/Notes.assets/image-20230824101433908.png)
+![image-20230824101433908](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101433908.png)
 
 **Considering the Na + , K + , and Cl - channels and the external current I(t):**
 
-![image-20230824101648270](/assets/images/Notes.assets/image-20230824101648270.png)
+![image-20230824101648270](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824101648270.png)
 
 $$
 \begin{aligned}
@@ -915,7 +915,7 @@ $$
 
 ## Cable Theory & passive conduction
 
-![image-20230824102017607](/assets/images/Notes.assets/image-20230824102017607.png)
+![image-20230824102017607](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824102017607.png)
 
 Considering the axon as a long cylindrical cable:$I_{\mathrm{cross}}(x,t)={I_{\mathrm{cross}}(x+\Delta x,t)}+I_{\mathrm{ion}}(x,t)+I_{\mathrm{cap}}(x,t)$
 
@@ -949,7 +949,7 @@ $$
 
 没有动作电位，单纯通过电缆传输
 
-![image-20230824102932665](/assets/images/Notes.assets/image-20230824102932665.png)
+![image-20230824102932665](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824102932665.png)
 
 If a constant external current is applied to 𝑥 = 0  the steady-state membrane potential $𝑉_{ss}(𝑥)$ is
 
@@ -974,7 +974,7 @@ Characteristics:
 - Fixed shape
 - Active electrical property
 
-![image-20230824103322522](/assets/images/Notes.assets/image-20230824103322522.png)
+![image-20230824103322522](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824103322522.png)
 
 How to simulate an action potential?
 
@@ -997,7 +997,7 @@ Saltatory conduction with a much higher speed and less energy consumption
 
 两个郎飞结之间会有离子通道，既有被动传导，也有主动的防止衰减
 
-![image-20230824104220106](/assets/images/Notes.assets/image-20230824104220106.png)
+![image-20230824104220106](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824104220106.png)
 
 ## The Hodgkin-Huxley Model
 
@@ -1050,7 +1050,7 @@ $$
 
 只测量一个离子通道就可以很容易得到电导
 
-![image-20230824111620056](/assets/images/Notes.assets/image-20230824111620056.png)
+![image-20230824111620056](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824111620056.png)
 
 ### Leaky channel
 
@@ -1073,9 +1073,9 @@ $$
 Potassium channels: Use choline to eliminate the inward current of Na +
 Na + current: $I_{fb} - I_{K}$
 
-![image-20230824112328953](/assets/images/Notes.assets/image-20230824112328953.png)
+![image-20230824112328953](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824112328953.png)
 
-![image-20230824112333144](/assets/images/Notes.assets/image-20230824112333144.png)
+![image-20230824112333144](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824112333144.png)
 
 转化速率和电导率两个因素
 
@@ -1094,7 +1094,7 @@ Sodium channels
 
 → Activation gate + inactivation gate: $g_{\mathrm{Na}}=\bar{g}_\text{Na}m^3h$
 
-![image-20230824113116329](/assets/images/Notes.assets/image-20230824113116329.png)
+![image-20230824113116329](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824113116329.png)
 
 The gates of sodium channels
 
@@ -1146,7 +1146,7 @@ $$
 
 每一步符合生物学
 
-![image-20230824113714178](/assets/images/Notes.assets/image-20230824113714178.png)
+![image-20230824113714178](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824113714178.png)
 
 #### How to fit each gating variable?
 
@@ -1160,7 +1160,7 @@ by $g_{\mathrm{K}\infty}=\bar{g}_{\mathrm{K}}n_{\infty}^{x},g_{\mathrm{K}0}=\bar
 
 
 
-![image-20230824114623467](/assets/images/Notes.assets/image-20230824114623467.png)
+![image-20230824114623467](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824114623467.png)
 
 # Hodgkin-Huxley brain dynamics programming
 
@@ -1170,7 +1170,7 @@ by $g_{\mathrm{K}\infty}=\bar{g}_{\mathrm{K}}n_{\infty}^{x},g_{\mathrm{K}0}=\bar
 
 微分器
 
-![image-20230824140806650](/assets/images/Notes.assets/image-20230824140806650.png)
+![image-20230824140806650](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824140806650.png)
 
 **example**
 
@@ -1217,7 +1217,7 @@ plt.plot(runner.mon.ts, runner.mon.V)
 plt.show()
 ```
 
-![image-20230824142019832](/assets/images/Notes.assets/image-20230824142019832.png)
+![image-20230824142019832](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824142019832.png)
 
 ### `DynamicalSystem`
 
@@ -1620,7 +1620,7 @@ plt.xlabel('Time (ms)')
 
 电路模拟，写成电导形式
 
-![image-20230824180831033](/assets/images/Notes.assets/image-20230824180831033.png)
+![image-20230824180831033](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824180831033.png)
 
 $$
 \begin{aligned}
@@ -1781,7 +1781,7 @@ plt.savefig("HH_channels.jpg")
 plt.show()
 ```
 
-![image-20230824184016011](/assets/images/Notes.assets/image-20230824184016011.png)
+![image-20230824184016011](/BrainPy-course-notes/assets/images/Notes.assets/image-20230824184016011.png)
 
 # Simple Neuron Modeling: Simplified Models
 
@@ -1795,11 +1795,11 @@ $$
 
 只有一个微分方程，要加一个不应期(**t refractory period**)，膜电位不发生任何改变，认为离子通道只有泄露通道
 
-![image-20230825101057570](/assets/images/Notes.assets/image-20230825101057570.png)
+![image-20230825101057570](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825101057570.png)
 
 Given a constant current input:
 
-![image-20230825101410745](/assets/images/Notes.assets/image-20230825101410745.png)
+![image-20230825101410745](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825101410745.png)
 
 没有建模准确变化，只提供什么时候膜电位的变化
 
@@ -1843,7 +1843,7 @@ $$
 \begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=a_{0}(V-V_{\mathrm{re}t})(V-V_{\mathrm{c}})+RI(t)\\&\text{if }V>\theta,\quad V\leftarrow V_{\mathrm{re}set}\quad\text{last}\quad t_{\mathrm{ref}}\end{aligned}
 $$
 
-![image-20230825103243039](/assets/images/Notes.assets/image-20230825103243039.png)
+![image-20230825103243039](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825103243039.png)
 
 膜电位仍需要手动重置
 
@@ -1853,7 +1853,7 @@ $$
 \frac{\mathrm{d}\theta}{\mathrm{d}t}=1-\cos\theta+(1+\cos\theta)(\beta+I(t))
 $$
 
-![image-20230825103331170](/assets/images/Notes.assets/image-20230825103331170.png)
+![image-20230825103331170](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825103331170.png)
 
 隐式表达，不具有物理意义，但也会进行整合发放
 
@@ -1863,7 +1863,7 @@ $$
 \begin{aligned}\tau\frac{\mathrm{d}V}{\mathrm{d}t}&=-\left(V-V_{\mathrm{res}t}\right)+\Delta_{T}\mathrm{e}^{\frac{V-V_{T}}{3T}}+RI(t)\\\mathrm{if~}V&>\theta,\quad V\leftarrow V_{\mathrm{res}t}\mathrm{last}t_{\mathrm{ref}}\end{aligned}
 $$
 
-![image-20230825103501912](/assets/images/Notes.assets/image-20230825103501912.png)
+![image-20230825103501912](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825103501912.png)
 
 仍需要手动重置膜电位
 
@@ -1886,14 +1886,14 @@ $$
 
 不为零，就会衰减到$-w$
 
-![image-20230825103840880](/assets/images/Notes.assets/image-20230825103840880.png)
+![image-20230825103840880](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825103840880.png)
 
 - A larger 𝑤 suppresses 𝑉 from increasing
 - 𝑤 decays exponentially while having a sudden increase when the neuron fires
 
 **Firing patterns of the AdEx model**
 
-![image-20230825104254936](/assets/images/Notes.assets/image-20230825104254936.png)
+![image-20230825104254936](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825104254936.png)
 
 **Categorization of firing patterns**
 
@@ -1924,7 +1924,7 @@ $$
 
 二次整合发放多加了一个$u$
 
-![image-20230825104832770](/assets/images/Notes.assets/image-20230825104832770.png)
+![image-20230825104832770](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825104832770.png)
 
 #### The FitzHugh–Nagumo (FHN) model
 
@@ -1934,7 +1934,7 @@ $$
 
 没有对膜电位进行人为的重置，可以更好的进行动力学分析，没有打破微分方程的连续性
 
-![image-20230825104922636](/assets/images/Notes.assets/image-20230825104922636.png)
+![image-20230825104922636](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825104922636.png)
 
 #### The Generalized Integrate-and-Fire (GIF) model
 
@@ -1951,7 +1951,7 @@ $$
 
 每个变量都是线性的，泛化性体现在重置条件上
 
-![image-20230825105035349](/assets/images/Notes.assets/image-20230825105035349.png)
+![image-20230825105035349](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825105035349.png)
 
 ## Dynamic analysis: phase-plane analysis
 
@@ -1978,7 +1978,7 @@ $$
 
 假设外部电流恒定
 
-![image-20230825110708994](/assets/images/Notes.assets/image-20230825110708994.png)
+![image-20230825110708994](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825110708994.png)
 
 ### Phase plane analysis for the AdEx neuron model
 
@@ -1990,23 +1990,23 @@ $$
 \end{aligned}
 $$
 
-![image-20230825110811399](/assets/images/Notes.assets/image-20230825110811399.png)
+![image-20230825110811399](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825110811399.png)
 
 #### Tonic
 
-![image-20230825112857175](/assets/images/Notes.assets/image-20230825112857175.png)
+![image-20230825112857175](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825112857175.png)
 
 #### Adaptation
 
-![image-20230825112918815](/assets/images/Notes.assets/image-20230825112918815.png)
+![image-20230825112918815](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825112918815.png)
 
 #### Bursting
 
-![image-20230825112933938](/assets/images/Notes.assets/image-20230825112933938.png)
+![image-20230825112933938](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825112933938.png)
 
 #### Transient spiking
 
-![image-20230825112950297](/assets/images/Notes.assets/image-20230825112950297.png)
+![image-20230825112950297](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825112950297.png)
 
 ## Dynamic analysis: bifurcation analysis
 
@@ -2021,7 +2021,7 @@ Elements:
 - Lines of fixed points
 - Stability properties of fixed points
 
-![image-20230825114510710](/assets/images/Notes.assets/image-20230825114510710.png)
+![image-20230825114510710](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114510710.png)
 
 ### Bifurcation analysis for the AdEx Neuron model
 
@@ -2037,13 +2037,13 @@ $$
 \end{aligned}
 $$
 
-![image-20230825114801456](/assets/images/Notes.assets/image-20230825114801456.png)
+![image-20230825114801456](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114801456.png)
 
-![image-20230825114742740](/assets/images/Notes.assets/image-20230825114742740.png)
+![image-20230825114742740](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114742740.png)
 
 **Subjects: two variables (𝑉 and 𝑤)**
 
-![image-20230825114856403](/assets/images/Notes.assets/image-20230825114856403.png)
+![image-20230825114856403](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825114856403.png)
 
 ### Extended: The limit cycle
 
@@ -2057,9 +2057,9 @@ This dynamical system, in certain conditions, exhibits a cyclic pattern of varia
 
 变化锁定到环中
 
-![image-20230825115348008](/assets/images/Notes.assets/image-20230825115348008.png)
+![image-20230825115348008](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825115348008.png)
 
-![image-20230825115354146](/assets/images/Notes.assets/image-20230825115354146.png)
+![image-20230825115354146](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825115354146.png)
 
 # Reduced Models - brain dynamics programming
 
@@ -2152,7 +2152,7 @@ def run_LIF():
   plt.show()
 ```
 
-![image-20230825141201825](/assets/images/Notes.assets/image-20230825141201825.png)
+![image-20230825141201825](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825141201825.png)
 
 ### Input current & firing frequency
 
@@ -2183,7 +2183,7 @@ plt.xlabel('inputs')
 plt.ylabel('frequencies')
 ```
 
-![image-20230825143405952](/assets/images/Notes.assets/image-20230825143405952.png)
+![image-20230825143405952](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825143405952.png)
 
 ### Other Univariate neuron models
 
@@ -2310,7 +2310,7 @@ def update(self):
 
 ### Simulation
 
-![image-20230825145518709](/assets/images/Notes.assets/image-20230825145518709.png)
+![image-20230825145518709](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825145518709.png)
 
 ### Other multivariate neuron models
 
@@ -2361,7 +2361,7 @@ def dV(self, V, t, I1, I2, I):
 
 **Built-in reduced neuron models**
 
-![image-20230825145947800](/assets/images/Notes.assets/image-20230825145947800.png)
+![image-20230825145947800](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825145947800.png)
 
 ## Dynamic analysis: phase-plane analysis
 
@@ -2388,7 +2388,7 @@ pp.plot_vector_field()
 pp.plot_fixed_point(show=True)
 ```
 
-![image-20230825152003373](/assets/images/Notes.assets/image-20230825152003373.png)
+![image-20230825152003373](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825152003373.png)
 
 - Nullcline: The zero-growth isoclines, such as $f(x,y) = 0$ and $g(x,y) = 0$
 - Fixed points: The equilibrium points of the system, which are located at all the nullclines intersect.
@@ -2437,7 +2437,7 @@ def ppa_AdEx(group):
     plt.show()
 ```
 
-![image-20230825152925463](/assets/images/Notes.assets/image-20230825152925463.png)
+![image-20230825152925463](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825152925463.png)
 
 ## Dynamic analysis: bifurcation analysis
 
@@ -2457,7 +2457,7 @@ bif = bp.analysis.Bifurcation1D(
 bif.plot_bifurcation(show=True)
 ```
 
-![image-20230825154227567](/assets/images/Notes.assets/image-20230825154227567.png)
+![image-20230825154227567](/BrainPy-course-notes/assets/images/Notes.assets/image-20230825154227567.png)
 
 # Synapse models and their programming
 
@@ -2469,15 +2469,15 @@ When the action potential invades the axon terminals, it causes voltage-gated �
 
 去极化时钙离子内流，与囊泡相结合，...，与受体结合，打开离子通道，超极化、去极化现象
 
-![image-20230826100321307](/assets/images/Notes.assets/image-20230826100321307.png)
+![image-20230826100321307](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826100321307.png)
 
-![image-20230826100418911](/assets/images/Notes.assets/image-20230826100418911.png)
+![image-20230826100418911](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826100418911.png)
 
 **Neurotransmitter leading to postsynaptic potential.**
 
 The binding of neurotransmitter to the postsynaptic membrane receptors changes the membrane potential ($V_m$). These postsynaptic potentials can be either excitatory (depolarizing the membrane), as shown here, or inhibitory (hyperpolarizing the membrane).
 
-![image-20230826100531535](/assets/images/Notes.assets/image-20230826100531535.png)
+![image-20230826100531535](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826100531535.png)
 
 ### Neurotransmitters
 
@@ -2496,7 +2496,7 @@ The binding of neurotransmitter to the postsynaptic membrane receptors changes t
 - 甘氨酸 (glycine)
 - 某些神经肽类 (some of peptides)
 
-![image-20230826100609904](/assets/images/Notes.assets/image-20230826100609904.png)
+![image-20230826100609904](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826100609904.png)
 
 ### The postsynaptic response
 
@@ -2507,7 +2507,7 @@ The aim of a synapse model is to describe accurately the postsynaptic response g
 - Simple phenomenological waveforms
 - More complex kinetic schemes that are analogous to the models of membrane- bound ion channels
 
-![image-20230826100701580](/assets/images/Notes.assets/image-20230826100701580.png)
+![image-20230826100701580](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826100701580.png)
 
 建模这种响应模式，打开关闭的概率...
 
@@ -2515,7 +2515,7 @@ The aim of a synapse model is to describe accurately the postsynaptic response g
 
 ### Exponential Model
 
-![image-20230826100738460](/assets/images/Notes.assets/image-20230826100738460.png)
+![image-20230826100738460](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826100738460.png)
 
 **Assumption**:
 
@@ -2537,7 +2537,7 @@ $$
 
 ### Dual Exponential Model
 
-![image-20230826101203059](/assets/images/Notes.assets/image-20230826101203059.png)
+![image-20230826101203059](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826101203059.png)
 
 exponential model上升的太快，不太符合某些synapse
 
@@ -2568,7 +2568,7 @@ The time course of most synaptic conductance can be well described by this sum o
 
 ### Synaptic time constants
 
-![image-20230826101544786](/assets/images/Notes.assets/image-20230826101544786.png)
+![image-20230826101544786](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826101544786.png)
 
 http://compneuro.uwaterloo.ca/research/constants-constraints/neurotransmitter-time-constants-pscs.html
 
@@ -2604,17 +2604,17 @@ http://compneuro.uwaterloo.ca/research/constants-constraints/neurotransmitter-ti
 - The synaptic kinetics tends to accelerate during development (T. Takahashi, Neuroscience Research, 2005) .
 - The synaptic kinetics becomes substantially faster with increasing temperature.
 
-![image-20230826102033433](/assets/images/Notes.assets/image-20230826102033433.png)
+![image-20230826102033433](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826102033433.png)
 
 ### Current- and Conductance-based Response
 
-![image-20230826102042614](/assets/images/Notes.assets/image-20230826102042614.png)
+![image-20230826102042614](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826102042614.png)
 
 #### Conductance-based Response
 
 Most synaptic ion channels, such as AMPA and GABA, display an approximately linear current-voltage relationship when they open.
 
-![image-20230826102113670](/assets/images/Notes.assets/image-20230826102113670.png)
+![image-20230826102113670](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826102113670.png)
 
 **For example**:
 The synapse is located on a thin dendrite, because the local membrane potential V changes considerably when the synapse is activated.
@@ -2623,7 +2623,7 @@ The synapse is located on a thin dendrite, because the local membrane potential 
 
 In some case, we can also approximate the synapses as sources of current and not a conductance.
 
-![image-20230826102150487](/assets/images/Notes.assets/image-20230826102150487.png)
+![image-20230826102150487](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826102150487.png)
 
 **For example**:
 
@@ -2915,11 +2915,11 @@ class SimpleNet4(bp.DynSysGroup):
 1. Saturation of postsynaptic receptors by previously released transmitter.
 2. Certain receptor types also exhibit desensitization that prevents them (re)opening for a period after transmitter-binding, like sodium channels underlying action potential.
 
-![image-20230826111443117](/assets/images/Notes.assets/image-20230826111443117.png)
+![image-20230826111443117](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111443117.png)
 
 ### Linetic/Markov models
 
-![image-20230826111733654](/assets/images/Notes.assets/image-20230826111733654.png)
+![image-20230826111733654](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111733654.png)
 
 - The simplest kinetic model is a two-state scheme in which receptors can be either closed, 𝐶, or open, 𝑂, and the transition between states depends on transmitter concentration, [𝑇], in the synaptic cleft:
 - 𝛼 and 𝛽 are voltage-independent forward and backward rate constants.
@@ -2928,9 +2928,9 @@ class SimpleNet4(bp.DynSysGroup):
 
 ### AMPA/GABA$_A$ synapse model
 
-<img src="Notes.assets/image-20230826111831637.png" alt="image-20230826111831637" style="zoom:50%;" />
+<img src="/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111831637.png" alt="image-20230826111831637" style="zoom:50%;" />
 
-<img src="Notes.assets/image-20230826111841073.png" alt="image-20230826111841073" style="zoom:50%;" />
+<img src="/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111841073.png" alt="image-20230826111841073" style="zoom:50%;" />
 
 $$
 \begin{aligned}\frac{ds}{dt}&=\alpha[T](1-s)-\beta s\\I&=\tilde{g}s(V-E)\end{aligned}
@@ -2944,13 +2944,13 @@ $$
 
 ### Comparison
 
-![image-20230826111950713](/assets/images/Notes.assets/image-20230826111950713.png)
+![image-20230826111950713](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826111950713.png)
 
 ### NMDA synapse model
 
-![image-20230826112027689](/assets/images/Notes.assets/image-20230826112027689.png)
+![image-20230826112027689](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826112027689.png)
 
-![image-20230826112034481](/assets/images/Notes.assets/image-20230826112034481.png)
+![image-20230826112034481](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826112034481.png)
 
 $$
 \begin{aligned}
@@ -3258,7 +3258,7 @@ class MaskedLinear(bp.dnn.Layer):
 
 ### Process of Chemical synaptic transmission
 
-![image-20230826140307862](/assets/images/Notes.assets/image-20230826140307862.png)
+![image-20230826140307862](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826140307862.png)
 
 ### EPSP and EPSC
 
@@ -3271,23 +3271,23 @@ Dynamics of post-synaptic conductance (exponential model): $\frac{dg(t)}{dt}=-\f
 
 The synaptic strength is characterized as EPSC, which refers to the post synaptic current increment at each spike, $EPSC_{n}=A(V_{\mathrm{rest}}-E_{reversal})$
 
-![image-20230826140558289](/assets/images/Notes.assets/image-20230826140558289.png)
+![image-20230826140558289](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826140558289.png)
 
 ### Synaptic plasticity
 
 实际上突触强度会一直变换
 
-![image-20230826140745735](/assets/images/Notes.assets/image-20230826140745735.png)
+![image-20230826140745735](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826140745735.png)
 
 ## Phenomenological model of STP
 
 ### Short-term depression observed between pyramidal cells
 
-![image-20230826140825584](/assets/images/Notes.assets/image-20230826140825584.png)
+![image-20230826140825584](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826140825584.png)
 
 膜片前技术，记录膜电位变化
 
-![image-20230826140947752](/assets/images/Notes.assets/image-20230826140947752.png)
+![image-20230826140947752](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826140947752.png)
 
 ### Modeling neuro-transmitter consumption
 
@@ -3326,7 +3326,7 @@ $$
 \tau_{rec}=500ms,\quad\tau_{in}=3ms,\quad fr=20hz
 $$
 
-![image-20230826142313326](/assets/images/Notes.assets/image-20230826142313326.png)
+![image-20230826142313326](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826142313326.png)
 
 ### Simplify the dynamics of neuro-transmitter consumption
 
@@ -3338,7 +3338,7 @@ $$
 \begin{aligned}\frac{dy(t)}{dt}&=-\frac{y(t)}{\tau_{in}}+U_{SE}x(t)\delta\big(t-t_{sp}\big)\\&\Longrightarrow\color{red}{\left\{\begin{array}{c}y(t)=U_{SE}x^-\delta_1(t-t_{sp}),\\x^-=\lim_{t-t_{sp}\to0^-}x(t)\end{array}\right.}\end{aligned}
 $$
 
-![image-20230826142632613](/assets/images/Notes.assets/image-20230826142632613.png)
+![image-20230826142632613](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826142632613.png)
 
 Simplified model:
 
@@ -3350,7 +3350,7 @@ EPSC=AU_{SE}x^{-},
 \end{gathered}
 $$
 
-![image-20230826143004941](/assets/images/Notes.assets/image-20230826143004941.png)
+![image-20230826143004941](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826143004941.png)
 
 ### Infer model parameters from experimental data
 
@@ -3372,7 +3372,7 @@ $$
 
 #### Short-term facilitation observed between pyramidal cells and interneurons
 
-![image-20230826143735036](/assets/images/Notes.assets/image-20230826143735036.png)
+![image-20230826143735036](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826143735036.png)
 
 短时程增强
 
@@ -3406,7 +3406,7 @@ $$
 
 ### STD and STF under different parameter regime
 
-![image-20230826145216601](/assets/images/Notes.assets/image-20230826145216601.png)
+![image-20230826145216601](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826145216601.png)
 
 ### Derivation of iterative expressions for EPSCs
 
@@ -3441,11 +3441,11 @@ $$
 EPSC_{n+1} = Au_nx_n
 $$
 
-![image-20230826145401318](/assets/images/Notes.assets/image-20230826145401318.png)
+![image-20230826145401318](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826145401318.png)
 
 Simulate with complex pre-synaptic spike trains and compare with vitro experimental results (patch-clamp)
 
-![image-20230826145419287](/assets/images/Notes.assets/image-20230826145419287.png)![image-20230826145424279](/assets/images/Notes.assets/image-20230826145424279.png)
+![image-20230826145419287](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826145419287.png)![image-20230826145424279](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826145424279.png)
 
 ## Effects on information transmission
 
@@ -3475,7 +3475,7 @@ u^{+}=\lim_{t-t_{sp\rightarrow0^{+}}}u(t),
 \end{gathered}
 $$
 
-![image-20230826155016657](/assets/images/Notes.assets/image-20230826155016657.png)
+![image-20230826155016657](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826155016657.png)
 
 丢掉时间变化的具体细节，抓住了重要趋势
 
@@ -3491,7 +3491,7 @@ $$
 EPSC_{st}=Au_{st}^{+}x_{st}=A\frac{u_{st}^{+}}{1+u_{st}^{+}\tau_{d}R_{0}},\quad PSV_{st}\propto g_{st}=\tau_{s}Au_{st}^{+}x_{st}R_{0}=A\frac{u_{st}^{+}R_{0}}{1+u_{st}^{+}\tau_{d}R_{0}},
 $$
 
-![image-20230826155234134](/assets/images/Notes.assets/image-20230826155234134.png)
+![image-20230826155234134](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826155234134.png)
 
 ### Frequency-dependent Gain control of spike information
 
@@ -3507,15 +3507,15 @@ Peak frequency: $\theta\sim\frac{1}{\sqrt{U\tau_{f}\tau_{d}}}$
 
 ### Simulation of Frequency-dependent Gain control
 
-![image-20230826155715445](/assets/images/Notes.assets/image-20230826155715445.png)
+![image-20230826155715445](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826155715445.png)
 
 ## Effects on network dynamics
 
 ### STP modeling Working memory
 
-![image-20230826160102332](/assets/images/Notes.assets/image-20230826160102332.png)
+![image-20230826160102332](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826160102332.png)
 
-![image-20230826160113456](/assets/images/Notes.assets/image-20230826160113456.png)
+![image-20230826160113456](/BrainPy-course-notes/assets/images/Notes.assets/image-20230826160113456.png)
 
 # E-I Balanced Neural Network
 
@@ -3535,17 +3535,17 @@ $$
 
 真正的神经元并不是LIF model的输出
 
-![image-20230827100647851](/assets/images/Notes.assets/image-20230827100647851.png)
+![image-20230827100647851](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827100647851.png)
 
 Simulation
 
-![image-20230827100706310](/assets/images/Notes.assets/image-20230827100706310.png)
+![image-20230827100706310](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827100706310.png)
 
 Neuron recorded in vivo
 
 ### Irregular Spiking of Neurons
 
-![image-20230827092807270](/assets/images/Notes.assets/image-20230827092807270.png)
+![image-20230827092807270](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827092807270.png)
 
 #### Statistical Description of Spikes
 
@@ -3579,7 +3579,7 @@ Fano factor -> noise-to-signal ratio
 
 LIF在单个神经元的情况下是基本没有太大问题的，在整个网络中会受网络信息调控
 
-![image-20230827093614607](/assets/images/Notes.assets/image-20230827093614607.png)
+![image-20230827093614607](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827093614607.png)
 
 #### Why Irregular?
 
@@ -3597,7 +3597,7 @@ $$
 \end{gathered}
 $$
 
-![image-20230827093708220](/assets/images/Notes.assets/image-20230827093708220.png)
+![image-20230827093708220](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827093708220.png)
 
 Sparse & random connections:$1\ll K_{\mathrm{E}},K_{1}\ll N_{\mathrm{E}},N_{\mathrm{I}}$ . Neurons fire largely independently to each other.
 
@@ -3656,7 +3656,7 @@ $$
 \begin{array}{l}E_\mathrm{exc}=0\text{mV}\mathrm{and}E_\mathrm{inh}=-80\text{mV},I_\mathrm{ext}=20.\\\tau_\mathrm{exc}=5\text{ ms},\tau_\mathrm{inh}=10\text{ ms},\Delta g_\mathrm{exc}=0.6\text{ and}\Delta g_\mathrm{inh}=6.7.\end{array}
 $$
 
-![image-20230827094502860](/assets/images/Notes.assets/image-20230827094502860.png)
+![image-20230827094502860](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827094502860.png)
 
 ### Synaptic Computation
 
@@ -3717,9 +3717,9 @@ def update(self, inp=0.):
     return self.E.spike, self.I.spike, E_E_inp, I_E_inp
 ```
 
-![image-20230827110737553](/assets/images/Notes.assets/image-20230827110737553.png)
+![image-20230827110737553](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827110737553.png)
 
-![image-20230827110746410](/assets/images/Notes.assets/image-20230827110746410.png)
+![image-20230827110746410](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827110746410.png)
 
 ## Properties of E-I Balanced Network
 
@@ -3737,7 +3737,7 @@ def update(self, inp=0.):
 - Those neurons (red circle) whose potentials are close to the threshold will fire rapidly;
 - If the noisy environment is proper, even for a small input, a certain number of neurons will fire instantly to report the presence of a stimulus.
 
-![image-20230827113451626](/assets/images/Notes.assets/image-20230827113451626.png)
+![image-20230827113451626](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827113451626.png)
 
 # Continuous Attractor Neural Network
 
@@ -3748,7 +3748,7 @@ def update(self, inp=0.):
 Different types of attractors:
 Point attractors, Line attractors, Ring attractors, Plane attractors, Cyclic attractors, Chaotic attractors
 
-![image-20230827140250173](/assets/images/Notes.assets/image-20230827140250173.png)
+![image-20230827140250173](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827140250173.png)
 
 稳态，能量梯度吸引到attractor
 
@@ -3767,7 +3767,7 @@ Updating rule: synchronous or asynchronous
 Consider the network stores $p$ pattern, $\xi_{i}^{\mu},\mathrm{for}\mu=1,\ldots p;i=1,\ldots N$
 Setting $w_{ij}=\frac{1}{N}\sum_{\mu=1}^{p}\xi_{i}^{\mu}\xi_{j}^{\mu}$
 
-![image-20230827140827784](/assets/images/Notes.assets/image-20230827140827784.png)
+![image-20230827140827784](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827140827784.png)
 
 #### Energy space of Hopfield network
 
@@ -3788,13 +3788,13 @@ $$
 
 A partial/noisy input can retrieve the related memory pattern
 
-![image-20230827141253326](/assets/images/Notes.assets/image-20230827141253326.png)
+![image-20230827141253326](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827141253326.png)
 
 #### Persistent activity in working memory
 
 After the removal of external input, the neurons in the network encoding the stimulus continue to fire persistently.
 
-![image-20230827141421796](/assets/images/Notes.assets/image-20230827141421796.png)
+![image-20230827141421796](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827141421796.png)
 
 ## Continuous Attractor Neural Network
 
@@ -3802,15 +3802,15 @@ After the removal of external input, the neurons in the network encoding the sti
 
 #### Low-dimensional continuous feature
 
-![image-20230827142520189](/assets/images/Notes.assets/image-20230827142520189.png)
+![image-20230827142520189](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827142520189.png)
 
 #### Continuous Attractor neural network
 
-![image-20230827142606695](/assets/images/Notes.assets/image-20230827142606695.png)
+![image-20230827142606695](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827142606695.png)
 
 ### CANN: A rate-based recurrent circuit model
 
-<img src="/assets/images/Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
+<img src="/BrainPy-course-notes/assets/images/Notes.assets/image-20230827142918529.png" alt="image-20230827142918529" style="zoom:50%;" />
 
 $$
 \begin{aligned}\tau\frac{\partial U(x,t)}{\partial t}&=-U(x,t)+\rho\int f(x,x')r(x',t)dx'+l^{ext}(1)\\r(x,t)&=\frac{U^2(x,t)}{1+k\rho\int U^2(x,t)dx}\quad(2)\\J(x,x')&=\frac{J_0}{\sqrt{2\pi}a}\exp\left[-\frac{(x-x')^2}{2a^2}\right](3)\end{aligned}
@@ -3818,13 +3818,13 @@ $$
 
 r频率，J强度，U decay
 
-<img src="/assets/images/Notes.assets/image-20230827143435002.png" alt="image-20230827143435002" style="zoom:50%;" />
+<img src="/BrainPy-course-notes/assets/images/Notes.assets/image-20230827143435002.png" alt="image-20230827143435002" style="zoom:50%;" />
 
 #### A Continuous family of attractor states
 
 做平移的改变，变化会被保留，line attractor，受到编码连续刺激
 
-![image-20230827143707784](/assets/images/Notes.assets/image-20230827143707784.png)
+![image-20230827143707784](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827143707784.png)
 
 #### Stability analysis derive continuous attractor dynamics
 
@@ -3851,11 +3851,11 @@ Note the decay time constant is: $\frac{\tau}{1-\lambda _n}$
 
 #### Only bump position shift survives
 
-![image-20230827144540676](/assets/images/Notes.assets/image-20230827144540676.png)
+![image-20230827144540676](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827144540676.png)
 
 Ring attractor network for head-direction cell in fruit fly
 
-<img src="/assets/images/Notes.assets/image-20230827144557359.png" alt="image-20230827144557359" style="zoom:50%;" />
+<img src="/BrainPy-course-notes/assets/images/Notes.assets/image-20230827144557359.png" alt="image-20230827144557359" style="zoom:50%;" />
 
 ## Computation with CANN
 
@@ -3878,7 +3878,7 @@ $$
 
 ### Smooth tracking by CANN
 
-![image-20230827145334859](/assets/images/Notes.assets/image-20230827145334859.png)
+![image-20230827145334859](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827145334859.png)
 
 Project the network dynamics on $v_1(t)$
 $\tau{\frac{\partial\mathbf{U}*\mathbf{v}_{1}}{\partial t}}=-\mathbf{U}*\mathbf{v}_{1}+(\mathbf{J}*\mathbf{r})*\mathbf{v}_{1}+\mathbf{I}^{ext}*\mathbf{v}_{1}$
@@ -3919,7 +3919,7 @@ $V(x,t)$ represents the SFA effect,
 
 $V(x,t)=\frac{m}{\tau_{\nu}}\int_{-\infty}^{'}e^{-\frac{t-t'}{\tau_{\nu}}}U(x,t')dt'$
 
-![image-20230827150142710](/assets/images/Notes.assets/image-20230827150142710.png)
+![image-20230827150142710](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827150142710.png)
 
 SFA(Spike frequency Adaptation):
 
@@ -3934,11 +3934,11 @@ The mechanism: SFA suppresses localized neural activity and triggers
 
 $m>\frac{\tau}{\tau _v}$, Travelling wave
 
-![image-20230827150543244](/assets/images/Notes.assets/image-20230827150543244.png)
+![image-20230827150543244](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827150543244.png)
 
 #### Levy flights vs. Brownian motion
 
-![image-20230827150851309](/assets/images/Notes.assets/image-20230827150851309.png)
+![image-20230827150851309](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827150851309.png)
 
 #### Lévy flights in ecology and human cogniDve behaviors
 
@@ -3946,11 +3946,11 @@ $m>\frac{\tau}{\tau _v}$, Travelling wave
 
 ### Noisy adaptation generates Levy flight in CANN
 
-![image-20230827151343126](/assets/images/Notes.assets/image-20230827151343126.png)
+![image-20230827151343126](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827151343126.png)
 
 ### Time Delay in Neural Signal Transmission
 
-![image-20230827151622032](/assets/images/Notes.assets/image-20230827151622032.png)
+![image-20230827151622032](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827151622032.png)
 
 ### Anticipatory Head Direction Signals in Anterior Thalamus
 
@@ -3958,7 +3958,7 @@ $m>\frac{\tau}{\tau _v}$, Travelling wave
 
 CANN加入负反馈机制是可以实现预测的
 
-![image-20230827152731895](/assets/images/Notes.assets/image-20230827152731895.png)
+![image-20230827152731895](/BrainPy-course-notes/assets/images/Notes.assets/image-20230827152731895.png)
 
 ### CANN with STP
 

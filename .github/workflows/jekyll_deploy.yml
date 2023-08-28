@@ -39,7 +39,7 @@ jobs:
       run: python3 markdown_process.py -i master_content/Notes.md -o _posts/2023-08-27-BrainPy-course-notes.md
 
     - name: Move Notes.assets to assets/images/
-      run: mv -f master_content/Notes.assets assets/images/
+      run: rsync -a master_content/Notes.assets/ assets/images/Notes.assets/
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1

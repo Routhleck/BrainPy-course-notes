@@ -5507,6 +5507,7 @@ $$
 \tau_{m}\frac{dr_{v}}{dt}=-r_{v}+g(l_{v})
 $$
 一般的rate-based model
+
 $$
 \begin{array}
 {}\tau_s\ll\tau_m\to I_v=\sum_iw_ir_i\\\\
@@ -5549,35 +5550,47 @@ $r_\infin$，跑完再输出
 **公式推导**
 
 在无穷时刻
+
 $$
 r_{\infty}=r^{*}\quad0=F(r^{*},w,x,y)
 $$
+
 基于梯度的方法
+
 $$
 loss function = l(r,y) = \frac{1}{2}||r-y||^2\\
 \frac{dl}{dw}=\frac{\partial l}{\partial r}\Big|_{r^{*}}\frac{dr^{*}}{dw}
 $$
+
 链式法则对无穷时刻的$0=F(r^*,w,x,y)$求导，注意$r^*$是与$w$有关系的不能直接求导
+
 $$
 \frac{d0}{dw}=\frac{dF(r^{*},w,x,y)}{dw}=\frac{\partial F}{\partial r}\Big|_{r^{*}}\frac{dr^{*}}{dw}+\frac{\partial F}{\partial w}
 $$
+
 以上两式可以求$\frac{dr^{*}}{dw}$
+
 $$
 \begin{aligned}J(r^*)&=\frac{\partial F}{\partial r}\Big|_{r^*}\quad\frac{\partial l}{\partial r^*}=\frac{\partial l}{\partial r}\Big|_{r^*}\\\frac{dr^*}{dw}&=-J^{-1}\frac{\partial F}{\partial w}\end{aligned}
 $$
+
 求$J^{-1}$是难点，矩阵求逆运算量大
 
 #### BP训练
 
 新的动力学的稳态
+
 $$
 \frac{dv}{dt}=vJ+\frac{\partial l}{\partial r^{*}}\\
 v^{*}=-\frac{\partial l}{\partial r^{*}}J^{-1}\\
 $$
+
 可以求出梯度
+
 $$
 \frac{dl}{dw}=v^{*}\frac{\partial F}{\partial w}
 $$
+
 设计F使$J$变为sparse
 
 以上为BP的方法
@@ -5587,10 +5600,13 @@ $$
 #### Feedforward model
 
 前馈神经网络与上面的RNN是等价的
+
 $$
 x_{1}=f(w_{1}x_{0})\\x_{2}=f(w_{2}x_{1})
 $$
+
 <<==>>
+
 $$
 \begin{aligned}
 &\frac{dr}{dt}=F(r,w,x,y) \\
@@ -5598,6 +5614,7 @@ $$
 &\frac{dx_{2}}{dt} =-x_{2}+f(w_{2}x_{1}) 
 \end{aligned}
 $$
+
 ![image-20230829105603317](Notes.assets/image-20230829105603317.png)
 
 #### Energy-based model
@@ -5606,22 +5623,30 @@ v 生物不合理
 energy-based model不需要引入v，需要对F做些限制
 
 $\lambda$来控制大小，=0时，目标=y
+
 $$
 \frac{dr}{dt}=F(r,w,x,y)+\lambda\left(\frac{\partial l}{\partial r}\right)^{T}
 $$
+
 关于$\lambda$求导
+
 $$
 \frac{d0}{d\lambda}=\frac{dF(r^*,w,x,y)}{d\lambda}+\left(\frac{\partial l}{\partial r}\right)^T=J\frac{dr^*}{d\lambda}+\left(\frac{\partial l}{\partial r}\right)\Big|_{r^*}^T\\
 \left(\frac{dr^*}{d\lambda}\right)^T=-\frac{\partial l}{\partial r}J^{-T}
 $$
+
 如果
+
 $$
 \text{If}J^{-T}=J^{-1}\Leftrightarrow\text{exist E},s.t.\text{F}=\frac{\partial E}{\partial r}
 $$
+
 simulate出来
+
 $$
 \frac{dl}{dw}=\left(\frac{dr^*}{d\lambda}\right)^T\frac{\partial F}{\partial w}
 $$
+
 分别跑两次，一次$\Delta \lambda$，一次0，用$\lambda$近似
 J是对称矩阵，F为能量函数的导数
 
@@ -5646,6 +5671,7 @@ $$
 $$
 
 展开
+
 $$
 \begin{aligned}
 &\frac{dr_{t}}{dw}=\frac{d}{dw}\int_{0}^{t}dr_{\tau}=\frac{d}{dw}\int_{0}^{t}\frac{dr_{\tau}}{d\tau}d\tau  \\
@@ -5654,10 +5680,13 @@ $$
 &=\int_{0}^{t}\frac{dF(r,w,x,y)}{dw}d\tau = p_t
 \end{aligned}
 $$
+
 $p_t$的迭代式
+
 $$
 \frac{dp_t}{dt}=\frac{dF(r,w,x,y)}{dw}=J(r_t)p_t+\frac{\partial F}{\partial w}
 $$
+
 随x的变化，p能够算出来
 
 **Real time recurrent learning**
@@ -5668,10 +5697,13 @@ Time: $O(n^2m * T)$
 Space: $O(mn + n^2)$
 
 通过online推offline，线性系统如何求解问题
+
 $$
 \frac{dp_t}{dt}=J(r_t)p_t+\frac{\partial F}{\partial w}
 $$
+
 欧拉展开
+
 $$
 \begin{aligned}
 &p_{t} =[J(r_{t-1})\Delta t+1]p_{t-1}+\frac{\partial F(r_{t-1})}{\partial w}\Delta t  \\
@@ -5679,7 +5711,9 @@ $$
 &p_{t} =\frac{\partial r_{t}}{\partial r_{t-1}}\frac{\partial r_{t-1}}{\partial r_{t-2}}p_{t-1}+\frac{\partial r_{t}}{\partial r_{t-1}}\frac{\partial F(r_{t-1})}{\partial w}\Delta t+\frac{\partial F(r_{t-1})}{\partial w}\Delta t 
 \end{aligned}
 $$
+
 不断重复t-1, t-2 ...，每一次迭代都会多出来一项$\frac{\partial F(r_{t-1})}{\partial w}\Delta t $
+
 $$
 \frac{dr_t}{dw}=p_t=\int_0^t\frac{\partial r_t}{\partial r_t}\frac{\partial F(r_\tau,w,x,y)}{\partial w}d\tau\\
 \frac{dl_{t}(r_{t},y_{t})}{dw}=\int_{0}^{t}\frac{\partial l_{t}}{\partial r_{t}}\frac{\partial r_{t}}{\partial r_{\tau}}\frac{\partial F(r_{\tau},w,x,y)}{\partial w}d\tau 
@@ -5837,13 +5871,16 @@ rate值转换为Poisson spike
 ![image-20230829144204483](Notes.assets/image-20230829144204483.png)
 
 Continuous Version
+
 $$
 \begin{aligned}
 &\tau_I\frac{dI}{dt}=-I+W\sum_k\delta(t-t^k) \\
 &\tau_{V}\frac{dV}{dt}=-V+V_{rest}+RI
 \end{aligned}
 $$
+
 Discrete Version
+
 $$
 \begin{aligned}
 &\begin{aligned}I[t+\Delta t]&=\alpha_II[t]+Wz[t-t^d]+I_{ext}\end{aligned} \\
@@ -5868,7 +5905,8 @@ $$
 & \frac{dE}{I[t]}=\alpha_{I}\frac{dE}{dI[t+\Delta t]}+\frac{\partial V[t]}{\partial I[t]}\frac{dE}{dV[t]}=\alpha_{I}\frac{dE}{dI[t+\Delta t]}+R\Delta t\frac{dE}{dV[t]}  \\
 &\frac{dE}{dz[t]}=\frac{\partial E}{\partial z[t]}+W\frac{dE}{dI[t+t^d+\Delta t]}\\
 &\mathrm{where}\quad\alpha_I=e^{-\frac{1}{\tau_I}\Delta t}\text{,and}\alpha_V=e^{-\frac{1}{\tau_V}\Delta t}.
-\end{aligned}
+\end{aligned}
+
 $$
 
 $$
@@ -5884,6 +5922,7 @@ $$
 ### The Working memory task that requires long-term memory
 
 von Mises distribution，每个方位
+
 $$
 \begin{matrix}\text{Firing rate}=\\Ae^{\kappa\cos(\theta-\theta_{pref}^{i})}+\sigma_{in}N(0,1)\end{matrix}
 $$
@@ -5900,6 +5939,7 @@ $$
 $$
 
 When $V$ meet $V_{th}$,  Generalized IF neuron fires:
+
 $$
 \begin{aligned}
 &I_j\leftarrow R_jI_j+A_j \\
@@ -5907,6 +5947,7 @@ $$
 &V_{th}\leftarrow max(V_{th_{reset}},V_{th})
 \end{aligned}
 $$
+
 Note that $I_i$ refers to arbitrary number of internal currents.
 
 ![image-20230829152521389](Notes.assets/image-20230829152521389.png)
@@ -5914,6 +5955,7 @@ Note that $I_i$ refers to arbitrary number of internal currents.
 ### My modified GIF neuron
 
 **Continuous version of the model**
+
 $$
 \begin{gathered}
 \tau_{I1}\frac{dI_{1}}{dt} =-I_{1}\ \text{fast internal current} \\
@@ -5922,11 +5964,15 @@ $$
 \tau_{th}\frac{dV_{th}}{dt} =-V_{th}+V_{th,\infty}\ \text{adapative threshold, optional} 
 \end{gathered}
 $$
+
 when $V$ meets $-Vth$, modified GIF model fires:
+
 $$
 \begin{array}{l}I_1\leftarrow A_1\\I_2\leftarrow I_2+A_2\\V_{th}\leftarrow V_{th}+A_{th}\\V\leftarrow V_{rest}\end{array}
 $$
+
 **Discrete version of the model**
+
 $$
 \begin{aligned}
 &I_1[t+\Delta t]=\begin{cases}\alpha_{I_1}I_1[t]&\mathrm{~if~}z[t]=0\\A_1&\mathrm{~if~}z[t]=1\end{cases} \\
@@ -5937,6 +5983,7 @@ $$
 &V[t+\Delta t]=V[t+\Delta t]-V_{th}[t+\Delta t]z[t+\Delta t]
 \end{aligned}
 $$
+
 where $\alpha_{I_1}=e^{-\frac{1}{^\tau I_1}\Delta t},\alpha_{I_2}=e^{-\frac{1}{^\tau I_2}\Delta t},\alpha_{V_{th}}=e^{-\frac{1}{^\tau V_{th}}\Delta t},\ \text{and}\ \alpha_V=e^{-\frac{1}{^\tau V}\Delta t}$
 
 

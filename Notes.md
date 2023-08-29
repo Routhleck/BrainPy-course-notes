@@ -5460,3 +5460,267 @@ A liquid state machine (LSM) is a type of reservoir computer that uses a spiking
 与ESN一样的范式，都是去做dimension expansion
 
 很难去分析怎么work的
+
+# Recurrent Neural Networks
+
+## From SNN to rate-based model
+
+spike是膜电位的发放
+rate model把spike train变成概率，firing rate
+
+导数太大，计算有问题
+
+![image-20230829095013835](Notes.assets/image-20230829095013835.png)
+
+从SNN到rate-based
+
+![image-20230829095034749](Notes.assets/image-20230829095034749.png)
+
+研究一个神经元，output，$r_v(t)$ firing rate，把I和V转换为firing rate
+
+任取一个input $u_i$ 对$u_v$的输入电流$I_v^i$，$\rho_{i}(\tau)$ spike train近似频率$r_i$
+
+$t^j_i$为第$j$个发放
+$$
+l_{v}^{i}(t)=\sum_{t_{i}^{j}<t}K\bigl(t-t_{i}^{j}\bigr)=\int_{-\infty}^{t}d\tau K(t-\tau)\rho_{i}(\tau)
+$$
+
+$$
+\begin{aligned}
+I_{v}(t)=\sum_{i}w_{i}I_{v}^{i}(t)& =\sum_{i}w_{i}\int_{-\infty}^{t}d\tau K(t-\tau)\rho_{i}(\tau)  \\
+&\approx\sum_{i}w_{i}\int_{-\infty}^{t}d\tau K(t-\tau)r_{i}(\tau)
+\end{aligned}
+$$
+
+同时求微分，把I与r建立关系
+
+$$
+\tau_{s}\frac{dI_{v}}{dt}=-I_{v}+\sum_{i}w_{i}r_{i}\\
+K(t)=\frac{1}{\tau_{s}}e^{-\frac{t}{\tau_{s}}}
+$$
+
+LIF
+
+把两式写在一起
+$$
+\tau_{m}\frac{dr_{v}}{dt}=-r_{v}+g(l_{v})\\
+\tau_{m}\frac{dr_{v}}{dt}=-r_{v}+g(l_{v})
+$$
+一般的rate-based model
+$$
+\begin{array}
+{}\tau_s\ll\tau_m\to I_v=\sum_iw_ir_i\\\\
+\tau_m\frac{dr_v}{dt}=-r_v+g(\sum_iw_ir_i)\end{array}
+$$
+
+$$
+\begin{aligned}\tau_m\ll\tau_s&\to r_v=g(l_v)\\\\\tau_m\frac{dI_v}{dt}&=-I_v+\sum_iw_ig(I_i)\end{aligned}
+$$
+
+## From rate-based model to general dynamic system
+
+$$
+\tau_{m}\frac{dr_{v}}{dt}=-r_{v}+g(\sum_{i}w_{i}r_{i})\\
+\rightarrow
+\frac{dr}{dt}=F(r,w,x,y)
+\\
+\\
+w:parameters \\
+x:input \\
+y:target \\
+r\in R^{n},w\in R^{m}
+$$
+
+
+
+### Fixed point
+
+$r_\infin$，跑完再输出
+
+用BP训练或energy-based训练
+
+- Feedforward model (backpropagation）
+- Energy-based model (Hopfield network, diffusion model)
+- Deep Equilibrium Models
+- Attractor neural networks
+
+![image-20230829102905689](Notes.assets/image-20230829102905689.png)
+
+**公式推导**
+
+在无穷时刻
+$$
+r_{\infty}=r^{*}\quad0=F(r^{*},w,x,y)
+$$
+基于梯度的方法
+$$
+loss function = l(r,y) = \frac{1}{2}||r-y||^2\\
+\frac{dl}{dw}=\frac{\partial l}{\partial r}\Big|_{r^{*}}\frac{dr^{*}}{dw}
+$$
+链式法则对无穷时刻的$0=F(r^*,w,x,y)$求导，注意$r^*$是与$w$有关系的不能直接求导
+$$
+\frac{d0}{dw}=\frac{dF(r^{*},w,x,y)}{dw}=\frac{\partial F}{\partial r}\Big|_{r^{*}}\frac{dr^{*}}{dw}+\frac{\partial F}{\partial w}
+$$
+以上两式可以求$\frac{dr^{*}}{dw}$
+$$
+\begin{aligned}J(r^*)&=\frac{\partial F}{\partial r}\Big|_{r^*}\quad\frac{\partial l}{\partial r^*}=\frac{\partial l}{\partial r}\Big|_{r^*}\\\frac{dr^*}{dw}&=-J^{-1}\frac{\partial F}{\partial w}\end{aligned}
+$$
+求$J^{-1}$是难点，矩阵求逆运算量大
+
+#### BP训练
+
+新的动力学的稳态
+$$
+\frac{dv}{dt}=vJ+\frac{\partial l}{\partial r^{*}}\\
+v^{*}=-\frac{\partial l}{\partial r^{*}}J^{-1}\\
+$$
+可以求出梯度
+$$
+\frac{dl}{dw}=v^{*}\frac{\partial F}{\partial w}
+$$
+设计F使$J$变为sparse
+
+以上为BP的方法
+
+
+
+#### Feedforward model
+
+前馈神经网络与上面的RNN是等价的
+$$
+x_{1}=f(w_{1}x_{0})\\x_{2}=f(w_{2}x_{1})
+$$
+<<==>>
+$$
+\begin{aligned}
+&\frac{dr}{dt}=F(r,w,x,y) \\
+&\frac{dx_{1}}{dt}=-x_{1}+f(w_{1}x_{0}) \\
+&\frac{dx_{2}}{dt} =-x_{2}+f(w_{2}x_{1}) 
+\end{aligned}
+$$
+![image-20230829105603317](Notes.assets/image-20230829105603317.png)
+
+#### Energy-based model
+
+v 生物不合理
+energy-based model不需要引入v，需要对F做些限制
+
+$\lambda$来控制大小，=0时，目标=y
+$$
+\frac{dr}{dt}=F(r,w,x,y)+\lambda\left(\frac{\partial l}{\partial r}\right)^{T}
+$$
+关于$\lambda$求导
+$$
+\frac{d0}{d\lambda}=\frac{dF(r^*,w,x,y)}{d\lambda}+\left(\frac{\partial l}{\partial r}\right)^T=J\frac{dr^*}{d\lambda}+\left(\frac{\partial l}{\partial r}\right)\Big|_{r^*}^T\\
+\left(\frac{dr^*}{d\lambda}\right)^T=-\frac{\partial l}{\partial r}J^{-T}
+$$
+如果
+$$
+\text{If}J^{-T}=J^{-1}\Leftrightarrow\text{exist E},s.t.\text{F}=\frac{\partial E}{\partial r}
+$$
+simulate出来
+$$
+\frac{dl}{dw}=\left(\frac{dr^*}{d\lambda}\right)^T\frac{\partial F}{\partial w}
+$$
+分别跑两次，一次$\Delta \lambda$，一次0，用$\lambda$近似
+J是对称矩阵，F为能量函数的导数
+
+### Trajectory
+
+$r_t$，跑到一定时刻就输出
+
+只有一种bp训练
+
+- backpropagation through time (BPTT) models (e.g. LSTM)
+- Real time recurrent learning (RTRL) models
+
+![image-20230829102912334](Notes.assets/image-20230829102912334.png)
+
+指定dt个时刻就要
+$$
+loss function: l=\int \alpha_tl_t(r_t,y_t)dt
+$$
+
+$$
+\frac{dl_t(r_t,y_t)}{dw}=\frac{\partial l_t}{\partial r_t}\frac{dr_t}{dw}
+$$
+
+展开
+$$
+\begin{aligned}
+&\frac{dr_{t}}{dw}=\frac{d}{dw}\int_{0}^{t}dr_{\tau}=\frac{d}{dw}\int_{0}^{t}\frac{dr_{\tau}}{d\tau}d\tau  \\
+&=\frac{d}{dw}\int_{0}^{t}F(r,w,x,y)d\tau  \\
+&=\frac{d}{dw}\int_{0}^{t}F(r,w,x,y)d\tau  \\
+&=\int_{0}^{t}\frac{dF(r,w,x,y)}{dw}d\tau = p_t
+\end{aligned}
+$$
+$p_t$的迭代式
+$$
+\frac{dp_t}{dt}=\frac{dF(r,w,x,y)}{dw}=J(r_t)p_t+\frac{\partial F}{\partial w}
+$$
+随x的变化，p能够算出来
+
+**Real time recurrent learning**
+好处: online
+但时间复杂度开销比较大
+
+Time: $O(n^2m * T)$
+Space: $O(mn + n^2)$
+
+通过online推offline，线性系统如何求解问题
+$$
+\frac{dp_t}{dt}=J(r_t)p_t+\frac{\partial F}{\partial w}
+$$
+欧拉展开
+$$
+\begin{aligned}
+&p_{t} =[J(r_{t-1})\Delta t+1]p_{t-1}+\frac{\partial F(r_{t-1})}{\partial w}\Delta t  \\
+&p _{t} =\frac{\partial r_{t}}{\partial r_{t-1}}p_{t-1}+\frac{\partial F(r_{t-1})}{\partial w}\Delta t  \\
+&p_{t} =\frac{\partial r_{t}}{\partial r_{t-1}}\frac{\partial r_{t-1}}{\partial r_{t-2}}p_{t-1}+\frac{\partial r_{t}}{\partial r_{t-1}}\frac{\partial F(r_{t-1})}{\partial w}\Delta t+\frac{\partial F(r_{t-1})}{\partial w}\Delta t 
+\end{aligned}
+$$
+不断重复t-1, t-2 ...，每一次迭代都会多出来一项$\frac{\partial F(r_{t-1})}{\partial w}\Delta t $
+$$
+\frac{dr_t}{dw}=p_t=\int_0^t\frac{\partial r_t}{\partial r_t}\frac{\partial F(r_\tau,w,x,y)}{\partial w}d\tau\\
+\frac{dl_{t}(r_{t},y_{t})}{dw}=\int_{0}^{t}\frac{\partial l_{t}}{\partial r_{t}}\frac{\partial r_{t}}{\partial r_{\tau}}\frac{\partial F(r_{\tau},w,x,y)}{\partial w}d\tau 
+$$
+
+
+**BPTT**
+减少时间复杂度
+Time: $O(n^2T + nmT)$
+Space: $O(mn + n^2)$
+
+### Example
+
+$$
+\frac{dr}{dt}=-r+wr+b+x
+$$
+
+For a input sequence 𝑥1:𝑇 ∈ 𝑅, get the target output 𝑦1:𝑇 ∈ 𝑅
+
+#### online算法
+
+Real time recurrent learning
+
+1. Initial $r_0=y_0, p_0 = 0$
+2. For a given sequence $x_{1:t},$ compute
+   $r_{1:T},p_{1:T}$ according to $\frac{dr}{dt}=-r+wr+b+x,\frac{dp_w}{dt}=(-l+w)p_w+r,\frac{dp_b}{dt}=(-l+w)p_b+1$
+3. Set $l_t=\frac{1}{2T}(r_t-y_t)^2$, leading to $\Delta w=-\frac\eta T\Sigma(r_{t}-y_{t})p_{t},\Delta b=-\frac\eta T\Sigma(r_{t}-y_{t})p_{b}$
+
+#### offline算法
+
+BPTT
+
+1. Initial $r_0=y_0,p_0=0$
+
+2. For a given sequence $x_{1:T}$, compute$r_{1:T}$ according to $\frac{dr}{dt}=-r+wr+b+x$
+
+3. Set $l_t=\frac{1}{2T} (r_t-y_t)^2$, leading to 
+   $$
+   \begin{gathered}
+   \Delta w=-\eta\sum_{t}\Sigma_{\tau}\frac{1}{T}\left(r_{t}-y_{t}\right)\frac{\partial r_{t}}{\partial r_{\tau}}r, \\
+   \Delta b=-\eta\sum_{t}\sum_{\tau}\frac{1}{T}\left(r_{t}-y_{t}\right)\frac{\partial r_{t}}{\partial r_{\tau}} 
+   \end{gathered}
+   $$
+   

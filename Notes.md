@@ -5724,3 +5724,255 @@ BPTT
    \end{gathered}
    $$
    
+
+# Training spiking neural
+
+## Introduction
+
+### Basic Elements of Training SNNs
+
+- Neuron models
+- Training algorithms
+- Neural Coding
+- Topology Structure
+
+## Trainable Neuron Models
+
+### The spectrum of neuron models
+
+BP很难和生物对应
+
+![image-20230829140659930](Notes.assets/image-20230829140659930.png)
+
+### Non-differentiable problem
+
+与现在的神经网络相比，不是可微分的
+
+The discharge process is an non-differentiable process
+
+$s(t)=\theta(U_{mem}(t)-U_{thr})\\$
+
+$\theta(x)=\left\{\begin{matrix}{1,}&{x\geq0}\\{0,}&{x<0}\\\end{matrix}\right.$ is a **Heaviside step function**
+
+The derivative of the Heaviside function$\theta(x)$ is the **Delta function**
+
+$\delta(x)=\left\{\begin{matrix}{+\infty,}&{x=0}\\{0,}&{x\neq0}\\\end{matrix}\right.$
+
+Unable to use $\delta(x)$ to calculate during **backpropagation**
+
+### Surrogate gradient learning
+
+反向传播的时候需要换一个函数(如sigmoid)的导数，把阶跃函数的spiking function用另一个替代叫 **surrogate gradient**
+
+![image-20230829141109442](Notes.assets/image-20230829141109442.png)
+
+BrainPy提供的surrogate gradient functions
+
+![image-20230829141240271](Notes.assets/image-20230829141240271.png)
+
+即便导数值是错的，但training的过程中是work的
+
+
+
+## Neural Coding
+
+### Spiking encoding
+
+Convert the input into a spike train of sequence.
+
+分成不同时刻
+
+![image-20230829142137857](Notes.assets/image-20230829142137857.png)
+
+### Neural encoding methods
+
+- Rate Coding
+- Latency Coding
+- Delta Modulation
+
+![image-20230829142302713](Notes.assets/image-20230829142302713.png)
+
+#### Rate(Poisson) coding
+
+rate值转换为Poisson spike
+
+`brainpy.encoding.PoissonEncoder(gain, first_spk_time)`
+
+**Problems of rate coding:**
+
+- The cortex globally encodes information as spike rates.
+- Rate-coding can only explain, at most, the activity of 15% of neurons in the primary visual cortex (V1).
+- Reaction Response Times: We know that the reaction time of a human is roughly around 250 ms. If the average firing rate of a neuron in the human brain is on the order of 10Hz, then we can only process about 2 spikes within our reaction timescale.
+
+#### Latency(time-to-first spike) coding
+
+每一个值都用一个spike来发放，每一个实数值对应spike的一个时间点
+
+![image-20230829142659606](Notes.assets/image-20230829142659606.png)
+
+值越大，电流越大，神经元发放越快
+
+很简单写出解析解
+
+![image-20230829142828816](Notes.assets/image-20230829142828816.png)
+
+`brainpy.encoding.LatencyEncoder(method='linear'/'log')`
+
+#### Delta modulation
+
+专注于motion，没有变化不会出现spike
+
+判断前一刻时刻和当前时刻差值是否超过阈值
+
+![image-20230829143248879](Notes.assets/image-20230829143248879.png)
+
+
+
+## Training a SNN for classifying MNIST
+
+基于BP的方法来training和转换SNN
+
+### A LIF based SNN network model
+
+![image-20230829144204483](Notes.assets/image-20230829144204483.png)
+
+Continuous Version
+$$
+\begin{aligned}
+&\tau_I\frac{dI}{dt}=-I+W\sum_k\delta(t-t^k) \\
+&\tau_{V}\frac{dV}{dt}=-V+V_{rest}+RI
+\end{aligned}
+$$
+Discrete Version
+$$
+\begin{aligned}
+&\begin{aligned}I[t+\Delta t]&=\alpha_II[t]+Wz[t-t^d]+I_{ext}\end{aligned} \\
+&V[t+\Delta t]=\alpha_VV[t]+(V_{rest}+RI[t+\Delta t])\Delta t \\
+&z[t+\Delta t]=\begin{cases}1&\text{if }V[t+\Delta t]>V_{th}\\0&\text{otherwise}\end{cases} \\
+&V[t+\Delta t]=V[t+\Delta t]-V_{th}z[t+\Delta t]\\
+&\mathrm{where}\quad\alpha_{I}=e^{-\frac{1}{\tau I}\Delta t}\text{,and }\alpha_{V}=e^{-\frac{1}{\tau V}\Delta t}.
+\end{aligned}
+$$
+
+
+### A recurrent representation of SNNs
+
+![image-20230829144626615](Notes.assets/image-20230829144626615.png)
+
+### Backprop through time
+
+两组权重
+$$
+\begin{aligned}
+&\frac{dE}{V[t]}=\alpha_{V}\frac{dE}{dV[t+\Delta t]}+\frac{\partial z[t]}{\partial V[t]}\frac{dE}{dz[t]}=\alpha_{V}\frac{dE}{dV[t+\Delta t]}+\mathrm{spike}^{\prime}(V[t]-V_{th})\frac{dE}{dz[t]}  \\
+& \frac{dE}{I[t]}=\alpha_{I}\frac{dE}{dI[t+\Delta t]}+\frac{\partial V[t]}{\partial I[t]}\frac{dE}{dV[t]}=\alpha_{I}\frac{dE}{dI[t+\Delta t]}+R\Delta t\frac{dE}{dV[t]}  \\
+&\frac{dE}{dz[t]}=\frac{\partial E}{\partial z[t]}+W\frac{dE}{dI[t+t^d+\Delta t]}\\
+&\mathrm{where}\quad\alpha_I=e^{-\frac{1}{\tau_I}\Delta t}\text{,and}\alpha_V=e^{-\frac{1}{\tau_V}\Delta t}.
+\end{aligned}
+$$
+
+$$
+\frac{dE}{dW_{1}}=\sum_{t}^{T}\frac{dE}{dI_{t}}\frac{dI_{t}}{dW_{1}}\quad\frac{dE}{dW_{2}}=\sum_{t}^{T}\frac{dE}{dI_{t}}\frac{dI_{t}}{dW_{2}}
+$$
+
+
+
+![image-20230829144632020](Notes.assets/image-20230829144632020.png)
+
+## Training a GIF network for working memory
+
+### The Working memory task that requires long-term memory
+
+von Mises distribution，每个方位
+$$
+\begin{matrix}\text{Firing rate}=\\Ae^{\kappa\cos(\theta-\theta_{pref}^{i})}+\sigma_{in}N(0,1)\end{matrix}
+$$
+
+
+### Generalized LIF model
+
+$$
+\begin{aligned}
+&\frac{dI_j}{dt}=-k_jI_j \\
+&\begin{aligned}\frac{dV}{dt}=(-(V-V_{rest})+R\sum_jI_j+RI)/\tau\end{aligned} \\
+&\frac{dV_{th}}{dt}=a(V-V_{rest})-b(V_{th}-V_{th\infty})
+\end{aligned}
+$$
+
+When $V$ meet $V_{th}$,  Generalized IF neuron fires:
+$$
+\begin{aligned}
+&I_j\leftarrow R_jI_j+A_j \\
+&V\leftarrow V_{reset} \\
+&V_{th}\leftarrow max(V_{th_{reset}},V_{th})
+\end{aligned}
+$$
+Note that $I_i$ refers to arbitrary number of internal currents.
+
+![image-20230829152521389](Notes.assets/image-20230829152521389.png)
+
+### My modified GIF neuron
+
+**Continuous version of the model**
+$$
+\begin{gathered}
+\tau_{I1}\frac{dI_{1}}{dt} =-I_{1}\ \text{fast internal current} \\
+\tau_{I2}\frac{dI_{2}}{dt} =-I_{2}\ \text{slow internal current} \\
+\tau_{V}\frac{dV}{dt} =(-V+V_{rest}+R(I_1+I_2+I_{ext}))\ \text{membrane potential} \\
+\tau_{th}\frac{dV_{th}}{dt} =-V_{th}+V_{th,\infty}\ \text{adapative threshold, optional} 
+\end{gathered}
+$$
+when $V$ meets $-Vth$, modified GIF model fires:
+$$
+\begin{array}{l}I_1\leftarrow A_1\\I_2\leftarrow I_2+A_2\\V_{th}\leftarrow V_{th}+A_{th}\\V\leftarrow V_{rest}\end{array}
+$$
+**Discrete version of the model**
+$$
+\begin{aligned}
+&I_1[t+\Delta t]=\begin{cases}\alpha_{I_1}I_1[t]&\mathrm{~if~}z[t]=0\\A_1&\mathrm{~if~}z[t]=1\end{cases} \\
+&I_2[t+\Delta t]=\alpha_{I_2}I_2[t]+A_2z[t] \\
+&V_{th}[t+\Delta t]=\alpha_{V_{th}}V_{th}[t]+A_{th}z[t] \\
+&V[t+\Delta t]=\alpha_{V}V[t]+(V_{rest}+R(I_{1}[t+\Delta t]+I) \\
+&z[t+\Delta t]=\begin{cases}1&\mathrm{if~}V[t+\Delta t]>V_{th}[t+\Delta t]\\0&\mathrm{otherwise}&\end{cases} \\
+&V[t+\Delta t]=V[t+\Delta t]-V_{th}[t+\Delta t]z[t+\Delta t]
+\end{aligned}
+$$
+where $\alpha_{I_1}=e^{-\frac{1}{^\tau I_1}\Delta t},\alpha_{I_2}=e^{-\frac{1}{^\tau I_2}\Delta t},\alpha_{V_{th}}=e^{-\frac{1}{^\tau V_{th}}\Delta t},\ \text{and}\ \alpha_V=e^{-\frac{1}{^\tau V}\Delta t}$
+
+
+
+### The SNN with the modified GIF neuron
+
+![image-20230829152557347](Notes.assets/image-20230829152557347.png)
+
+### Examples
+
+#### Delayed match-to-sample
+
+![image-20230829152733961](Notes.assets/image-20230829152733961.png)
+
+**LIF SNN/LSTM/GRU failed on this task**
+
+![image-20230829152835956](Notes.assets/image-20230829152835956.png)
+
+
+
+#### Delayed match-to-rotated sample
+
+![image-20230829152947957](Notes.assets/image-20230829152947957.png)
+
+#### DMS+DMRS
+
+![image-20230829153008272](Notes.assets/image-20230829153008272.png)
+
+#### DMS+DMRS+DMC
+
+![image-20230829153027974](Notes.assets/image-20230829153027974.png)
+
+#### Spiking dynamics vs. experimental data
+
+![image-20230829153101657](Notes.assets/image-20230829153101657.png)
+
+#### Bursting GIF network for WM tasks
+
+![image-20230829153150486](Notes.assets/image-20230829153150486.png)
